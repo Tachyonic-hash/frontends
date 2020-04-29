@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Navigation from './navigation/Navigation';
 import Roadmap from './roadmap-section/Roadmap';
+import News from './news-section/News';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <code>src/App.js</code> and save to reload jsrtj.
         </p>
         <a
           className="App-link"
@@ -27,6 +28,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <News></News>
     </div>
   );
 }
