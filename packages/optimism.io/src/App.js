@@ -4,6 +4,7 @@ import './App.css';
 import Navigation from './navigation/Navigation';
 import Roadmap from './roadmap-section/Roadmap';
 import News from './news-section/News';
+import Philosophy from './philosophy-section/Philosophy';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         </a>
       </header>
       <News></News>
+      <Philosophy></Philosophy>
     </div>
   );
 }

@@ -5,7 +5,7 @@ class News extends Component {
   render(){
     return(
     	<div>
-    		<h1>In the News</h1>
+    		<div class={styles.underline}>In the News</div>
 	    	<div class={`${styles.flexContainer} ${styles.wrap}`}>
 		        <div class={styles.flexItem}>
 		        	<div class={styles.date}>09 Jan</div>

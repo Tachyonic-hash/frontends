@@ -1,4 +1,4 @@
-h1 {
+.underline {
   font-family: "Roboto";
   font-size: 48px;
   letter-spacing: -0.7;
@@ -6,6 +6,7 @@ h1 {
   font-style: italic;
   text-decoration: red underline;
   margin-top: 6rem;
+  margin-bottom: 3rem;
 }
 
 .flexContainer {
@@ -35,7 +36,7 @@ h1 {
   padding: 5px;
   width: 320px;
   height: 380px;
-  margin: 10px;
+  margin: 3rem;
   text-align: left;
 }
 

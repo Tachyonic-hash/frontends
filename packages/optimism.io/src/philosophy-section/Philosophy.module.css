@@ -1,0 +1,59 @@
+.flexContainer {
+  padding: 0;
+  margin: 0;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  flex-flow: row;
+}
+
+.header {
+	position: relative;
+	height: 200px;
+	padding: 100px;
+	width: 100%;
+	background-image: url("nyancat.png");
+	margin-top: 50px;
+}
+
+.body {
+	position:relative;
+	margin-top: -15rem;
+	margin-left: 30%;
+	margin-right: 30%;
+	width: 40%;
+	background: white;
+	text-align: left;
+}
+
+.body h1 {
+	font-family: "Roboto";
+	font-size: 48px;
+	font-weight: bold;
+	line-height: 50px;
+	padding-top: 5rem;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.body p {
+	font-family: "Roboto Mono";
+	font-size: 17px;
+	letter-spacing: -0.5px;
+	line-height: 30px;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.body img{
+	position: absolute;
+	margin-left: -6rem;
+	margin-top: -4rem;
+	height: 195px;
+	width: 160px;
+}
