@@ -27,9 +27,6 @@
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }  
-.wrap li {
-  background: gold;
-}
 
 .flexItem {
   background: tomato;

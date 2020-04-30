@@ -5,6 +5,7 @@ import Navigation from './navigation/Navigation';
 import Roadmap from './roadmap-section/Roadmap';
 import News from './news-section/News';
 import Philosophy from './philosophy-section/Philosophy';
+import Team from './team-section/Team';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       </header>
       <News></News>
       <Philosophy></Philosophy>
+      <Team></Team>
     </div>
   );
 }
