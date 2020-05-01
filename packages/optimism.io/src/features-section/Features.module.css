@@ -106,6 +106,10 @@ a:hover{
   font-size: 17px;
 }
 
+a:visited{
+  color:#F01A37;
+}
+
 @keyframes rainbow { 
   0%{background-position:left}
   50%{background-position:right}
