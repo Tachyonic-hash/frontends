@@ -15,7 +15,7 @@ function App() {
 
       <div>
         Together we made it!
-        <Roadmap> </Roadmap>
+        
       </div>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -32,6 +32,7 @@ function App() {
         </a>
       </header>
       <Features></Features>
+      <Roadmap></Roadmap>
       <News></News>
       <Philosophy></Philosophy>
       <Team></Team>

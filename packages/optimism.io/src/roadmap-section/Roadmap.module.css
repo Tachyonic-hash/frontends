@@ -1,3 +1,15 @@
-.red{
-	background-color: #d60000;
+.heading h1{
+  font-family: "Roboto";
+  font-size: 48px;
+  line-height: 10px;
+  letter-spacing: -0.7;
+  font-weight: bold;
+  margin-bottom: 3rem;
+}
+
+.heading p{
+  font-family: "Roboto";
+  font-size: 14px;
+  letter-spacing: -0.7;
+  margin-top: 6rem;
 }
