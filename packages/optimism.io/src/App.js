@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Navigation from './navigation/Navigation';
 import Roadmap from './roadmap-section/Roadmap';
+import Features from './features-section/Features';
 import News from './news-section/News';
 import Philosophy from './philosophy-section/Philosophy';
 import Team from './team-section/Team';
@@ -30,6 +31,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Features></Features>
       <News></News>
       <Philosophy></Philosophy>
       <Team></Team>
