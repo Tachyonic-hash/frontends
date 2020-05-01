@@ -17,6 +17,7 @@ class Features extends Component {
     				<h2>Sub-Second Transaction Latency</h2>
     				<p>Optimistic Rollup brings Web 2 UX to 
     				Web 3 apps with a 10-100x reduction in gas cost.</p>
+    				<a href="https://unipig.exchange/welcome">UNISWAP DEMO COLLAB ↗</a>
     			</div>
     			<div class={styles.flexItem}>
     				<img src={unipig}></img>
@@ -28,6 +29,9 @@ class Features extends Component {
     				<p>OVM smart contracts scale with a few lines of code  
     				and no changes to your workflow. We're adding more support 
     				for features every day.</p>
+    				<a href="https://github.com/ethereum-optimism/optimism-monorepo">
+    					CHECK OUT OUR GITHUB↗
+    				</a>
     			</div>
     			<div class={styles.flexItem}>
     				<img src={integrations}></img>

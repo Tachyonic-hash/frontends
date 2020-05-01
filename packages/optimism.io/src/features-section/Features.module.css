@@ -82,12 +82,31 @@
   line-height: 26px;
 }
 
-.flexItem link{
+a:link{
   color: #F01A37;
+  letter-spacing: 1.5px;
   font-family: "Roboto";
   font-weight: bold;
-  font-size: 14px;
-  margin-right: 12px;
-  margin-left: 12px;
+  font-size: 17px;
+  text-decoration: none;
+  background: linear-gradient(to right, crimson, pink, springgreen);
+  background-size: 200% 200%;
+  animation: rainbow 2s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip:text;
+  display:block;
+  transition: color .2s ease-in-out;
 }
 
+a:hover{
+  color: rgba(0,0,0,0);
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 17px;
+}
+
+@keyframes rainbow { 
+  0%{background-position:left}
+  50%{background-position:right}
+  100%{background-position:left}
+}
