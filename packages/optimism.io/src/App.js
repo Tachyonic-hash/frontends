@@ -8,6 +8,7 @@ import News from './news-section/News';
 import Philosophy from './philosophy-section/Philosophy';
 import Team from './team-section/Team';
 import Demo from './demo-section/Demo';
+import Quote from './quote-section/Quote'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         </a>
       </header>
       <Demo></Demo>
+      <Quote></Quote>
       <Features></Features>
       <Roadmap></Roadmap>
       <News></News>

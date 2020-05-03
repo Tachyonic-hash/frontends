@@ -2,6 +2,7 @@
 	background: #1B1D29;
 	color: white;
 	padding: 150px;
+	padding-bottom: 100px;
 }
 
 .demoSection h1{
@@ -117,8 +118,8 @@ button:hover{
   background-size: 200% 200%;
   animation: rainbow 2s ease-in-out infinite;
   background-clip: text;
-  -webkit-background-clip:text;
-  display:block;
+  -webkit-background-clip: text;
+  display: block;
   transition: color .2s ease-in-out;
 }
 

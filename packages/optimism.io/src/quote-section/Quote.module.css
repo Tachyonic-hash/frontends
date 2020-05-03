@@ -1,0 +1,50 @@
+.quoteSection {
+	background: #1B1D29;
+	color: white;
+	height: 400px;
+}
+
+.quote {
+	max-width: 800px;
+	display: inline-block;
+	align-content: center;
+}
+
+.quote img {
+	height: 40px;
+}
+
+.quote h1 {
+	font-family: "Roboto";
+	font-size: 24px;
+	font-weight: 400;
+}
+
+.flexContainer {
+	display: inline-flex;
+	max-width: 800px;
+	flex-flow: row wrap;
+	margin: 20px;
+}
+
+.flexItem {
+	display: inline-block;
+	font-family: "Roboto Mono";
+	font-size: 17px;
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.flexItem img {
+	height: 70px;
+}
+
+.logo img{
+	position: absolute;
+	height: 200px;
+	width: 150px;
+	margin-left: 27rem;
+	margin-top: -2.4rem;
+}
