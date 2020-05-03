@@ -17,9 +17,12 @@
 
 .demoSection h2 {
 	font-family: "Roboto";
-	font-size: 17px;
+	font-size: 20px;
+	font-weight: 500;
 	text-transform: uppercase;
 	color: black;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .demoSection h3 {
@@ -38,7 +41,18 @@
 	letter-spacing: -0.72px;
 	line-height:50px;
 	color: black;
-	margin-top: 32px;
+	margin-top: 28px;
+	margin-bottom: 5px;
+}
+
+.demoSection h5 {
+	font-family: "Roboto";
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: auto;
+	text-transform: uppercase;
+	color: #333333;
+	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
@@ -60,7 +74,7 @@
 	position: relative;
 	display: inline-flex;
 	background-color: white;
-	padding-bottom: 200px;
+	padding-bottom: 100px;
 }
 
 .flexItem {
@@ -73,7 +87,7 @@
 	border-radius: 5px 70px 70px 5px;
 	background: #EFF0F8;
 	width: 400px;
-	height: 140px;
+	height: 130px;
 	margin-left: 0px;
 	color: red;
 	overflow: visible;

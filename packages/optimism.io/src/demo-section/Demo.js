@@ -22,11 +22,11 @@ class Demo extends Component {
 	    		<div class={styles.flexDemoBody}>
 		    		<div class={styles.flexItem}>
 		    			<div class={styles.curveHighlight}>
-			    			<h4>600x</h4>
+			    			<h4><span style={{color: "red", fontSize: "14"}}>↓</span>600x</h4>
 			    			<h3>Reductions in Gas Cost</h3>
 			    			<br></br>
-			    			<h3> OVM: 10k GAS</h3>
-			    			<h3> EVM: 1 MILLION GAS</h3>
+			    			<h5> OVM: 10k GAS</h5>
+			    			<h5> EVM: 1 MILLION GAS</h5>
 		    			</div>
 		    		</div>
 		    		<div class={styles.flexItem} style={{marginLeft: "-70px"}}>
@@ -34,8 +34,8 @@ class Demo extends Component {
 			    			<h4>0.3s</h4>
 			    			<h3>Average Transaction Time</h3>
 			    			<br></br>
-			    			<h3> OVM: 0.3 SEC</h3>
-			    			<h3> EVM: 15.0 SEC</h3>
+			    			<h5> OVM: 0.3 SEC</h5>
+			    			<h5> EVM: 15.0 SEC</h5>
 		    			</div>
 		    			
 		    		</div>
