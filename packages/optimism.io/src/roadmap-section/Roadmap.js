@@ -37,7 +37,7 @@ class Roadmap extends Component {
 	    				<td>Release OVM Alpha</td>
 	    			</tr>
 	    			<tr className={styles.current}>
-	    				<td style={{color: "red"}}><b>APR 2020</b></td>
+	    				<td style={{color: "#F01A37"}}><b>APR 2020</b></td>
 	    				<td></td>
 	    				<td><b>SYNTHETIX DEMO & TRADING COMP</b></td>
 	    			</tr>

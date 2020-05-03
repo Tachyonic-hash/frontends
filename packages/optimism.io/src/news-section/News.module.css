@@ -10,6 +10,7 @@
 }
 
 .flexContainer {
+  outline: 1px solid white;
   padding: 0;
   margin: 0;
   -ms-box-orient: horizontal;

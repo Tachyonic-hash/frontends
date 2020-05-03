@@ -7,6 +7,7 @@ import Features from './features-section/Features';
 import News from './news-section/News';
 import Philosophy from './philosophy-section/Philosophy';
 import Team from './team-section/Team';
+import Demo from './demo-section/Demo';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Demo></Demo>
       <Features></Features>
       <Roadmap></Roadmap>
       <News></News>
