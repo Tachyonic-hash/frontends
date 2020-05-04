@@ -6,7 +6,7 @@ class Demo extends Component {
   render() {
     return (
     	<div>
-    	<div class={styles.demoSection}>
+    	<div class={styles.demoSection} id="Demo">
     		<h1>Synthetix Exchange on the OVM Demo</h1>
     		<p>This demo represents a milestone in our journey to bring 
     		the speed of centralized finance to the world of decentralized 

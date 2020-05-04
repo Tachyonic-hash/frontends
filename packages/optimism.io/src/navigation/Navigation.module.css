@@ -39,25 +39,13 @@
 	display: block;
 }
 
-.mainNav a {
-	color: #34495e;
-	font-size: .99em;
-}
-
-.mainNav a:hover {
-	color: #718daa;
-}
 
 
 
 .header {
 	padding-top: .5em;
 	padding-bottom: .5em;
-	border: 1px solid #a2a2a2;
-	background-color: #f4f4f4;
-	-webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+	background-color: transparent;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;

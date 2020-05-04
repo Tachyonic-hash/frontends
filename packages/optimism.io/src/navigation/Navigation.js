@@ -6,12 +6,11 @@ class Navigation extends Component {
     return (
       <div class={styles.componentBody}>
 	      <header class={styles.header}>
-	      	<h1 class={styles.logo}><a href="#">Flexbox</a></h1>
+	      	<h1 class={styles.logo}><a href="#">Optimism</a></h1>
             <ul class={styles.mainNav}>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">GITHUB↗</a></li>
+                <li><a href="#">BLOG↗</a></li>
             </ul>
 	      </header> 
       </div>
