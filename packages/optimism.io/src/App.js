@@ -10,6 +10,7 @@ import Team from './team-section/Team';
 import Demo from './demo-section/Demo';
 import Quote from './quote-section/Quote';
 import Hero from './hero-section/Hero';
+import Footer from './footer-section/Footer'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <News></News>
       <Philosophy></Philosophy>
       <Team></Team>
+      <Footer></Footer>
     </div>
   );
 }

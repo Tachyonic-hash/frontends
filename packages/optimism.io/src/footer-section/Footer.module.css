@@ -1,0 +1,36 @@
+footer {
+    background-color: white;
+    color: #F01A37;
+    margin-top: 250px;
+}
+
+footer h1 {
+    font-family: "Roboto";
+    font-size: 32px;
+    font-style: italic;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.flexContainer {
+    border-top: 2px solid #E5E5E5;
+    padding: 0;
+    margin: 100px;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    flex-flow: row;
+}
+
+.flexItem {
+    padding: 15px;
+    display: flex;
+    width: 500px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
