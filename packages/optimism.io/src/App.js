@@ -8,31 +8,14 @@ import News from './news-section/News';
 import Philosophy from './philosophy-section/Philosophy';
 import Team from './team-section/Team';
 import Demo from './demo-section/Demo';
-import Quote from './quote-section/Quote'
+import Quote from './quote-section/Quote';
+import Hero from './hero-section/Hero';
 
 function App() {
   return (
     <div className="App">
       <Navigation></Navigation>
-
-      <div>
-        Together we made it!
-        
-      </div>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload jsrtj.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Hero></Hero>
       <Demo></Demo>
       <Quote></Quote>
       <Features></Features>
