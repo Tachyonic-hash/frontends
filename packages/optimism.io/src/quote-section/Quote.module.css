@@ -9,6 +9,7 @@
 	display: inline-block;
 	align-content: center;
 	line-height: 40px;
+	padding-bottom: 5rem;
 }
 
 .quote img {
@@ -19,8 +20,8 @@
 	font-family: "Roboto";
 	font-size: 24px;
 	font-weight: 400;
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 
 .flexContainer {
