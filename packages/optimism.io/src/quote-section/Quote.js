@@ -14,12 +14,11 @@ class Demo extends Component {
 		    	</div>
 	    		<div class={styles.quote}>
 		    		<img src={quotationMarks}></img>
-		    		<h1>The OVM is one of the most exciting developments for Ethereum today. 
-		    		It tackles one of the biggest problems a project like ours has - how to 
-		    		empower users with near-instant trading and subsecond tick data. Since we 
-		    		started working with them the Optimism team have consistently demonstrated 
-		    		their commitment to L1 compatability - both in terms of reusing our existing 
-		    		infrastructure and in connecting to other L1 services we rely on, such as The Graph”</h1>
+		    		<h1>The OVM is one of the most exciting developments for Etherem today. It 
+		    		tackles one of the biggest problems a project like ours has - how to 
+		    		empower users with near-instant trading and subsecond tick data. Optimism team have 
+		    		consistently demonstrated their commitment to L1 compatability - both in terms of reusing our existing 
+		    		infrastructure and in connecting to other L1 services we rely on, such as The Graph.”</h1>
 		    		<div class={styles.flexContainer}>
 		    			<div class={styles.flexItem}>
 		    				<img src={justin}></img>

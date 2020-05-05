@@ -9,7 +9,7 @@
   margin-bottom: 3rem;
 }
 
-.flexContainer {
+.flexNews {
   outline: 1px solid white;
   padding: 0;
   margin: 0;
@@ -71,4 +71,35 @@
   width: 3.5em;
   color: #000;
   font: Roboto;
+}
+
+.flexNews a:link{
+  color: black;
+  line-height: 28px;
+  color: black;
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 24px;
+  text-decoration: none;
+  background: linear-gradient(to right, crimson, pink, aqua);
+  background-size: 200% 200%;
+  animation: rainbow 2s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip:text;
+  display:block;
+  transition: color .2s ease-in-out;
+}
+
+.flexNews a:hover{
+  color: rgba(0,0,0,0);
+}
+
+.flexNews a:visited{
+  color:#F01A37;
+}
+
+@keyframes rainbow { 
+  0%{background-position:left}
+  50%{background-position:right}
+  100%{background-position:left}
 }
