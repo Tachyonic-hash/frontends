@@ -13,7 +13,7 @@ class Features extends Component {
     			<h1>Optimistic Virtual Machine</h1>
     		</div>
     		<div class={`${styles.flexContainer} ${styles.wrap}`}>
-    			<div class={styles.flexItem}>
+                <div class={`${styles.flexItem} ${styles.info}`}>
                     <h2>Sub-Second Transaction Latency</h2>
     				<p>Optimistic Rollup brings Web 2 UX to 
     				Web 3 apps with a 10-100x reduction in gas cost.</p>
@@ -24,7 +24,7 @@ class Features extends Component {
     			</div>
     		</div>
     		<div class={`${styles.flexContainer} ${styles.wrap}`} style={{backgroundColor: "#EFF0F8"}}>
-    			<div class={styles.flexItem}>
+                <div class={`${styles.flexItem} ${styles.info}`}>
     				<h2>(Theoretically) Effortless Migration</h2>
     				<p>OVM smart contracts scale with a few lines of code  
     				and no changes to your workflow. We're adding more support 
@@ -38,7 +38,7 @@ class Features extends Component {
     			</div>
     		</div>
     		<div class={`${styles.flexContainerDark} ${styles.wrap}`}>
-    			<div class={styles.flexItem}>
+                <div class={`${styles.flexItem} ${styles.small}  ${styles.info}`}>
     				<h2>Secure and Unstoppable</h2>
     				<p>Make no sacrifices for scalability. 
     				Security and censorship resistance ensured 

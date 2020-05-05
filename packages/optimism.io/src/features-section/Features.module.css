@@ -46,20 +46,21 @@
   flex-flow: row wrap;
 }
 
-.wrap    { 
+.wrap { 
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }  
 
 .flexItem {
-  padding: 20px;
   width: 380px;
   min-width: 380px;
   height: 380px;
   margin-top: 4rem;
   text-align: left;
   min-width: 300px;
-
+}
+.small {
+  height: 320px;
 }
 
 .flexItem img {
@@ -75,12 +76,17 @@
   font-family: "Roboto";
   font-weight: bold;
   font-size: 32px;
+  max-width:300px;
 }
 
 .flexItem p{
   font-family: "Roboto Mono";
   font-size: 17px;
   line-height: 26px;
+}
+
+.info {
+  margin-bottom: -6rem;
 }
 
 .flexContainer a:link{
