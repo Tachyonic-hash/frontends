@@ -1,9 +1,13 @@
 .demoSection {
 	background: #1B1D29;
 	color: white;
-	padding-top: 150px;
+	padding-top: 75px;
 	padding-bottom: 100px;
 
+}
+
+a {
+	text-decoration: none;
 }
 
 .demoSection .header {

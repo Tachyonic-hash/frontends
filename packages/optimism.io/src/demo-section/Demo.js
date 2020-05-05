@@ -16,7 +16,9 @@ class Demo extends Component {
     		<div class={styles.demoCard}>
 	    		<div class={styles.flexDemoHeader}>
 		    		<div class={styles.flexItem}><img className={styles.synthetixLogo} src={synthetixlogo}></img></div>
-		    		<div class={styles.flexItem}><button>View Demo↗</button></div>
+					<a href='https://l2.synthetix.exchange/' target="_blank">
+						<div class={styles.flexItem}><button>View Demo↗</button></div>
+					</a>
 	    		</div>
 	    		<div style={{background: "white", textAlign: "left", padding: "1.5rem"}}>
 	    			<h2>Demo Results</h2>
