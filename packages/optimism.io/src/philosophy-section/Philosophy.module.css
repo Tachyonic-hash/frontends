@@ -15,10 +15,12 @@
 .header {
 	position: relative;
 	height: 200px;
-	padding: 100px;
+	padding-top: 200px;
 	width: 100%;
 	background-image: url("nyancat.png");
 	margin-top: 50px;
+	margin-right: 0px;
+	background-position: top bottom;
 }
 
 .body {
@@ -65,7 +67,7 @@
 	width: 100%;
   position: absolute;
   margin-top: -9rem;
-  overflow: hidden;
+  background-position: center;
 }
 
 @media screen and (min-width: 768px) {
@@ -74,6 +76,18 @@
   	margin-left: -6rem;
   	margin-top: -4rem;
   	height: 195px;
-  	width: 160px;
+	width: 160px;
   }
 }
+
+/* @media screen and (min-width: 1024px) {
+	.body .bg {
+		background-image: url("./nyancat.png");
+		background-position: right bottom;
+		background-repeat: no-repeat;
+		height: 500px;
+		max-width: 100%;
+		margin-top: calc(85vh - 1000px);
+		overflow: hidden;
+	}
+} */
