@@ -4,14 +4,16 @@
 	height: 700px
 }
 
-.hero .bg {
-	background-image: url("./hero.svg");
-	background-position: right bottom;
-	background-repeat: no-repeat;
-	height: 500px;
-	max-width: 100%;
-	margin-top: -400px;
-	overflow: hidden;
+@media screen and (min-width: 1270px) {
+  .hero .bg {
+  	background-image: url("./hero.svg");
+  	background-position: right bottom;
+  	background-repeat: no-repeat;
+  	height: 500px;
+  	max-width: 100%;
+  	margin-top: -400px;
+  	overflow: hidden;
+  }
 }
 
 .hero h1 {
