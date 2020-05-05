@@ -65,6 +65,7 @@
 	width: 100%;
   position: absolute;
   margin-top: -9rem;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 768px) {

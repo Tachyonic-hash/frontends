@@ -20,7 +20,7 @@ class Footer extends Component {
             <li style={{borderBottom:"none"}}><a href="#">Contact</a></li>
           </div>
         </div>
-        <div class={styles.bottomBar}>Copylight Optimism PBC 2020. All brights preserved.</div>
+        <div class={styles.bottomBar}>Copyright Optimism PBC 2020. All brights preserved.</div>
       </footer>
     )
   }

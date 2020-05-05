@@ -10,9 +10,9 @@
   .hero .bg {
   	background-image: url("./hero.svg");
   	background-position: right bottom;
-  	background-repeat: no-repeat;
+	  background-repeat: no-repeat;
   	height: 500px;
-  	max-width: 100%;
+	  max-width: 100%;
   	margin-top: calc(85vh - 1000px);
   	overflow: hidden;
   }
