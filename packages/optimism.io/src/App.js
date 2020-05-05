@@ -11,12 +11,14 @@ import Demo from './demo-section/Demo';
 import Quote from './quote-section/Quote';
 import Hero from './hero-section/Hero';
 import Footer from './footer-section/Footer'
+import GasCalc from './gas-calc-section/GasCalc'
 
 function App() {
   return (
     <div className="App">
       <Navigation></Navigation>
       <Hero></Hero>
+      <GasCalc></GasCalc>
       <Demo></Demo>
       <Quote></Quote>
       <Features></Features>
