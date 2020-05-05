@@ -59,11 +59,11 @@
 .roundButton {
 	height: 80px;
 	width: 80px;
-    line-height: 80px;
-    border-radius: 50%;
-    color: white;
-    text-align: center;
-    text-decoration: none;
+  line-height: 80px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  text-decoration: none;
 	background: #272934;
 	font-size: 20px;
 	font-weight: 900;
