@@ -1,8 +1,14 @@
 .demoSection {
 	background: #1B1D29;
 	color: white;
-	padding: 150px;
+	padding-top: 150px;
 	padding-bottom: 100px;
+}
+
+@media screen and (min-width: 768px) {
+  .demoSection {
+    margin: auto;
+  }
 }
 
 .demoSection h1{
@@ -69,6 +75,8 @@
 	background: #110C24;
 	flex-flow: row wrap;
 	justify-content: center;
+  width: 100vw;
+  max-width: 1100px;
 }
 
 .demoCard .flexDemoBody {
@@ -94,6 +102,10 @@
 	overflow: visible;
 	text-align: left;
 	padding-left: 60px;
+}
+
+.synthetixLogo {
+  width: 100%;
 }
 
 button {

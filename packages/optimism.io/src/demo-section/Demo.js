@@ -13,7 +13,7 @@ class Demo extends Component {
     		finance.</p>
     		<div class={styles.demoCard}>
 	    		<div class={styles.flexDemoHeader}>
-		    		<div class={styles.flexItem}><img src={synthetixlogo}></img></div>
+		    		<div class={styles.flexItem}><img className={styles.synthetixLogo} src={synthetixlogo}></img></div>
 		    		<div class={styles.flexItem}><button>View Demo↗</button></div>
 	    		</div>
 	    		<div style={{background: "white", textAlign: "left", padding: "1.5rem"}}>
