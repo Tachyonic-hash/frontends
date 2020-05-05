@@ -90,7 +90,7 @@
   font-weight: bold;
   font-size: 17px;
   text-decoration: none;
-  background: linear-gradient(to right, crimson, pink, springgreen);
+  background: linear-gradient(to right, crimson, pink, aqua);
   background-size: 200% 200%;
   animation: rainbow 2s ease-in-out infinite;
   background-clip: text;
