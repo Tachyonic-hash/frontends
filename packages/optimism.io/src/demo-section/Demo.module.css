@@ -111,26 +111,37 @@ a {
 	margin-bottom: auto;
 }
 
+.curveHighlight {
+	border-radius: 5px 70px 70px 5px;
+	background: #EFF0F8;
+	width: 300px; 
+	padding-right: 200px;
+	height: 130px;
+	margin-left: 0px;
+	color: red;
+	/* overflow: visible; */
+	text-align: left;
+	padding-left: 60px;
+}
+
 @media screen and (min-width: 860px){
 	.flexItemRight {
 		margin-left: -70px;
 	}
-
 }
 
-
-.curveHighlight {
-	border-radius: 5px 70px 70px 5px;
-	border-style: hidden;
-	background: #EFF0F8;
-	/* // TODO FIX ME v */
-	width: 100px; 
-	height: 130px;
-	margin-left: 0px;
-	color: red;
-	overflow: visible;
-	text-align: left;
-	padding-left: 60px;
+@media screen and (max-width: 400px){
+	.curveHighlight {
+		border-radius: 5px 70px 70px 5px;
+		background: #EFF0F8;
+		width: 300px; 
+		padding-right: 0px;
+		height: 130px;
+		margin-left: 0px;
+		color: red;
+		text-align: left;
+		padding-left: 60px;
+	}
 }
 
 .synthetixLogo {

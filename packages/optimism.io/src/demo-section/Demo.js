@@ -20,7 +20,7 @@ class Demo extends Component {
 						<div class={styles.flexItem}><button>View Demo↗</button></div>
 					</a>
 	    		</div>
-	    		<div style={{background: "white", textAlign: "left", padding: "1.5rem"}}>
+	    		<div style={{background: "white", textAlign: "left", padding: "1.5rem", overflow: "hidden"}}>
 	    			<h2>Demo Results</h2>
 	    		</div>
 	    		<div class={styles.flexDemoBody}>
