@@ -108,7 +108,7 @@
   width: 100%;
 }
 
-button {
+.demoSection button {
 	height: 60px;
 	width: 250px;
 	color: white;
@@ -121,7 +121,7 @@ button {
 	margin: 30px;
 }
 
-button:hover{
+.demoSection button:hover{
   color: rgba(0,0,0,0);
   font-family: "Roboto";
   font-weight: bold;
@@ -135,7 +135,7 @@ button:hover{
   transition: color .2s ease-in-out;
 }
 
-button:visited{
+.demoSection button:visited{
   color:#F01A37;
 }
 

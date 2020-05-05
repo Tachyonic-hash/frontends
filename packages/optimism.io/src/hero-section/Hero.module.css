@@ -54,20 +54,37 @@
 }
 
 .roundButton {
-    width: 80px;
-    height: 80px;
+	height: 80px;
+	width: 80px;
     line-height: 80px;
     border-radius: 50%;
-    color: white !important;
+    color: white;
     text-align: center;
     text-decoration: none;
-    background: #272934 !important;
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: auto;
+	background: #272934;
+	font-size: 20px;
+	font-weight: 900;
+	margin-left: auto;
 	margin-right: auto;
 }
+
+.roundButtonLink {
+	color: white;
+	text-decoration: none;
+}
+
 .roundButton:hover {
-    background: #F01A37 !important;
+    background: #F01A37;
     color: white;
+}
+
+.roundButton:visited {
+	color: white;
+	text-decoration: none;
+}
+
+.roundButtom a:link{
+	font-family: "Roboto";
+	text-decoration: none;
+	color: white;
 }

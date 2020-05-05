@@ -83,7 +83,7 @@
   line-height: 26px;
 }
 
-a:link{
+.flexContainer a:link{
   color: #F01A37;
   letter-spacing: 1.5px;
   font-family: "Roboto";
@@ -99,14 +99,14 @@ a:link{
   transition: color .2s ease-in-out;
 }
 
-a:hover{
+.flexContainer a:hover{
   color: rgba(0,0,0,0);
   font-family: "Roboto";
   font-weight: bold;
   font-size: 17px;
 }
 
-a:visited{
+.flexContainer a:visited{
   color:#F01A37;
 }
 

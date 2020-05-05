@@ -16,8 +16,8 @@ class Hero extends Component {
 	    		<div class={styles.transitionMessage}>
 	    			<h2>SYNTHETIX.EXCHANGE</h2>
 	    			<h2>CASE STUDY</h2>
-	    			<div>
-	    				<a href={"#Demo"} class={styles.roundButton}>⇩</a>
+	    			<div class={styles.roundButton}>
+	    				<a class={styles.roundButtonLink} href={"#Demo"}>⇩</a>
 	    			</div>
 	    		</div>
 	    		<div class={styles.bg}></div>
