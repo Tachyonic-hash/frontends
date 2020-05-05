@@ -2,6 +2,8 @@
 	background: white;
 	justify-content: center;
 	height: 85vh;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 @media screen and (min-width: 1024px) {
