@@ -41,7 +41,7 @@ class Features extends Component {
     			<div class={styles.flexItem}>
     				<h2>Secure and Unstoppable</h2>
     				<p>Make no sacrifices for scalability. 
-    				Security and censorship resistance supported 
+    				Security and censorship resistance ensured 
     				by Ethereum.</p>
     			</div>
     			<div class={styles.flexItem}>
