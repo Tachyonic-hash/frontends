@@ -12,6 +12,14 @@ footer h1 {
     text-transform: uppercase;
 }
 
+footer li {
+    color: black;
+    font-family: "Roboto Mono";
+    list-style-type: none;
+    padding: 20px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
 .flexContainer {
     border-top: 2px solid #E5E5E5;
     padding: 0;
@@ -27,10 +35,52 @@ footer h1 {
     flex-flow: row;
 }
 
+.bottomBar {
+    padding: 10px;
+    background: black;
+    height: 100px;
+    text-indent: 100px;
+    text-align: left;
+    line-height: 80px;
+    color: white;
+    font-family: "Roboto Mono";
+}
+
 .flexItem {
     padding: 15px;
     display: flex;
     width: 500px;
-    margin-top: auto;
-    margin-bottom: auto;
+    flex-flow: column;
+}
+
+.flexContainer a:link{
+  color: black;
+  letter-spacing: 1px;
+  font-family: "Roboto Mono";
+  font-size: 17px;
+  text-decoration: none;
+  background: linear-gradient(to right, crimson, pink, springgreen);
+  background-size: 200% 200%;
+  animation: rainbow 2s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip:text;
+  display:block;
+  transition: color .2s ease-in-out;
+}
+
+.flexContainer a:hover{
+  color: rgba(0,0,0,0);
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.flexContainer a:visited{
+  color: black;
+}
+
+@keyframes rainbow { 
+  0%{background-position:left}
+  50%{background-position:right}
+  100%{background-position:left}
 }
