@@ -1,29 +1,9 @@
 .hero {
 	background: white;
 	justify-content: center;
-	height: 680px;
+	height: 85vh;
   padding-left: 5px;
   padding-right: 5px;
-}
-
-@media screen and (min-height: 680px) {
-  .hero {
-  	background: white;
-  	justify-content: center;
-  	height: 85vh;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-
-@media screen and (min-height: 1000px) {
-  .hero {
-  	background: white;
-  	justify-content: center;
-  	height: 1000px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -33,17 +13,8 @@
   	background-repeat: no-repeat;
   	height: 500px;
   	max-width: 100%;
-  	margin-top: -300px;
-  	overflow: hidden;
-  }
-  @media screen and (min-height: 680px) {
   	margin-top: calc(85vh - 1000px);
-  }
-  @media screen and (min-height: 1000px) {
-    .hero .bg {
-    	margin-top: -500px;
-    	overflow: hidden;
-    }
+  	overflow: hidden;
   }
 }
 
