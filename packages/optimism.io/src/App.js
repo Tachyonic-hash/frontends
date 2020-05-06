@@ -23,7 +23,6 @@ function App() {
       <Roadmap></Roadmap>
       <News></News>
       <Philosophy></Philosophy>
-      <Team></Team>
       <Footer></Footer>
     </div>
   );
