@@ -1,6 +1,7 @@
 .quoteSection {
 	background: #1B1D29;
 	color: white;
+    flex-flow: row;
 
 }
 
@@ -14,6 +15,13 @@
 
 .quote img {
 	height: 40px;
+	
+}
+
+.quotationMark {
+	position: absolute;
+	margin-top: -11.75rem;
+	margin-left: 5%;
 }
 
 .quote h1 {
@@ -22,6 +30,7 @@
 	font-weight: 400;
 	margin-left: 10%;
 	margin-right: 10%;
+	margin-top: -150px;
 }
 
 .flexContainer {
@@ -46,9 +55,12 @@
 }
 
 .logo img{
-	position: absolute;
+	position: relative;
 	height: 200px;
-	width: 150px;
-	margin-left: 27rem;
+	width: 130px;
+	margin-left: 15rem;
 	margin-top: -2.4rem;
+	overflow: hidden;
+	flex-flow: row wrap;
+	display: flex;
 }
