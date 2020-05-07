@@ -22,11 +22,6 @@ class Roadmap extends Component {
 	    				<td>Launched PoC Unipig Exchange</td>
 	    			</tr>
 	    			<tr>
-	    				<td>OCT 2019</td>
-	    				<td> ✓ </td>
-	    				<td>Launched PoC Unipig Exchange</td>
-	    			</tr>
-	    			<tr>
 	    				<td>DEC 2019</td>
 	    				<td> ✓ </td>
 	    				<td>Optimism PBC raises $3.5m</td>

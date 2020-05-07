@@ -14,10 +14,6 @@ class Team extends Component {
 						</div>
 						<div class={styles.card}>
 							<img src="http://placehold.it/190x190"></img>
-							<p>Mason Fischer</p>
-						</div>
-						<div class={styles.card}>
-							<img src="http://placehold.it/190x190"></img>
 							<p>Kevin Ho</p>
 						</div>
 						<div class={styles.card}>

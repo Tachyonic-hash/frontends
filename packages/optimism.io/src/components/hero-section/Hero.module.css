@@ -1,17 +1,21 @@
 .hero {
 	background: white;
 	justify-content: center;
-	height: 700px
+	height: 85vh;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
-.hero .bg {
-	background-image: url("./hero.svg");
-	background-position: right bottom;
-	background-repeat: no-repeat;
-	height: 500px;
-	max-width: 100%;
-	margin-top: -400px;
-	overflow: hidden;
+@media screen and (min-width: 1024px) {
+  .hero .bg {
+  	background-image: url("./hero.svg");
+  	background-position: right bottom;
+	  background-repeat: no-repeat;
+  	height: 500px;
+	  max-width: 100%;
+  	margin-top: calc(85vh - 1000px);
+  	overflow: hidden;
+  }
 }
 
 .hero h1 {
@@ -21,7 +25,6 @@
 	letter-spacing: -0.8px;
 	color: black;
 	margin-top: 80px;
-	margin-bottom: 20px;
 }
 
 .hero p {
@@ -47,20 +50,26 @@
 }
 
 .transitionMessage {
-	display: inline-block;
+	display: none;
+}
+
+@media screen and (min-width: 1024px) {
+  .transitionMessage {
+  	display: inline-block;
 	margin-top: 100px;
 	margin-left: auto;
 	margin-right: auto;
+  }
 }
 
 .roundButton {
 	height: 80px;
 	width: 80px;
-    line-height: 80px;
-    border-radius: 50%;
-    color: white;
-    text-align: center;
-    text-decoration: none;
+	line-height: 80px;
+	border-radius: 50%;
+	color: white;
+	text-align: center;
+	text-decoration: none;
 	background: #272934;
 	font-size: 20px;
 	font-weight: 900;

@@ -11,16 +11,16 @@ class Footer extends Component {
           </div>
           <div class={styles.flexItem}>
             <li><a href="#">FAQ</a></li>
-            <li><a href="#">Github</a></li>
-            <li style={{borderBottom:"none"}}><a href="#">Blog</a></li>
+            <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">Github</a></li>
+            <li style={{borderBottom:"none"}}><a href="https://medium.com/ethereum-optimism">Blog</a></li>
           </div>
           <div class={styles.flexItem}>
             <li><a href="#">Twitter</a></li>
             <li><a href="#">Discord</a></li>
-            <li style={{borderBottom:"none"}}><a href="#">Contact</a></li>
+            <li style={{borderBottom:"none"}}><a href="https://docs.optimism.io/">Documentation</a></li>
           </div>
         </div>
-        <div class={styles.bottomBar}>Copylight Optimism PBC 2020. All brights preserved.</div>
+        <div class={styles.bottomBar}>Copyright Optimism PBC 2020. All brights preserved.</div>
       </footer>
     )
   }

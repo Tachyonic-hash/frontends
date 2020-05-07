@@ -4,9 +4,8 @@
   letter-spacing: -0.7;
   font-weight: bold;
   font-style: italic;
-  line-height: 10px;
   text-decoration: #F01A37 underline;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .heading p{
@@ -14,6 +13,7 @@
   font-size: 14px;
   letter-spacing: -0.7;
   margin-top: 6rem;
+  margin-bottom:-1.5rem;
 }
 
 .flexContainer {
@@ -46,20 +46,23 @@
   flex-flow: row wrap;
 }
 
-.wrap    { 
+.wrap { 
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }  
 
 .flexItem {
-  padding: 20px;
   width: 380px;
   min-width: 380px;
   height: 380px;
   margin-top: 4rem;
+  margin-left: 1rem;
   text-align: left;
   min-width: 300px;
-
+  overflow: hidden;
+}
+.small {
+  height: 320px;
 }
 
 .flexItem img {
@@ -68,6 +71,7 @@
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
 }
 
 .flexItem h2{
@@ -75,12 +79,18 @@
   font-family: "Roboto";
   font-weight: bold;
   font-size: 32px;
+  max-width:300px;
 }
 
 .flexItem p{
   font-family: "Roboto Mono";
   font-size: 17px;
   line-height: 26px;
+  max-width: 100%;
+}
+
+.info {
+  margin-bottom: -6rem;
 }
 
 .flexContainer a:link{
@@ -90,7 +100,7 @@
   font-weight: bold;
   font-size: 17px;
   text-decoration: none;
-  background: linear-gradient(to right, crimson, pink, springgreen);
+  background: linear-gradient(to right, crimson, pink, aqua);
   background-size: 200% 200%;
   animation: rainbow 2s ease-in-out infinite;
   background-clip: text;

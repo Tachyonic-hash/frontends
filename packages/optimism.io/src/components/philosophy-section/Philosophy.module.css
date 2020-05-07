@@ -15,19 +15,21 @@
 .header {
 	position: relative;
 	height: 200px;
-	padding: 100px;
+	padding-top: 200px;
 	width: 100%;
 	background-image: url("nyancat.png");
 	margin-top: 50px;
+	margin-right: 0px;
+	background-position: top bottom;
 }
 
 .body {
 	position:relative;
 	margin-top: -15rem;
-	margin-left: 30%;
-	margin-right: 30%;
+	margin-left: auto;
+	margin-right: auto;
 	padding-bottom: 2.5rem;
-	width: 40%;
+	max-width: 1000px;
 	background: white;
 	text-align: left;
 }
@@ -40,6 +42,13 @@
 	padding-top: 5rem;
 	margin-left: 15%;
 	margin-right: 15%;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .body h1 {
+    text-align: left;
+  }
 }
 
 .body p {
@@ -51,10 +60,34 @@
 	margin-right: 15%;
 }
 
-.body img{
-	position: absolute;
-	margin-left: -6rem;
-	margin-top: -4rem;
+.body img {
 	height: 195px;
 	width: 160px;
+	margin: auto;
+	width: 100%;
+  position: absolute;
+  margin-top: -9rem;
+  background-position: center;
 }
+
+@media screen and (min-width: 768px) {
+  .body img {
+  	position: absolute;
+  	margin-left: -6rem;
+  	margin-top: -4rem;
+  	height: 195px;
+	width: 160px;
+  }
+}
+
+/* @media screen and (min-width: 1024px) {
+	.body .bg {
+		background-image: url("./nyancat.png");
+		background-position: right bottom;
+		background-repeat: no-repeat;
+		height: 500px;
+		max-width: 100%;
+		margin-top: calc(85vh - 1000px);
+		overflow: hidden;
+	}
+} */
