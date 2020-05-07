@@ -11,7 +11,7 @@ class Navigation extends Component {
             <ul class={styles.mainNav}>
                 <li><Link to="/FAQ">FAQ</Link></li>
                 <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">GITHUB↗</a></li>
-                <li><a href="#">BLOG↗</a></li>
+                <li><a href="https://medium.com/ethereum-optimism">BLOG↗</a></li>
             </ul>
 	      </header> 
       </div>

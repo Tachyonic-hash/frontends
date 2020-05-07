@@ -5,8 +5,6 @@ function FAQ() {
   return (
     <div>
       random bullshit text
-
-      <Footer></Footer>
     </div>
   );
 }
