@@ -16,7 +16,7 @@ class Demo extends Component {
 	    		<div class={styles.quote}>
 		    		<h1>The OVM is one of the most exciting developments for Etherem today. It 
 		    		tackles one of the biggest problems a project like ours has - how to 
-		    		empower users with near-instant trading and subsecond tick data. Optimism team have 
+		    		empower users with near-instant trading and subsecond tick data. Optimism has 
 		    		consistently demonstrated their commitment to L1 compatability - both in terms of reusing our existing 
 		    		infrastructure and in connecting to other L1 services we rely on, such as The Graph.”</h1>
 		    		<div class={styles.flexContainer}>
