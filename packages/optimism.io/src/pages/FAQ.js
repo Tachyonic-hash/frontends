@@ -1,10 +1,28 @@
 import React from 'react';
-import Footer from '../footer-section/Footer';
+import styles from './FAQ.module.css';
 
 function FAQ() {
   return (
     <div>
-      random bullshit text
+      <div class={styles.header}>
+        FAQ
+      </div>
+      <div class={styles.body}>
+          <h1>Question</h1>
+          <p>Answer</p>
+
+          <h1>Question</h1>
+          <p>Answer</p>
+
+          <h1>Question</h1>
+          <p>Answer</p>
+
+          <h1>Question</h1>
+          <p>Answer</p>
+          
+          <h1>Question</h1>
+          <p>Answer</p>
+      </div>
     </div>
   );
 }
