@@ -7,11 +7,13 @@ import Team from '../components/team-section/Team';
 import Demo from '../components/demo-section/Demo';
 import Quote from '../components/quote-section/Quote';
 import Hero from '../components/hero-section/Hero';
+import GasCalc from '../components/gas-calc-section/GasCalc'
 
 function Homepage() {
   return (
     <div>
       <Hero/>
+      <GasCalc/>
       <Demo/>
       <Quote></Quote>
       <Features></Features>
