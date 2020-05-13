@@ -95,34 +95,36 @@ class GasCalc extends Component {
     	<div>
     		<div class ={styles.heading}>
     			<h1>See how much Gas the OVM saves you.</h1>
-    			<p>Paste an Etherscan link to a transaction to see how much you would save on Optimistic Ethereum</p>
+    			<p>Paste an Etherscan link to a transaction to see how much you would save on Optimistic Ethereum. Or, click on a pre-selected transaction from one of the companies below.</p>
     		</div>
-        <div class={styles.flexContainer}>
-          <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
-          <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
-          <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
-          <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
-          <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
+        <div class ={styles.calculator}>
+          <div>
+            <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
+            <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
+            <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
+            <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
+            <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
+          </div>
+      		<div>
+    				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
+    					<input 
+  				  		className={styles.input} 
+  				  		type="link"
+  				  		name="etherscan-link"
+  				  		placeholder="e.g. https://etherscan.io/tx/0x..."
+                value={etherscanLink}
+  				  		onChange={this.handleChange.bind(this)}
+    					></input>
+              {
+                containsLink
+                ? <a className={styles.button} href={etherscanLink} target="_blank">↗️</a>
+                : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗️</a>
+              }
+    					<button className={styles.button + (containsLink ? '' : styles.disabled)} type="submit" onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
+    				</form>
+            { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
+      		</div>
         </div>
-    		<div class={styles.flexContainer}>
-  				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
-  					<input 
-				  		className={styles.input} 
-				  		type="link"
-				  		name="etherscan-link"
-				  		placeholder="e.g. https://etherscan.io/tx/0x..."
-              value={etherscanLink}
-				  		onChange={this.handleChange.bind(this)}
-  					></input>
-            {
-              containsLink
-              ? <a className={styles.button} href={etherscanLink} target="_blank">↗️</a>
-              : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗️</a>
-            }
-  					<button className={styles.button + (containsLink ? '' : styles.disabled)} type="submit" onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
-  				</form>
-          { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
-    		</div>
     	</div>
     )
   }
@@ -130,14 +132,19 @@ class GasCalc extends Component {
 
 const GasCalcResults = (props) => (
   <div class={styles.flexContainer}>
-    <div>
-      {'Ethereum (Gas Cost): ' + props.l1Gas}
+    <div class={styles.flexColumn}>
+      <div class={styles.flexOutputGas}>
+        <div class={styles.result}>{props.l1Gas}</div>
+        <div class={styles.description}>Ethereum Gas Cost</div>
+      </div>
+      <div class={styles.flexOutputGas}>
+        <div class={styles.result}>{props.l2Gas}</div>
+        <div class={styles.description}>Optimism Gas Cost</div>
+      </div>
     </div>
-    <div>
-      {'Optimism (Gas Cost): ' + props.l2Gas}
-    </div>
-    <div>
-      {'Gas Cost Reduction on Optimistic Rollup: ' + props.gasSaved + 'x'}
+    <div class ={styles.flexOutputDelta}>
+      <div class={styles.result}>{props.gasSaved + 'x'}</div>
+      <div class={styles.description}>Savings on Optimism</div>
     </div>
   </div>
 )

@@ -1,17 +1,24 @@
 .heading h1{
   font-family: "Roboto";
-  font-size: 48px;
-  line-height: 10px;
+  font-size: 24px;
   letter-spacing: -0.7;
   font-weight: bold;
-  margin-bottom: 3rem;
+  margin-bottom: 24px;
 }
 
 .heading p{
   font-family: "Roboto";
   font-size: 14px;
   letter-spacing: -0.7;
-  margin-top: 6rem;
+}
+
+.calculator {
+  margin: auto;
+  margin-bottom: 50px;
+  background: white;
+  width: 550px;
+  padding: 50px;
+  box-shadow: -8px 8px 20px 0px #EDEDED;
 }
 
 .flexContainer {
@@ -24,31 +31,86 @@
   display: -moz-flex;
   display: -webkit-flex;
   display: flex;
-  justify-content: center;
-  flex-flow: row wrap;
+  justify-content: space-between;
+  flex-flow: row nowrap;
 }
 
-.flexContainer p{
-	color: #F01A37;
-	margin-right: 3px;
+.flexColumn {
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+}
+
+.flexOutputGas {
+  flex-flow: column nowrap;
+  display: flex;
+  background: #EFF0F8;
+  min-height: 70px;
+  max-height: 70px;
+  width: 200px;
+  margin: auto;
+}
+
+.flexOutputGas .result{
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.flexOutputGas .description{
+  font-family: "Roboto Mono";
+  font-size: 14px;
+  font-weight: thin;
+}
+
+.flexOutputDelta {
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+  background: pink;
+  max-height: 155px;
+  width: 328px;
+}
+
+.flexOutputDelta .result {
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 58px;
+  margin-top: 30px;
+}
+
+.flexOutputDelta .description {
+  font-family: "Roboto Mono";
+  font-size: 14px;
+  font-weight: thin;
 }
 
 .form {
   display: flex; 
   grid-column: 2;
+  margin-bottom: 40px;
+  
 }
 
 .input {
   flex-grow: 1;
   padding: 0.5em 0.75em;
+  max-width: 530px;
 }
 
 .button {
   padding: 0.5em 0.75em;
-  background: hsl(130, 75%, 75%); 
+  color: white;
+  background: black;
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 14px;
 }
 .active {
-  background: hsl(195, 100%, 50%); 
+  background: #F01A37; 
 }
 .disabled {
     background: hsl(195, 0%, 50%); 
