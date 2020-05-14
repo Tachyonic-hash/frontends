@@ -99,7 +99,7 @@ class GasCalc extends Component {
     		</div>
         <div class ={styles.calculator}>
           <div>
-            <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
+            <button className={styles.test, this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
             <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
             <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
             <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
@@ -107,21 +107,27 @@ class GasCalc extends Component {
           </div>
       		<div>
     				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
-    					<input 
-  				  		className={styles.input} 
-  				  		type="link"
-  				  		name="etherscan-link"
-  				  		placeholder="e.g. https://etherscan.io/tx/0x..."
-                value={etherscanLink}
-  				  		onChange={this.handleChange.bind(this)}
-    					></input>
-              {
-                containsLink
-                ? <a className={styles.button} href={etherscanLink} target="_blank">↗️</a>
-                : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗️</a>
-              }
-    					<button className={styles.button + (containsLink ? '' : styles.disabled)} type="submit" onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
-    				</form>
+              <div>
+      					<input 
+    				  		className={styles.input} 
+    				  		type="link"
+    				  		name="etherscan-link"
+    				  		placeholder="e.g. https://etherscan.io/tx/0x..."
+                  value={etherscanLink}
+    				  		onChange={this.handleChange.bind(this)}
+      					></input>
+              </div>
+              
+                {
+                  // containsLink
+                  // ? <a className={styles.button} href={etherscanLink} target="_blank">↗</a>
+                  // : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗</a>
+                }
+        					<button className={styles.btnOutline , (containsLink ? '' : styles.disabled)} type="submit" 
+                  onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
+                  <button className={styles.btnSolid}>Button</button>
+             
+            </form>
             { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
       		</div>
         </div>
