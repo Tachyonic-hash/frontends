@@ -90,15 +90,19 @@ class GasCalc extends Component {
     })
   }
   render() {
-    const {l1Gas, l2Gas, l1TxFee, l2TxFee, etherscanLink, isCalculated, gasSaved, containsLink} = this.state
+    const {
+      l1Gas, l2Gas, l1TxFee, 
+      l2TxFee, etherscanLink, 
+      isCalculated, gasSaved, containsLink} = this.state
     return (
     	<div>
     		<div class ={styles.heading}>
-    			<h1>See how much Gas the OVM saves you.</h1>
-    			<p>Paste an Etherscan link to a transaction or select a preset below from popular defi companies.</p>
+    			<h1>See how much Gas the OVM could save you.</h1>
+    			<p>Paste an Etherscan link to a transaction or select a preset below from popular defi 
+          companies.</p>
     		</div>
         <div class ={styles.calculator}>
-        Gas Cost Calculator
+        Gas Cost Estimator
 {/*          <div className={styles.presets}>
             <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
             <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
@@ -107,9 +111,13 @@ class GasCalc extends Component {
             <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
           </div>*/}
           <div className={styles.presets}>
-            <img src="https://pbs.twimg.com/profile_images/1242184851152928769/wG2eTAfD_400x400.jpg"></img>
-            <img src="https://pbs.twimg.com/profile_images/1030475757892579334/qvSHhRyC_400x400.jpg"></img>
-            <img src="https://pbs.twimg.com/profile_images/1068367984308043776/61lMoJHG_400x400.jpg"></img>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1242184851152928769/wG2eTAfD_400x400.jpg" 
+              className={this.isActive('uniswap')} 
+              onClick={this.handleInputOverride.bind(this, 'uniswap')}></input>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1030475757892579334/qvSHhRyC_400x400.jpg" 
+              onClick={this.handleInputOverride.bind(this, 'chainlink')}></input>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1068367984308043776/61lMoJHG_400x400.jpg"
+              onClick={this.handleInputOverride.bind(this, 'synthetix')}></input>
           </div>
       		<div>
     				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
