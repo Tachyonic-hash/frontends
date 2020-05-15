@@ -95,7 +95,7 @@ class GasCalc extends Component {
     	<div>
     		<div class ={styles.heading}>
     			<h1>See how much Gas the OVM saves you.</h1>
-    			<p>Paste an Etherscan link to a transaction to see how much you would save on Optimistic Ethereum. Or, click on a pre-selected transaction from one of the companies below.</p>
+    			<p>Paste an Etherscan link to a transaction or select a preset below from popular defi companies.</p>
     		</div>
         <div class ={styles.calculator}>
         Gas Cost Calculator
