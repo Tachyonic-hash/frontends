@@ -130,6 +130,9 @@ a {
 	.flexItemRight {
 		padding-left: 70px;
 	}
+	.curveHighlight {
+		width: 250px;
+	}
 }
 
 .synthetixLogo {

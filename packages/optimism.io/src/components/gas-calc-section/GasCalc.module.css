@@ -3,23 +3,27 @@
   font-size: 24px;
   letter-spacing: -0.7;
   font-weight: bold;
-  margin-top: 100px;
-  line-height: 50px;
+  margin: 10px;
 }
 
 .heading p{
   font-family: "Roboto";
   font-size: 14px;
   letter-spacing: -0.7;
+  margin: 20px;
 }
 
 .calculator {
   margin: auto;
   margin-bottom: 50px;
   background: white;
-  width: 550px;
-  padding: 50px;
+  width: 340px;
+  padding: 20px;
   box-shadow: -8px 8px 20px 0px #EDEDED;
+  justify-content: center;
+  font-family: "Roboto";
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .flexContainer {
@@ -105,16 +109,27 @@
 .input {
   font-family: "Roboto Mono";
   font-size: 14px;
-  width: 100%;
+  padding-left: 24px;
   background: #DFE1F1;
   height: 50px;
   margin-top: 10px;
   border: hidden;
-  border-bottom: 1px solid #334659;
 }
 
 .test {
   background: pink;
+}
+
+.presets button {
+  border: none;
+
+}
+
+.presets img {
+  border-radius: 50%;
+  height: 50px;
+  box-shadow: -8px 8px 10px 0px #EEE3E3;
+  margin: 10px;
 }
 
 .btnSolid {
@@ -123,24 +138,41 @@
   background: #F01A37;
   font-family: "Roboto";
   font-weight: bold;
+  font-size: 17px;
+  letter-spacing: 0.7 px;
   width: 100%;
-  font-size: 14px;
+  height: 50px;
   border:none;
+  margin-top: 12px;
 }
 
 .btnSolid:active {
-  background: black; 
+  background: black;
 }
 
-.btnOutline {
+/*.disabled {
   padding: 8px;
-  color: black;
-  background: white;
+  color: #334659;
+  background: #e5e5e5;
   font-family: "Roboto";
   font-weight: bold;
   width: 100%;
   font-size: 14px;
-  border: 1px solid black;
+  border:none;
+}*/
+
+@media screen and (min-width: 768px) {
+  .calculator {
+    width: 550px;
+  }
+
+  .form {
+
+  }
+
+  .input {
+    border-bottom: 1px solid #334659;
+  }
 }
 
 

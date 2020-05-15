@@ -98,16 +98,21 @@ class GasCalc extends Component {
     			<p>Paste an Etherscan link to a transaction to see how much you would save on Optimistic Ethereum. Or, click on a pre-selected transaction from one of the companies below.</p>
     		</div>
         <div class ={styles.calculator}>
-          <div>
-            <button className={styles.test, this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
+        Gas Cost Calculator
+{/*          <div className={styles.presets}>
+            <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
             <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
             <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
             <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
             <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
+          </div>*/}
+          <div className={styles.presets}>
+            <img src="https://pbs.twimg.com/profile_images/1242184851152928769/wG2eTAfD_400x400.jpg"></img>
+            <img src="https://pbs.twimg.com/profile_images/1030475757892579334/qvSHhRyC_400x400.jpg"></img>
+            <img src="https://pbs.twimg.com/profile_images/1068367984308043776/61lMoJHG_400x400.jpg"></img>
           </div>
       		<div>
     				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
-              <div>
       					<input 
     				  		className={styles.input} 
     				  		type="link"
@@ -116,16 +121,14 @@ class GasCalc extends Component {
                   value={etherscanLink}
     				  		onChange={this.handleChange.bind(this)}
       					></input>
-              </div>
               
                 {
                   // containsLink
                   // ? <a className={styles.button} href={etherscanLink} target="_blank">↗</a>
                   // : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗</a>
                 }
-        					<button className={styles.btnOutline , (containsLink ? '' : styles.disabled)} type="submit" 
+        					<button className={styles.btnSolid}  
                   onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
-                  <button className={styles.btnSolid}>Button</button>
              
             </form>
             { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
