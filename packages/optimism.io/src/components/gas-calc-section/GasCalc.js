@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './GasCalc.module.css';
 import { ethers } from 'ethers'
 import axios from 'axios'
+import coloredEthLogo from './coloredEthLogo.svg'
 
 class GasCalc extends Component {
   state = {
@@ -100,7 +101,9 @@ class GasCalc extends Component {
     			<h1>See how much Gas the OVM could save you.</h1>
     			<p>Paste an Etherscan link to a transaction or select a preset below from popular defi 
           companies.</p>
+          <img src={coloredEthLogo}></img>
     		</div>
+        
         <div class ={styles.calculator}>
         Gas Cost Estimator
 {/*          <div className={styles.presets}>
@@ -152,16 +155,16 @@ const GasCalcResults = (props) => (
     <div class={styles.flexColumn}>
       <div class={styles.flexOutputGas}>
         <div class={styles.result}>{props.l1Gas}</div>
-        <div class={styles.description}>Ethereum Gas Cost</div>
+        <div class={styles.description}>Default Cost on L1</div>
       </div>
       <div class={styles.flexOutputGas}>
         <div class={styles.result}>{props.l2Gas}</div>
-        <div class={styles.description}>Optimism Gas Cost</div>
+        <div class={styles.description}>Cost with Optimism</div>
       </div>
     </div>
     <div class ={styles.flexOutputDelta}>
       <div class={styles.result}>{props.gasSaved + 'x'}</div>
-      <div class={styles.description}>Savings on Optimism</div>
+      <div class={styles.description}>Savings with Optimism</div>
     </div>
   </div>
 )
