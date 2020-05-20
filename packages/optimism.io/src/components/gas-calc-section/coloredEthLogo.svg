@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="137px" height="190px" viewBox="0 0 137 190" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="33.7253738%" x2="31.7787057%" y2="71.0297687%" id="linearGradient-1">
+            <stop stop-color="#8A26B1" offset="0%"></stop>
+            <stop stop-color="#C9C9C9" stop-opacity="0.0980659965" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Final_Desktop" transform="translate(-241.000000, -1038.000000)">
+            <g id="Group-7" transform="translate(314.000000, 1133.000000) rotate(-360.000000) translate(-314.000000, -1133.000000) translate(241.000000, 1038.000000)">
+                <g id="Rhombus" transform="translate(0.065188, 0.000000)">
+                    <polygon id="Path-2" fill="#F99200" points="34.9881746 95.1908366 63.9699702 0.0983224679 129.031102 95.1908366"></polygon>
+                    <polygon id="Path-2" fill="#FFBD7C" transform="translate(31.984985, 47.595418) scale(-1, 1) translate(-31.984985, -47.595418) " points="27.5072356 95.0925141 4.95929271e-13 0.0983224679 63.9699702 95.0925141"></polygon>
+                    <polygon id="Path-2" fill="#9DA8E6" transform="translate(82.009639, 142.016420) scale(1, -1) translate(-82.009639, -142.016420) " points="34.9881746 189.562677 63.9699702 94.4701625 129.031102 189.562677"></polygon>
+                    <polygon id="Path-2" fill="#5C69B9" transform="translate(31.984985, 141.967258) scale(-1, -1) translate(-31.984985, -141.967258) " points="27.5072356 189.562677 -8.3223384e-13 94.37184 63.9699702 189.562677"></polygon>
+                </g>
+                <g id="Rhombus-Front" transform="translate(0.065188, 0.000000)">
+                    <polygon id="Path-2" fill="#D4DBFF" points="34.9881746 95.1908366 63.9699702 0.0983224679 129.031102 95.1908366"></polygon>
+                    <polygon id="Path-2" fill="#F5F6FF" transform="translate(31.984985, 47.595418) scale(-1, 1) translate(-31.984985, -47.595418) " points="27.5072356 95.0925141 3.85199004e-13 0.0983224679 63.9699702 95.0925141"></polygon>
+                    <polygon id="Path-2" fill="#9DA8E6" transform="translate(82.009639, 111.623564) scale(1, -1) translate(-82.009639, -111.623564) " points="34.9881746 128.776966 104.940003 94.4701625 129.031102 128.776966"></polygon>
+                    <polygon id="Path-2" fill="#5C69B9" transform="translate(24.049010, 115.015680) scale(-1, -1) translate(-24.049010, -115.015680) " points="11.6352862 135.65952 1.0477379e-14 94.37184 48.0980208 135.65952"></polygon>
+                </g>
+                <polygon id="Path-3" fill="url(#linearGradient-1)" points="89.2924845 37.0851903 113.487301 72.4971745 103.11151 82.334851 77.1968065 94.86336 45.7365943 73.8018065"></polygon>
+                <g id="Rhombus" transform="translate(111.218847, 45.386552) scale(-1, 1) rotate(-13.000000) translate(-111.218847, -45.386552) translate(85.218847, 7.386552)">
+                    <polygon id="Path-2" fill="#F8A794" points="13.9952698 38.0763346 25.5879881 0.0393289871 51.612441 38.0763346"></polygon>
+                    <polygon id="Path-2" fill="#FFFFFF" transform="translate(12.793994, 19.038167) scale(-1, 1) translate(-12.793994, -19.038167) " points="11.0028942 38.0370056 1.98371708e-13 0.0393289871 25.5879881 38.0370056"></polygon>
+                    <polygon id="Path-2" fill="#FE4A48" transform="translate(32.803855, 56.806568) scale(1, -1) translate(-32.803855, -56.806568) " points="13.9952698 75.8250706 25.5879881 37.788065 51.612441 75.8250706"></polygon>
+                    <polygon id="Path-2" fill="#FF8280" transform="translate(12.793994, 56.786903) scale(-1, -1) translate(-12.793994, -56.786903) " points="11.0028942 75.8250706 2.1940365e-14 37.748736 25.5879881 75.8250706"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

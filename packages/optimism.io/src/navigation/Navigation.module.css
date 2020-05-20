@@ -1,5 +1,5 @@
 .componentBody {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	line-height: 1.6;
 	margin: 0;
 }
@@ -13,7 +13,7 @@
 .componentBody h2,
 .componentBody h3,
 .componentBody a {
-	color: #34495e;
+	color: #F01A37;
 }
 
 .componentBody a {

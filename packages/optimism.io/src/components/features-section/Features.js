@@ -14,7 +14,7 @@ class Features extends Component {
     		</div>
     		<div class={`${styles.flexContainer} ${styles.wrap}`}>
                 <div class={`${styles.flexItem} ${styles.info}`}>
-                    <h2>Sub-Second Transaction Latency</h2>
+                    <h2>Instant Confirmations</h2>
     				<p>Optimistic Rollup brings Web 2 UX to 
     				Web 3 apps with a 10-100x reduction in gas cost.</p>
     				<a href="https://unipig.exchange/welcome">UNISWAP DEMO COLLAB ↗</a>

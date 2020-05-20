@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './GasCalc.module.css';
 import { ethers } from 'ethers'
 import axios from 'axios'
+import coloredEthLogo from './coloredEthLogo.svg'
 
 class GasCalc extends Component {
   state = {
@@ -90,39 +91,60 @@ class GasCalc extends Component {
     })
   }
   render() {
-    const {l1Gas, l2Gas, l1TxFee, l2TxFee, etherscanLink, isCalculated, gasSaved, containsLink} = this.state
+    const {
+      l1Gas, l2Gas, l1TxFee, 
+      l2TxFee, etherscanLink, 
+      isCalculated, gasSaved, containsLink} = this.state
     return (
     	<div>
     		<div class ={styles.heading}>
-    			<h1>See how much Gas the OVM saves you.</h1>
-    			<p>Paste an Etherscan link to a transaction to see how much you would save on Optimistic Ethereum</p>
+    			<h1>See how much Gas the OVM could save you.</h1>
+    			<p>Paste an Etherscan link to a transaction or select a preset below from popular defi 
+          companies.</p>
+          <img src={coloredEthLogo}></img>
     		</div>
-        <div class={styles.flexContainer}>
-          <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
-          <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
-          <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
-          <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
-          <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
+        
+        <div class ={styles.calculator}>
+        Gas Cost Estimator
+{/*          <div className={styles.presets}>
+            <button className={this.isActive('uniswap')} onClick={this.handleInputOverride.bind(this, 'uniswap')}>Uniswap</button>
+            <button className={this.isActive('chainlink')} onClick={this.handleInputOverride.bind(this, 'chainlink')}>Chainlink</button>
+            <button className={this.isActive('synthetix')} onClick={this.handleInputOverride.bind(this, 'synthetix')}>Synthetix</button>
+            <button className={this.isActive('makerdao')} onClick={this.handleInputOverride.bind(this, 'makerdao')}>MakerDAO</button>
+            <button className={this.isActive('compound')} onClick={this.handleInputOverride.bind(this, 'compound')}>Compound</button>
+          </div>*/}
+          <div className={styles.presets}>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1242184851152928769/wG2eTAfD_400x400.jpg" 
+              className={this.isActive('uniswap')} 
+              onClick={this.handleInputOverride.bind(this, 'uniswap')}></input>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1030475757892579334/qvSHhRyC_400x400.jpg" 
+              onClick={this.handleInputOverride.bind(this, 'chainlink')}></input>
+            <input type="image" src="https://pbs.twimg.com/profile_images/1068367984308043776/61lMoJHG_400x400.jpg"
+              onClick={this.handleInputOverride.bind(this, 'synthetix')}></input>
+          </div>
+      		<div>
+    				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
+      					<input 
+    				  		className={styles.input} 
+    				  		type="link"
+    				  		name="etherscan-link"
+    				  		placeholder="e.g. https://etherscan.io/tx/0x..."
+                  value={etherscanLink}
+    				  		onChange={this.handleChange.bind(this)}
+      					></input>
+              
+                {
+                  // containsLink
+                  // ? <a className={styles.button} href={etherscanLink} target="_blank">↗</a>
+                  // : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗</a>
+                }
+        					<button className={styles.btnSolid}  
+                  onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
+             
+            </form>
+            { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
+      		</div>
         </div>
-    		<div class={styles.flexContainer}>
-  				<form className={styles.form} onSubmit={this.handleFormSubmit.bind(this)}>
-  					<input 
-				  		className={styles.input} 
-				  		type="link"
-				  		name="etherscan-link"
-				  		placeholder="e.g. https://etherscan.io/tx/0x..."
-              value={etherscanLink}
-				  		onChange={this.handleChange.bind(this)}
-  					></input>
-            {
-              containsLink
-              ? <a className={styles.button} href={etherscanLink} target="_blank">↗️</a>
-              : <a className={`${styles.button} ${styles.disabled}`} name ='disabled_link'>↗️</a>
-            }
-  					<button className={styles.button + (containsLink ? '' : styles.disabled)} type="submit" onSubmit={this.handleFormSubmit.bind(this)}>Calculate</button>
-  				</form>
-          { !!isCalculated ? <GasCalcResults l1Gas={l1Gas} l2Gas = {l2Gas} gasSaved = {gasSaved}/> : null }
-    		</div>
     	</div>
     )
   }
@@ -130,14 +152,19 @@ class GasCalc extends Component {
 
 const GasCalcResults = (props) => (
   <div class={styles.flexContainer}>
-    <div>
-      {'Ethereum (Gas Cost): ' + props.l1Gas}
+    <div class={styles.flexColumn}>
+      <div class={styles.flexOutputGas}>
+        <div class={styles.result}>{props.l1Gas}</div>
+        <div class={styles.description}>Default Cost on L1</div>
+      </div>
+      <div class={styles.flexOutputGas}>
+        <div class={styles.result}>{props.l2Gas}</div>
+        <div class={styles.description}>Cost with Optimism</div>
+      </div>
     </div>
-    <div>
-      {'Optimism (Gas Cost): ' + props.l2Gas}
-    </div>
-    <div>
-      {'Gas Cost Reduction on Optimistic Rollup: ' + props.gasSaved + 'x'}
+    <div class ={styles.flexOutputDelta}>
+      <div class={styles.result}>{props.gasSaved + 'x'}</div>
+      <div class={styles.description}>Savings with Optimism</div>
     </div>
   </div>
 )

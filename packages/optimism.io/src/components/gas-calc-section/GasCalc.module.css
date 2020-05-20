@@ -1,22 +1,42 @@
 .heading h1{
   font-family: "Roboto";
-  font-size: 48px;
-  line-height: 10px;
+  font-size: 24px;
   letter-spacing: -0.7;
   font-weight: bold;
-  margin-bottom: 3rem;
+  margin: 10px;
 }
 
 .heading p{
   font-family: "Roboto";
   font-size: 14px;
   letter-spacing: -0.7;
-  margin-top: 6rem;
+  margin: 20px;
+}
+
+.heading img {
+  position: absolute;
+  margin-left: -480px;
+  margin-top: -100px;
+  height: 200px;
+}
+
+.calculator {
+  margin: auto;
+  margin-bottom: 50px;
+  background: white;
+  width: 340px;
+  padding: 20px;
+  box-shadow: -8px 8px 20px 0px #EDEDED;
+  justify-content: center;
+  font-family: "Roboto";
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .flexContainer {
   padding: 0;
   margin: 0;
+  background: white;
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -24,32 +44,164 @@
   display: -moz-flex;
   display: -webkit-flex;
   display: flex;
-  justify-content: center;
-  flex-flow: row wrap;
+  justify-content: space-between;
+  flex-flow: row nowrap;
 }
 
-.flexContainer p{
-	color: #F01A37;
-	margin-right: 3px;
+.flexColumn {
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+}
+
+.flexItem {
+  display: flex;
+}
+
+.flexOutputGas {
+  flex-flow: column nowrap;
+  display: flex;
+  background: #EFF0F8;
+  min-height: 60px;
+  max-height: 60px;
+  width: 150px;
+  margin: auto;
+  font-size: 14px;
+}
+
+.flexOutputGas .result{
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.flexOutputGas .description{
+  font-family: "Roboto Mono";
+  font-size: 12px;
+  font-weight: thin;
+}
+
+.flexOutputDelta {
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+  background: pink;
+  width: 155px;
+}
+
+.flexOutputDelta .result {
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 48px;
+  margin-top: 30px;
+}
+
+.flexOutputDelta .description {
+  font-family: "Roboto Mono";
+  font-size: 12px;
+  font-weight: thin;
+}
+
+@media screen and (min-width: 768px) {
+  .flexOutputGas {
+    min-height: 70px;
+    max-height: 70px;
+    width: 200px;
+  }
+
+  .flexOutputGas .description {
+    font-size: 14px;
+  }
+
+  .flexOutputDelta {
+    max-height: 155px;
+    min-height: 155px;
+    width: 328px;
+  }
+
+  .flexOutputDelta .result {
+    font-size: 58px;
+  }
+
+  .flexOutputDelta .description {
+    font-size: 14px;
+  }
+
 }
 
 .form {
   display: flex; 
-  grid-column: 2;
+  margin-bottom: 40px;
+  flex-flow: column;
+  
 }
 
 .input {
-  flex-grow: 1;
-  padding: 0.5em 0.75em;
+  font-family: "Roboto Mono";
+  font-size: 14px;
+  padding-left: 24px;
+  background: #DFE1F1;
+  height: 50px;
+  margin-top: 10px;
+  border: hidden;
 }
 
-.button {
-  padding: 0.5em 0.75em;
-  background: hsl(130, 75%, 75%); 
+.presets button {
+  border: none;
+
 }
-.active {
-  background: hsl(195, 100%, 50%); 
+
+.presets input {
+  height: 50px;
+  box-shadow: -8px 8px 10px 0px #EEE3E3;
+  margin: 10px;
+  border-radius: 50%;
 }
-.disabled {
-    background: hsl(195, 0%, 50%); 
+
+.btnSolid {
+  padding: 8px;
+  color: white;
+  background: #F01A37;
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 17px;
+  letter-spacing: 0.7px;
+  width: 100%;
+  height: 50px;
+  border:none;
+  margin-top: 12px;
 }
+
+.btnSolid:active {
+  background: black;
+}
+
+/*.disabled {
+  padding: 8px;
+  color: #334659;
+  background: #e5e5e5;
+  font-family: "Roboto";
+  font-weight: bold;
+  width: 100%;
+  font-size: 14px;
+  border:none;
+}*/
+
+@media screen and (min-width: 768px) {
+  .calculator {
+    width: 550px;
+  }
+
+  .form {
+
+  }
+
+  .input {
+    border-bottom: 1px solid #334659;
+  }
+}
+
+

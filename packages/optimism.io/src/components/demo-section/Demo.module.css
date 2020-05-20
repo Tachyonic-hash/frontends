@@ -44,7 +44,7 @@ a {
 
 .demoSection h3 {
 	font-family: "Roboto";
-	font-size: 24px;
+	font-size: 20px;
 	color: black;
 	font-weight: normal;
 	margin-top: 10px;
@@ -67,7 +67,6 @@ a {
 	font-size: 18px;
 	font-weight: 400;
 	letter-spacing: auto;
-	text-transform: uppercase;
 	color: #333333;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -130,6 +129,9 @@ a {
 	.flexItemRight {
 		padding-left: 70px;
 	}
+	.curveHighlight {
+		width: 250px;
+	}
 }
 
 .synthetixLogo {
@@ -147,6 +149,7 @@ a {
 	font-size: 17px;
 	text-transform: uppercase;
 	margin: 30px;
+	border: none;
 }
 
 .demoSection button:hover{
