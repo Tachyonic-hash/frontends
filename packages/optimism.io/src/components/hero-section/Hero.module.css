@@ -1,12 +1,15 @@
 .hero {
 	background: white;
 	justify-content: center;
-	height: 85vh;
-	padding-left: 5px;
-	padding-right: 5px;
+	height: 100vh;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 @media screen and (min-width: 1024px) {
+	.hero {
+		height: 85vh;
+	}
   .hero .bg {
   	background-image: url("./hero.svg");
   	background-position: right bottom;
@@ -50,16 +53,10 @@
 }
 
 .transitionMessage {
-	display: none;
-}
-
-@media screen and (min-width: 1024px) {
-  .transitionMessage {
-  	display: inline-block;
-	margin-top: 100px;
+	margin-top: 60px;
+	display: inline-block;
 	margin-left: auto;
 	margin-right: auto;
-  }
 }
 
 .roundButton {
