@@ -13,7 +13,6 @@ function Homepage() {
   return (
     <div>
       <Hero/>
-      <GasCalc/>
       <Demo/>
       <Quote></Quote>
       <Features></Features>
