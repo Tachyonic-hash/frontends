@@ -3,6 +3,7 @@
 	line-height: 1.6;
 	margin: 0;
 }
+
 .componentBody ul {
   margin: 0;
   padding: 0;
@@ -20,25 +21,31 @@
 	text-decoration: none;
 }
 
-
-
 .logo {
 	margin: 0;
 	font-size: 1.45em;
 }
 
-.mainNav {
-	margin-top: 5px;
-
-}
 .logo a,
-.mainNav a {
+.mobileNav a {
 	padding: 10px 15px;
 	text-transform: uppercase;
 	text-align: center;
 	display: block;
 }
 
+.mobileNav {
+	padding: 100px;
+	background: #fff;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.desktopNav {
+	display: none;
+}
 
 .header {
 	display: flex;
@@ -52,11 +59,31 @@
 	border-radius: 5px;
 }
 
+.burger {
+	display: block;
+}
+
 
 /* ================================= 
   Media Queries
 ==================================== */
 
+@media (min-width: 900px) {
+	.header {
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+
+	.burger {
+		display: none;
+	}
+
+}
 
 
-
+@media (min-width: 900px) {
+	.desktopNav {
+		display: block;
+		background: pink;
+	}
+}

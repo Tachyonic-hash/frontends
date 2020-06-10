@@ -10,14 +10,14 @@ class Footer extends Component {
             <h1>Optimism PBC</h1>
           </div>
           <div class={styles.flexItem}>
-            <li><a href="#">FAQ</a></li>
             <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">Github</a></li>
+            <li style={{borderBottom:"none"}}><a href="https://docs.optimism.io/">Documentation</a></li>
             <li style={{borderBottom:"none"}}><a href="https://medium.com/ethereum-optimism">Blog</a></li>
           </div>
           <div class={styles.flexItem}>
             <li><a href="#">Twitter</a></li>
             <li><a href="#">Discord</a></li>
-            <li style={{borderBottom:"none"}}><a href="https://docs.optimism.io/">Documentation</a></li>
+            <li><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH">YOUTUBE</a></li>  
           </div>
         </div>
         <div class={styles.bottomBar}>Copyright Optimism PBC 2020. All brights preserved.</div>
