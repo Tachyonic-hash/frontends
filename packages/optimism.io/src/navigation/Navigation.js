@@ -21,11 +21,11 @@ class Navigation extends Component {
     let menuDisplay
     if (this.state.isActive) {
       menuDisplay = {
-        display: 'none'
+        display: 'block'
       }
     } else {
       menuDisplay = {
-        display: 'block'
+        display: 'none'
       }
     }
 
@@ -33,15 +33,13 @@ class Navigation extends Component {
       <div class={styles.componentBody}>
 	      <header class={styles.header}>
 	      	<h1 class={styles.logo}><Link to="/">Optimism</Link></h1>
-            <ul class={styles.mainNav}>
+            <ul class={styles.mainNav} style={menuDisplay}>
                 <li><Link to="/FAQ">FAQ</Link></li>
                 <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">GITHUB↗</a></li>
                 <li><a href="https://medium.com/ethereum-optimism">BLOG↗</a></li>
             </ul>
 
-          <HamburgerSpin isActive={this.state.isActive} toggleButton={this.toggleButton} buttonColor="#FFBC67" barColor="white" />
-
-          <div style={menuDisplay}>test</div>
+          <HamburgerSpin isActive={this.state.isActive} toggleButton={this.toggleButton} buttonColor="white" barColor="black" />
 	      </header> 
       </div>
     )
