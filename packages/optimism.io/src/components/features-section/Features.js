@@ -9,8 +9,8 @@ class Features extends Component {
     return(
     	<div>
     		<div class ={styles.heading}>
-    			<p>FEATURES OF THE</p>
-    			<h1>Optimistic Virtual Machine</h1>
+    			<p>FEATURES OF</p>
+    			<h1>Optimistic Ethereum</h1>
     		</div>
     		<div class={`${styles.flexContainer} ${styles.wrap}`}>
                 <div class={`${styles.flexItem} ${styles.info}`}>
