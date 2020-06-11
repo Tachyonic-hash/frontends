@@ -31,15 +31,15 @@ class Roadmap extends Component {
 	    				<td> ✓ </td>
 	    				<td>Release OVM Alpha</td>
 	    			</tr>
-	    			<tr className={styles.current}>
-	    				<td style={{color: "#F01A37"}}><b>APR 2020</b></td>
-	    				<td></td>
-	    				<td><b>SYNTHETIX DEMO & TRADING COMP</b></td>
+	    			<tr>
+	    				<td>APR 2020</td>
+	    				<td> ✓ </td>
+	    				<td>Synthetix Demo & Trading Comp</td>
 	    			</tr>
-	    			<tr className={styles.new}>
-	    				<td>SEP 2020</td>
-	    				<td> </td>
-	    				<td>Optimistic Rollup Testnet</td>
+	    			<tr className={styles.current}>
+	    				<td style={{color: "#F01A37"}}><b>SEP 2020</b></td>
+	    				<td></td>
+	    				<td><b>OPTIMISTIC ROLLUP TESTNET</b></td>
 	    			</tr>
 	    			<tr className={styles.new}>
 	    				<td>Q4 2020</td>
