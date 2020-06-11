@@ -15,8 +15,8 @@ class Footer extends Component {
             <li style={{borderBottom:"none"}}><a href="https://medium.com/ethereum-optimism">Blog</a></li>
           </div>
           <div class={styles.flexItem}>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Discord</a></li>
+            <li><a href="https://twitter.com/optimismPBC">Twitter</a></li>
+            <li><a href="https://discord.com/invite/jrnFEvq">Discord</a></li>
             <li><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH">YOUTUBE</a></li>  
           </div>
         </div>

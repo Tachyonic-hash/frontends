@@ -26,7 +26,7 @@ class Demo extends Component {
 	    		<div class={styles.flexDemoBody}>
 		    		<div class={styles.flexItemLeft}>
 		    			<div class={styles.curveHighlight}>
-			    			<h4><span style={{color: "red", fontSize: "14"}}>↓</span>600x</h4>
+			    			<h4><span style={{color: "red", fontSize: "14"}}>↓</span>100x</h4>
 			    			<h3>Reductions in Cost</h3>
 			    			<br></br>
 			    			<h5> Optimistic Ethereum: 10k GAS</h5>
