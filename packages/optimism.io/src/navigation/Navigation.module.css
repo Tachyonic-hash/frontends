@@ -28,9 +28,9 @@
 
 .logo a,
 .mobileNav a {
-	padding: 10px 15px;
 	text-transform: uppercase;
 	text-align: center;
+	padding: 10px;
 	display: block;
 }
 
@@ -83,7 +83,13 @@
 
 @media (min-width: 900px) {
 	.desktopNav {
-		display: block;
-		background: pink;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-around;
+	}
+
+	.desktopNav li {
+		padding: 10px;
+		margin-top: 10px;
 	}
 }

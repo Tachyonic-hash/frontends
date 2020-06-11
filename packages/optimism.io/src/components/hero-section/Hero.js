@@ -10,8 +10,7 @@ class Hero extends Component {
 
 	    		<div class={styles.welcomeMessage}>
 	    			<h1>The New Scalability Stack for Ethereum</h1>
-	    			<p>The Optimistic Virtual Machine (OVM) is the 
-	    			best software platform for running your Ethereum dApp.</p>
+	    			<p>Instant transactions and scalable smart contracts on Ethereum.</p>
 	    		</div>
 	    		<div class={styles.transitionMessage}>
 	    			<h2>SYNTHETIX.EXCHANGE</h2>
