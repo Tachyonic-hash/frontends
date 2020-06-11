@@ -20,7 +20,7 @@ class Philosophy extends Component {
 					public goods on the internet through the development of open source software.</i></p>
 					<p>This charter represents our pledge to the Ethereum community to uphold its 
 					values by producing infrastructure which promotes the growth and sustainability 
-					of an ecosystem of public goods. For more on how we plan to do this, read here.</p>
+					of an ecosystem of public goods.</p>
 				</div>
 			</div>
 
