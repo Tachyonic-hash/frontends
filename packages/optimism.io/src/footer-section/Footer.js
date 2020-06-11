@@ -20,7 +20,7 @@ class Footer extends Component {
             <li><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH">YOUTUBE</a></li>  
           </div>
         </div>
-        <div class={styles.bottomBar}>Copyright Optimism PBC 2020. All brights preserved.</div>
+        <div class={styles.bottomBar}>Copybyte Optimism PBC 2020. All flights reserved.</div>
       </footer>
     )
   }
