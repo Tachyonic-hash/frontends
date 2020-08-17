@@ -14,7 +14,7 @@ class Demo extends Component {
 		    	</div>
 				<img class={styles.quotationMark} src={quotationMarks}></img>
 	    		<div class={styles.quote}>
-		    		<h1>The OVM is one of the most exciting developments for Etherem today. It 
+					<h1>The OVM is one of the most exciting developments for Ethereum today. It
 		    		tackles one of the biggest problems a project like ours has - how to 
 		    		empower users with near-instant trading and subsecond tick data. Optimism has 
 		    		consistently demonstrated their commitment to L1 compatability - both in terms of reusing our existing 
