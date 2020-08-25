@@ -42,17 +42,17 @@ class Roadmap extends Component {
 	    				<td><b>OPTIMISTIC ROLLUP TESTNET</b></td>
 	    			</tr>
 	    			<tr className={styles.new}>
-	    				<td>Q4 2020</td>
+	    				<td>Qx 202y</td>
 	    				<td> </td>
 	    				<td>Single Sequencer Mainnet</td>
 	    			</tr>
 	    			<tr className={styles.new}>
-	    				<td>Q2 2021</td>
+	    				<td>Qz 202a</td>
 	    				<td> </td>
 	    				<td>Decentralized Sequencer</td>
 	    			</tr>
 	    			<tr className={styles.new}>
-	    				<td>Q4 2021</td>
+	    				<td>Qb 202c</td>
 	    				<td> </td>
 	    				<td>MEVA Powered Ecosystem Launch</td>
 	    			</tr>
