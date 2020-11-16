@@ -12,12 +12,8 @@ import GasCalc from '../components/gas-calc-section/GasCalc'
 function Homepage() {
   return (
     <div>
-      <Hero/>
-      <Demo/>
-      <Quote></Quote>
-      <Features></Features>
+      <Hero />
       <Roadmap></Roadmap>
-      <News></News>
       <Philosophy></Philosophy>
     </div>
   );
