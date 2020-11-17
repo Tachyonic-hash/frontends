@@ -1,96 +1,45 @@
+@import "../../styles/variables";
+
 .hero {
-	background: white;
-	justify-content: center;
-	height: 100vh;
-	padding-left: 15px;
-	padding-right: 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: white;
+  justify-content: center;
+  height: 100vh;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 @media screen and (min-width: 1024px) {
-	.hero {
-		height: 85vh;
-	}
+  .hero {
+    height: calc(100vh - 50px);
+  }
   .hero .bg {
-  	background-image: url("./hero.svg");
-  	background-position: right bottom;
-	  background-repeat: no-repeat;
-  	height: 500px;
-	  max-width: 100%;
-  	margin-top: calc(85vh - 1000px);
-  	overflow: hidden;
+    background-image: url("./hero.svg");
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    height: 50vw;
+    width: 50vw;
+    right: 0;
+    bottom: 0;
+    position: absolute;
   }
 }
 
-.hero h1 {
-	font-family: "Roboto";
-	font-size: 72px;
-	font-weight: bold;
-	letter-spacing: -0.8px;
-	color: black;
-	margin-top: 80px;
-}
-
 .hero p {
-	font-family: "Roboto Mono";
-	font-size: 17px;
-	line-height: 30px;
-	max-width: 500px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.hero h2 {
-	font-family: "Roboto";
-	font-size: 14px;
-	text-transform: uppercase;
+  font-family: $fontPrimary;
+  font-size: 1.25rem;
+  line-height: 30px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .welcomeMessage {
-	text-align: center;
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.transitionMessage {
-	margin-top: 60px;
-	display: inline-block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.roundButton {
-	height: 80px;
-	width: 80px;
-	line-height: 80px;
-	border-radius: 50%;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	background: #272934;
-	font-size: 20px;
-	font-weight: 900;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.roundButtonLink {
-	color: white;
-	text-decoration: none;
-}
-
-.roundButton:hover {
-    background: #F01A37;
-    color: white;
-}
-
-.roundButton:visited {
-	color: white;
-	text-decoration: none;
-}
-
-.roundButtom a:link{
-	font-family: "Roboto";
-	text-decoration: none;
-	color: white;
+  font-family: $fontSerif;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 150px;
 }

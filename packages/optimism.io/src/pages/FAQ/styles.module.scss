@@ -1,32 +1,33 @@
+@import "../../styles/variables.scss";
+
 .header {
-	font-family: "Roboto";
-	font-size: 72px;
-	text-align: center;
-	padding-top: 50px;
-	padding-bottom: 80px;
-	margin: auto;
-	border-bottom: 2px solid #e5e5e5;
+  font-size: 72px;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 80px;
+  margin: auto;
+  border-bottom: 2px solid #e5e5e5;
 }
 
 .body {
-	text-align: left;
-	padding: 20px;
-	margin: 50px;
+  text-align: left;
+  padding: 20px;
+  margin: 50px;
 }
 
 @media screen and (min-width: 768px) {
-  .header, .body {
-	margin-left: 150px;
-	margin-right: 150px;
+  .header,
+  .body {
+    margin-left: 150px;
+    margin-right: 150px;
   }
 }
 
-.body h1{
-	font-family: "Roboto";
-	font-size: 24px;
+.body h1 {
+  font-size: 24px;
 }
 
-.body p{
-	font-family: "Roboto Mono";
-	font-size: 17px;
+.body p {
+  font-family: $fontSecondary;
+  font-size: 17px;
 }

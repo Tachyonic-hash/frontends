@@ -1,0 +1,92 @@
+@import "../../styles/variables";
+
+footer {
+  background-color: white;
+  color: $brandColor;
+  margin-top: 250px;
+}
+
+footer h1 {
+  font-size: 32px;
+  font-style: italic;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+footer li {
+  color: black;
+  font-family: $fontSecondary;
+  list-style-type: none;
+  padding: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.flexContainer {
+  border-top: 2px solid #e5e5e5;
+  padding: 0;
+  margin: 50px;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+.bottomBar {
+  padding: 10px;
+  background: black;
+  height: 100px;
+  text-indent: 100px;
+  text-align: left;
+  line-height: 80px;
+  color: white;
+  font-family: $fontSecondary;
+}
+
+.flexItem {
+  padding: 15px;
+  display: flex;
+  width: 350px;
+  flex-flow: column;
+}
+
+.flexContainer a:link {
+  color: black;
+  letter-spacing: 1px;
+  font-family: $fontSecondary;
+  font-size: 17px;
+  text-decoration: none;
+  background: linear-gradient(to right, crimson, pink, springgreen);
+  background-size: 200% 200%;
+  animation: rainbow 2s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  display: block;
+  transition: color 0.2s ease-in-out;
+}
+
+.flexContainer a:hover {
+  color: rgba(0, 0, 0, 0);
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.flexContainer a:visited {
+  color: black;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: left;
+  }
+  50% {
+    background-position: right;
+  }
+  100% {
+    background-position: left;
+  }
+}

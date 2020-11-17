@@ -8,7 +8,7 @@ class News extends Component {
 	render() {
 		return (
 			<div>
-				<div class={styles.underline}>Light Bedtime Reading</div>
+				<h2 class={styles.underline}>Light Bedtime Reading</h2>
 				<div class={`${styles.flexNews} ${styles.wrap}`}>
 					<div class={styles.flexItem}>
 						<div class={styles.date}>15 Jan</div>

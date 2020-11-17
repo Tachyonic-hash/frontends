@@ -37,7 +37,7 @@ class Roadmap extends Component {
 							<td>Synthetix Demo & Trading Comp</td>
 						</tr>
 						<tr className={styles.current}>
-							<td style={{ color: "#F01A37" }}><b>SEP 2020</b></td>
+							<td style={{ color: "$brandColor" }}><b>SEP 2020</b></td>
 							<td></td>
 							<td><b>OPTIMISTIC ROLLUP TESTNET</b></td>
 						</tr>

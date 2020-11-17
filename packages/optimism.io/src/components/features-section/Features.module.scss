@@ -1,19 +1,18 @@
-.heading h1{
-  font-family: "Roboto";
+@import "../../styles/variables";
+
+.heading h1 {
   font-size: 48px;
   letter-spacing: -0.7;
   font-weight: bold;
   font-style: italic;
-  text-decoration: #F01A37 underline;
+  text-decoration: $brandColor underline;
   margin-bottom: 1.5rem;
 }
 
-.heading p{
-  font-family: "Roboto";
+.heading p {
   font-size: 14px;
   letter-spacing: -0.7;
   margin-top: 6rem;
-  margin-bottom:-1.5rem;
 }
 
 .flexContainer {
@@ -33,8 +32,8 @@
 .flexContainerDark {
   padding: 0;
   margin: 0;
-  background: #1B1D29;
-  color: #FFF;
+  background: #1b1d29;
+  color: #fff;
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -46,10 +45,10 @@
   flex-flow: row wrap;
 }
 
-.wrap { 
+.wrap {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-}  
+}
 
 .flexItem {
   width: 380px;
@@ -67,23 +66,23 @@
 
 .flexItem img {
   display: flex;
-  width:380px;
+  width: 380px;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
 }
 
-.flexItem h2{
+.flexItem h2 {
   line-height: 42px;
-  font-family: "Roboto";
+
   font-weight: bold;
   font-size: 32px;
-  max-width:300px;
+  max-width: 300px;
 }
 
-.flexItem p{
-  font-family: "Roboto Mono";
+.flexItem p {
+  font-family: $fontSecondary;
   font-size: 17px;
   line-height: 26px;
   max-width: 100%;
@@ -93,10 +92,10 @@
   margin-bottom: -6rem;
 }
 
-.flexContainer a:link{
-  color: #F01A37;
+.flexContainer a:link {
+  color: $brandColor;
   letter-spacing: 1.5px;
-  font-family: "Roboto";
+
   font-weight: bold;
   font-size: 17px;
   text-decoration: none;
@@ -104,24 +103,30 @@
   background-size: 200% 200%;
   animation: rainbow 2s ease-in-out infinite;
   background-clip: text;
-  -webkit-background-clip:text;
-  display:block;
-  transition: color .2s ease-in-out;
+  -webkit-background-clip: text;
+  display: block;
+  transition: color 0.2s ease-in-out;
 }
 
-.flexContainer a:hover{
-  color: rgba(0,0,0,0);
-  font-family: "Roboto";
+.flexContainer a:hover {
+  color: rgba(0, 0, 0, 0);
+
   font-weight: bold;
   font-size: 17px;
 }
 
-.flexContainer a:visited{
-  color:#F01A37;
+.flexContainer a:visited {
+  color: $brandColor;
 }
 
-@keyframes rainbow { 
-  0%{background-position:left}
-  50%{background-position:right}
-  100%{background-position:left}
+@keyframes rainbow {
+  0% {
+    background-position: left;
+  }
+  50% {
+    background-position: right;
+  }
+  100% {
+    background-position: left;
+  }
 }

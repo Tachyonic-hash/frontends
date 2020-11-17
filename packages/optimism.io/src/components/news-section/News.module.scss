@@ -1,12 +1,8 @@
+@import "../../styles/variables";
+
 .underline {
-  font-family: "Roboto";
-  font-size: 48px;
   letter-spacing: -0.7;
   font-weight: bold;
-  font-style: italic;
-  text-decoration: red underline;
-  margin-top: 6rem;
-  margin-bottom: 3rem;
 }
 
 .flexNews {
@@ -24,10 +20,10 @@
   flex-flow: row;
 }
 
-.wrap    { 
+.wrap {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-}  
+}
 
 .flexItem {
   padding: 5px;
@@ -38,24 +34,24 @@
 }
 
 .flexItem img {
-	justify-content: center;
-	width: 100%;
+  justify-content: center;
+  width: 100%;
 }
 
-.flexItem h2{
+.flexItem h2 {
   line-height: 28px;
   color: black;
-  font-family: "Roboto";
+
   font-weight: bold;
   font-size: 24px;
   margin-right: 12px;
   margin-left: 12px;
 }
 
-.flexItem h3{
+.flexItem h3 {
   line-height: 10px;
   color: black;
-  font-family: "Roboto Mono";
+  font-family: $fontSecondary;
   font-weight: Regular;
   font-size: 14px;
   margin-right: 12px;
@@ -73,11 +69,11 @@
   font: Roboto;
 }
 
-.flexNews a:link{
+.flexNews a:link {
   color: black;
   line-height: 28px;
   color: black;
-  font-family: "Roboto";
+
   font-weight: bold;
   font-size: 24px;
   text-decoration: none;
@@ -85,21 +81,27 @@
   background-size: 200% 200%;
   animation: rainbow 2s ease-in-out infinite;
   background-clip: text;
-  -webkit-background-clip:text;
-  display:block;
-  transition: color .2s ease-in-out;
+  -webkit-background-clip: text;
+  display: block;
+  transition: color 0.2s ease-in-out;
 }
 
-.flexNews a:hover{
-  color: rgba(0,0,0,0);
+.flexNews a:hover {
+  color: rgba(0, 0, 0, 0);
 }
 
-.flexNews a:visited{
-  color:#F01A37;
+.flexNews a:visited {
+  color: $brandColor;
 }
 
-@keyframes rainbow { 
-  0%{background-position:left}
-  50%{background-position:right}
-  100%{background-position:left}
+@keyframes rainbow {
+  0% {
+    background-position: left;
+  }
+  50% {
+    background-position: right;
+  }
+  100% {
+    background-position: left;
+  }
 }

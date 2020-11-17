@@ -1,17 +1,16 @@
-.heading h1{
-  font-family: "Roboto";
+@import "../../styles/variables";
+
+.heading h1 {
   font-size: 48px;
   letter-spacing: -0.7;
   font-weight: bold;
   margin-bottom: 1.5rem;
 }
 
-.heading p{
-  font-family: "Roboto";
+.heading p {
   font-size: 14px;
   letter-spacing: -0.7;
   margin-top: 6rem;
-  margin-bottom: -1.5rem;
 }
 
 .flexContainer {
@@ -29,44 +28,43 @@
   overflow: hidden;
 }
 
-.flexContainer p{
-	color: #F01A37;
-	margin-right: 3px;
+.flexContainer p {
+  color: $brandColor;
+  margin-right: 3px;
 }
 
 table {
-	width: 655px;
-	border-collapse: collapse;
+  width: 655px;
+  border-collapse: collapse;
 }
 
 tr {
-	background-color: #F2F4F7;
+  background-color: #f2f4f7;
 }
 
 .current {
-	background-color: white;
-	height: 65px;
-	border-left: 25px solid white;
-	border-right: 25px solid white;
-	box-shadow: -8px 8px 45px rgba(0,0,0,.18);
+  background-color: white;
+  height: 65px;
+  border-left: 25px solid white;
+  border-right: 25px solid white;
+  box-shadow: -8px 8px 45px rgba(0, 0, 0, 0.18);
 }
 
 .new {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 td {
-	height: 50px;
-	padding-left: 10px;
+  height: 50px;
+  padding-left: 10px;
 }
 
 td:nth-child(2) {
-	width: 20px;
-	color: #F01A37;
+  width: 20px;
+  color: $brandColor;
 }
 
 td:last-child {
-	padding-left: 10px;
-	text-align: left;
+  padding-left: 10px;
+  text-align: left;
 }
-
