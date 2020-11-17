@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Hero.module.css';
+import styles from './Hero.module.scss';
 import heroImage from './hero.svg';
 
 class Hero extends Component {

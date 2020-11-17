@@ -84,12 +84,12 @@
 @media (min-width: 900px) {
 	.desktopNav {
 		display: flex;
+		align-items: center;
 		flex-flow: row nowrap;
 		justify-content: space-around;
 	}
 
-	.desktopNav li {
+	.navItem {
 		padding: 10px;
-		margin-top: 10px;
 	}
 }
