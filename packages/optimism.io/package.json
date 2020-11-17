@@ -88,7 +88,7 @@
     ]
   },
   "devDependencies": {
-    "yaml-loader": "^0.6.0"
+    "js-yaml-loader": "^1.2.2"
   },
   "jest": {
     "roots": [

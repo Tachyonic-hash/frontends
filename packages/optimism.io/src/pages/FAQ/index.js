@@ -1,22 +1,20 @@
 import React from 'react';
 import styles from './styles.module.css';
-import faqData from './faqData.yaml';
-
-console.log(faqData)
+import faqs from './faqData.yaml';
 
 function FAQ() {
   return (
-    <div>
-      <div class={styles.header}>
-        FAQ
-      </div>
-      <ul class={styles.body}>
-        {/* {faqData.map(item => (
+    <div class={styles.body}>
+      <header class={styles.header}>
+        Frequently Asked Questions
+      </header>
+      <ul class={styles.list}>
+        {faqs.map(item => (
           <li>
             <p>{item.question}</p>
             <p>{item.answer}</p>
           </li>
-        ))} */}
+        ))}
       </ul>
     </div>
   );
