@@ -1,6 +1,6 @@
-import styles from './Philosophy.module.scss';
 import React, { Component } from 'react';
 import ethlogo from './ethPlanetPhilosophy.svg';
+import styles from './Philosophy.module.scss';
 
 class Philosophy extends Component {
 	render() {

@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './styles.module.scss';
+import styles from './FAQ.module.scss';
 import faqs from './faqData.yaml';
 
 function FAQ() {
   return (
     <div class={styles.body}>
-      <header class={styles.header}>
+      <header class={styles.pageHeader}>
         Frequently Asked Questions
       </header>
       <ul class={styles.list}>

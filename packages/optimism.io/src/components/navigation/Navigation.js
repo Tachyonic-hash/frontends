@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { HamburgerSpin } from 'react-animated-burgers'
 import { Link } from 'react-router-dom'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import { navItems } from '../../constants';
 
 const mobileNavId = 'mobileNavId'
 
@@ -43,7 +44,6 @@ class Navigation extends Component {
     if (this.state.isActive) {
       menuDisplay = {
         display: 'block',
-        paddingTop: '100px'
       }
     } else {
       menuDisplay = {
@@ -54,27 +54,25 @@ class Navigation extends Component {
     return (
       <div class={styles.componentBody}>
         <header class={styles.header}>
-          <h1 class={styles.logo}><Link to="/">Optimism</Link></h1>
           {/* Mobile Menu */}
           <ul class={styles.mobileNav} id={mobileNavId} style={menuDisplay}>
-            <h1>OPTIMISM</h1>
-            <li className={styles.navItem}><a href="https://github.com/ethereum-optimism/optimism-monorepo" target="_blank" rel="noopenner noreferrer">GITHUB↗</a></li>
-            <li className={styles.navItem}><a href="https://docs.optimism.io/">DOCUMENTATION</a></li>
-            <li className={styles.navItem}><a href="https://medium.com/ethereum-optimism" target="_blank" rel="noopenner noreferrer">BLOG↗</a></li>
-            <li className={styles.navItem}><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH" target="_blank" rel="noopenner noreferrer">YOUTUBE</a></li>
-            <li className={styles.navItem}><a href="https://twitter.com/optimismPBC" target="_blank" rel="noopenner noreferrer">TWITTER</a></li>
-            <li className={styles.navItem}><a href="https://medium.com/ethereum-optimism" target="_blank" rel="noopenner noreferrer">DISCORD</a></li>
+            <h1 class={styles.logo}><Link to="/">Optimism</Link></h1>
+            {navItems.map(item => item.internal ? (
+              <Link className={styles.navItem} to={item.url}>{item.name}</Link>
+            ) : (
+                <li className={styles.navItem}><a href={item.url} target="_blank" rel="noopenner noreferrer">{item.name}</a></li>
+              ))}
           </ul>
           {/* Desktop Menu */}
+          <h1 class={styles.logo}><Link to="/">Optimism</Link></h1>
           <ul class={`${styles.mobileNav}, ${styles.desktopNav}`}>
-            <Link className={styles.navItem} to="/FAQ">FAQ</Link>
-            <li className={styles.navItem}><a href="https://github.com/ethereum-optimism/optimism-monorepo" target="_blank" rel="noopenner noreferrer">GITHUB↗</a></li>
-            <li className={styles.navItem}><a href="https://docs.optimism.io/" target="_blank" rel="noopenner noreferrer">DOCUMENTATION</a></li>
-            <li className={styles.navItem}><a href="https://medium.com/ethereum-optimism" target="_blank" rel="noopenner noreferrer">BLOG↗</a></li>
+            {navItems.map(item => item.internal ? (
+              <Link className={styles.navItem} to={item.url}>{item.name}</Link>
+            ) : !item.social ? (
+              <li className={styles.navItem}><a href={item.url} target="_blank" rel="noopenner noreferrer">{item.name}</a></li>
+            ) : null)}
           </ul>
-          <div className={styles.burger}>
-            <HamburgerSpin className={styles.burger} isActive={this.state.isActive} toggleButton={this.toggleButton} buttonColor="white" barColor="black" />
-          </div>
+          <HamburgerSpin buttonWidth={40} className={styles.burger} isActive={this.state.isActive} toggleButton={this.toggleButton} barColor={this.state.isActive ? 'white' : '#f01a37'} />
         </header>
       </div>
     )

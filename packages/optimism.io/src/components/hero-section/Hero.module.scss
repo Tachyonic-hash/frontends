@@ -1,10 +1,9 @@
-@import "../../styles/variables";
+@import "../../styles/global.module";
 
 .hero {
   display: flex;
   align-items: center;
   position: relative;
-  background: white;
   justify-content: center;
   height: 100vh;
   padding-left: 15px;
@@ -24,6 +23,7 @@
     right: 0;
     bottom: 0;
     position: absolute;
+    z-index: -1;
   }
 }
 

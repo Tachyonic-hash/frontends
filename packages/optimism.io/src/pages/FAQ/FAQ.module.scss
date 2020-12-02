@@ -1,13 +1,4 @@
-@import "../../styles/variables.scss";
-
-.header {
-  font-size: 72px;
-  text-align: center;
-  padding-top: 50px;
-  padding-bottom: 80px;
-  margin: auto;
-  border-bottom: 2px solid #e5e5e5;
-}
+@import "../../styles/global.module.scss";
 
 .body {
   text-align: left;

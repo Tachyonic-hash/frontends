@@ -1,4 +1,4 @@
-@import "../../styles/variables";
+@import "../../styles/global.module";
 
 .componentBody {
   font-family: "Roboto", sans-serif;
@@ -24,24 +24,38 @@
 
 .logo {
   margin: 0;
-  font-size: 1.45em;
+}
+
+.logo a {
+  font-size: 24px;
+}
+
+.navItem {
+  font-size: 22px;
 }
 
 .logo a,
 .mobileNav a {
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   padding: 10px;
   display: block;
 }
 
 .mobileNav {
+  z-index: 1;
   padding: 100px;
   background: #fff;
   position: fixed;
   top: 0;
   height: 100%;
   width: 100%;
+}
+
+.mobileNav .logo a {
+  background: $brandColor;
+  color: #fff;
+  font-size: 22px;
 }
 
 .desktopNav {
@@ -56,10 +70,22 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  position: relative;
 }
 
 .burger {
+  z-index: 2;
+  position: relative;
   display: block;
+  outline: none;
+  display: flex;
+  align-items: center !important;
+  padding: 8px 10px !important;
+}
+
+.burger div {
+  width: 40px;
+  height: 40px;
 }
 
 /* ================================= 
@@ -73,14 +99,14 @@
   }
 
   .burger {
-    display: none;
+    display: none !important;
   }
 }
 
 @media (min-width: 900px) {
   .desktopNav {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     flex-flow: row nowrap;
     justify-content: space-around;
   }

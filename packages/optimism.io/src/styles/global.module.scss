@@ -3,3 +3,12 @@ $brandColor: #f01a37;
 $fontPrimary: "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 $fontSecondary: "Roboto Mono", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 $fontSerif: "Cormorant Garamond", serif;
+
+.pageHeader {
+  font-size: 72px;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 80px;
+  margin: auto;
+  border-bottom: 2px solid #e5e5e5;
+}

@@ -1,5 +1,6 @@
 import styles from './Footer.module.scss';
 import React, { Component } from 'react';
+import { navItems } from '../../constants';
 
 class Footer extends Component {
   render() {
@@ -10,14 +11,14 @@ class Footer extends Component {
             <h1>Optimism PBC</h1>
           </div>
           <div class={styles.flexItem}>
-            <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">Github</a></li>
-            <li style={{ borderBottom: "none" }}><a href="https://docs.optimism.io/">Documentation</a></li>
-            <li style={{ borderBottom: "none" }}><a href="https://medium.com/ethereum-optimism">Blog</a></li>
+            {navItems.map(item => !item.social && !item.internal && (
+              <li><a href={item.url}>{item.name}</a></li>
+            ))}
           </div>
           <div class={styles.flexItem}>
-            <li><a href="https://twitter.com/optimismPBC">Twitter</a></li>
-            <li><a href="https://discord.com/invite/jrnFEvq">Discord</a></li>
-            <li><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH">YOUTUBE</a></li>
+            {navItems.map(item => item.social && (
+              <li><a href={item.url}>{item.name}</a></li>
+            ))}
           </div>
         </div>
         <div class={styles.bottomBar}>Copybyte Optimism PBC 2020. All flights reserved.</div>

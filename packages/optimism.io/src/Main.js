@@ -7,17 +7,15 @@ import {
 
 import Home from './pages/Homepage';
 import FAQ from './pages/FAQ'
+import Philosophy from './pages/Philosophy'
 
 const Main = () => {
   return (
     <Switch> {/* The Switch decides which component to show based on the current URL.*/}
-      <Route exact path='/'>
-      	<Home/>
-      </Route>
-      <Route exact path='/FAQ'>
-      	<FAQ/>
-      </Route>
-    </Switch>
+      <Route exact path='/' component={Home} />
+      <Route exact path='/faq' component={FAQ} />
+      <Route exact path='/philosophy' component={Philosophy} />
+    </Switch >
   );
 }
 
