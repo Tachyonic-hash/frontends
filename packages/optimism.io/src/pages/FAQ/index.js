@@ -1,15 +1,14 @@
 import React from 'react';
 import styles from './FAQ.module.scss';
 import faqs from './faqData.yaml';
+import PageHeader from '../../components/PageHeader';
 
 function FAQ() {
   return (
     <div class={styles.body}>
-      <header class={styles.pageHeader}>
-        Frequently Asked Questions
-      </header>
+      <PageHeader>Frequently Asked Questions</PageHeader>
       <ul class={styles.list}>
-        {faqs.map(item => (
+        {faqs.map((item) => (
           <li>
             <p>{item.question}</p>
             <p>{item.answer}</p>

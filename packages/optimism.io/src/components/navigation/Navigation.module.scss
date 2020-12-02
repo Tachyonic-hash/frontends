@@ -1,77 +1,4 @@
-@import "../../styles/global.module";
-
-.componentBody {
-  font-family: "Roboto", sans-serif;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.componentBody ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.componentBody h2,
-.componentBody h3,
-.componentBody a {
-  color: $brandColor;
-}
-
-.componentBody a {
-  text-decoration: none;
-}
-
-.logo {
-  margin: 0;
-}
-
-.logo a {
-  font-size: 24px;
-}
-
-.navItem {
-  font-size: 22px;
-}
-
-.logo a,
-.mobileNav a {
-  text-transform: uppercase;
-  text-align: left;
-  padding: 10px;
-  display: block;
-}
-
-.mobileNav {
-  z-index: 1;
-  padding: 100px;
-  background: #fff;
-  position: fixed;
-  top: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.mobileNav .logo a {
-  background: $brandColor;
-  color: #fff;
-  font-size: 22px;
-}
-
-.desktopNav {
-  display: none;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: transparent;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  position: relative;
-}
+@import '../../styles/global.module';
 
 .burger {
   z-index: 2;
@@ -93,25 +20,7 @@
 ==================================== */
 
 @media (min-width: 900px) {
-  .header {
-    flex-flow: row nowrap;
-    justify-content: space-between;
-  }
-
   .burger {
     display: none !important;
-  }
-}
-
-@media (min-width: 900px) {
-  .desktopNav {
-    display: flex;
-    align-items: flex-end;
-    flex-flow: row nowrap;
-    justify-content: space-around;
-  }
-
-  .navItem {
-    padding: 10px;
   }
 }

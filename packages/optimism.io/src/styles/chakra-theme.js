@@ -1,33 +1,33 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from '@chakra-ui/react';
 
 const theme = {
   colors: {
-    brandPrimary: '#f01a37'
+    brandPrimary: '#f01a37',
+    brandPrimaryDark: '#c71129',
+  },
+  fonts: {
+    primaryFont:
+      'Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+    monoFont:
+      'Roboto Mono, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+    serifFont: 'Cormorant Garamond, serif',
   },
   styles: {
     global: {
       body: {
         color: 'gray.700',
         margin: '0 !important',
+        fontFamily: 'primaryFont',
       },
-      // a: {
-      //   color: 'teal.300',
-      //   outline: 'none',
-      //   textDecoration: 'none',
-      //   cursor: 'pointer',
-      //   transition: 'color 300ms',
-      //   _hover: {
-      //     color: 'teal.100'
-      //   },
-      //   _focus: {
-      //     color: 'teal.100'
-      //   }
-      // },
-      // p: {
-      //   fontWeight: '300 !important',
-      //   marginTop: '1rem',
-      //   fontSize: '16px',
-      // },
+      a: {
+        color: 'brandPrimary',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        transition: 'color 300ms',
+        _hover: {
+          color: 'brandPrimaryDark',
+        },
+      },
       h1: {
         fontSize: ['2.488rem', '4.209rem'],
       },
@@ -43,18 +43,22 @@ const theme = {
       h5: {
         fontSize: ['1.2rem', '1.333rem'],
       },
-      // input: {
-      //   backgroundColor: 'white !important',
-      //   fontSize: '16px !important',
-      //   _focus: {
-      //     boxShadow: 'none !important'
-      //   }
+      // '.chakra-container': {
+      //   maxWidth: '80ch',
       // },
-      '.chakra-container': {
-        maxWidth: '80ch !important'
+    },
+  },
+  sizes: {
+    container: '100ch',
+  },
+  components: {
+    Link: {
+      baseStyle: {
+        color: 'brandPrimary',
+        textDecoration: 'none !important',
       },
     },
   },
 };
 
-export default extendTheme(theme)
+export default extendTheme(theme);

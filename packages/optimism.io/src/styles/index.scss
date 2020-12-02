@@ -1,7 +1,7 @@
-@import "./global.module.scss";
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap");
+@import './global.module.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&display=swap');
 
 ::selection {
   background-color: $brandColor;
@@ -14,74 +14,33 @@
 
 body {
   margin: 0;
-  font-family: $fontPrimary;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 
+body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) a:focus,
+body:not(.user-is-tabbing) input:focus,
+body:not(.user-is-tabbing) select:focus,
+body:not(.user-is-tabbing) textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+body.user-is-tabbing button:focus,
+body.user-is-tabbing a:focus,
+body.user-is-tabbing input:focus,
+body.user-is-tabbing select:focus,
+body.user-is-tabbing textarea:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
+}
+
 html {
   font-size: 100%;
-} /*16px*/
-
-p {
-  margin-bottom: 1rem;
-}
-
-h1 {
-  margin-top: 0;
-  font-size: 2.488rem;
-}
-
-h2 {
-  font-size: 2.074rem;
-}
-
-h3 {
-  font-size: 1.728rem;
-}
-
-h4 {
-  font-size: 1.44rem;
-}
-
-h5 {
-  font-size: 1.2rem;
-}
-
-@media (min-width: 768px) {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    margin: 3rem 0 1.38rem;
-    font-weight: 400;
-    line-height: 1.3;
-  }
-
-  h1 {
-    margin-top: 0;
-    font-size: 4.209rem;
-  }
-
-  h2 {
-    font-size: 3.157rem;
-  }
-
-  h3 {
-    font-size: 2.369rem;
-  }
-
-  h4 {
-    font-size: 1.777rem;
-  }
-
-  h5 {
-    font-size: 1.333rem;
-  }
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
