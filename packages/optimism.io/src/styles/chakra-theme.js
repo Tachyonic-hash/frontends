@@ -3,6 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 const theme = {
   colors: {
     brandPrimary: '#f01a37',
+    brandPrimary_halfOpacity: 'rgb(240, 26, 55, 0.2)',
     brandPrimaryDark: '#c71129',
   },
   fonts: {
