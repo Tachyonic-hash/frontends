@@ -1,6 +1,6 @@
 import React from 'react';
 import { Center, Container, Text, Box } from '@chakra-ui/react';
-import PageHeader from '../../components/PageHeader';
+import { PageHeader } from '../../components/Headers';
 import styles from './Philosophy.module.scss';
 
 export default function Philosophy() {

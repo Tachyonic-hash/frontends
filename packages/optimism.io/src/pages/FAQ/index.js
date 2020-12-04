@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './FAQ.module.scss';
 import faqs from './faqData.yaml';
-import PageHeader from '../../components/PageHeader';
+import { PageHeader } from '../../components/Headers';
 
 function FAQ() {
   return (

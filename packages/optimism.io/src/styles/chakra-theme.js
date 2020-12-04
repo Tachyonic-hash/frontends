@@ -5,6 +5,8 @@ const theme = {
     brandPrimary: '#f01a37',
     brandPrimary_halfOpacity: 'rgb(240, 26, 55, 0.2)',
     brandPrimaryDark: '#c71129',
+    bodyText: '#2D3748',
+    headingText: '#1A202C',
   },
   fonts: {
     primaryFont:
@@ -16,7 +18,7 @@ const theme = {
   styles: {
     global: {
       body: {
-        color: 'gray.700',
+        color: 'bodyText',
         margin: '0 !important',
         fontFamily: 'primaryFont',
       },
@@ -44,13 +46,10 @@ const theme = {
       h5: {
         fontSize: ['1.2rem', '1.333rem'],
       },
-      // '.chakra-container': {
-      //   maxWidth: '80ch',
-      // },
     },
   },
   sizes: {
-    container: '100ch',
+    containerLg: '1400px',
   },
   components: {
     Link: {

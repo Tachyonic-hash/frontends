@@ -11,6 +11,7 @@ class Hero extends Component {
               as="h1"
               fontFamily="serifFont"
               fontWeight="bold"
+              color="headingText"
               fontSize={['4xl', '5xl', '6xl']}
               mt={0}
             >

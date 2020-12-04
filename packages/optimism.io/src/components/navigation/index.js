@@ -1,5 +1,5 @@
-import styles from './Navigation.module.scss';
 import React, { Component } from 'react';
+import styles from './Navigation.module.scss';
 import {
   Container,
   Heading,
