@@ -1,13 +1,12 @@
 import React from 'react';
 import { Center, Container, Text, Box } from '@chakra-ui/react';
 import { PageHeader } from '../../components/Headers';
-import styles from './Philosophy.module.scss';
 
 export default function Philosophy() {
   return (
     <Container maxW="container">
       <PageHeader>Philosophy</PageHeader>
-      <div class={styles.body}>
+      <div>
         <p>
           Optimism is a Public Benefit Corporation (PBC): a for-profit
           corporation intended to produce a public benefit and operate in a

@@ -57,6 +57,7 @@ class News extends Component {
               color="bodyText"
               to={item.link}
               pos="relative"
+              _hover={{ '*': { color: 'inherit' } }}
             >
               <Box
                 pos="absolute"
@@ -77,7 +78,7 @@ class News extends Component {
                   mt={0}
                   fontSize={['xl', '2xl']}
                   fontWeight="500"
-                  color="headingText"
+                  // color="headingText"
                 >
                   {item.title}
                 </Heading>

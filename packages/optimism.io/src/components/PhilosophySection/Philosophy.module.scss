@@ -1,5 +1,3 @@
-@import "../../styles/global.module.scss";
-
 .flexContainer {
   padding: 0;
   margin: 0;
@@ -19,7 +17,7 @@
   height: 200px;
   padding-top: 200px;
   width: 100%;
-  background-image: url("nyancat.png");
+  background-image: url('nyancat.png');
   margin-top: 50px;
   margin-right: 0px;
   background-position: top bottom;
@@ -53,7 +51,6 @@
 }
 
 .body p {
-  font-family: $fontSecondary;
   font-size: 17px;
   letter-spacing: -0.5px;
   line-height: 30px;

@@ -1,10 +1,9 @@
-@import './global.module.scss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&display=swap');
 
 ::selection {
-  background-color: $brandColor;
+  background-color: #f01a37;
   color: #fff;
 }
 
@@ -43,4 +42,36 @@ html {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  background: linear-gradient(to right, #f01a37, rgb(22, 159, 201), #f01a37);
+  background-size: 200% 200%;
+  animation: rainbow 3s ease infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: color 0.3s ease-in-out !important;
+}
+
+a:hover {
+  color: rgba(0, 0, 0, 0);
+}
+
+a svg {
+  color: #f01a37 !important;
+}
+
+@keyframes rainbow {
+  25% {
+    background-position: top right;
+  }
+  50% {
+    background-position: bottom right;
+  }
+  75% {
+    background-position: bottom left;
+  }
+  100% {
+    background-position: top left;
+  }
 }

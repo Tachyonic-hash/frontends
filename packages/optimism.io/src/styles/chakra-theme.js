@@ -27,9 +27,6 @@ const theme = {
         textDecoration: 'none',
         cursor: 'pointer',
         transition: 'color 300ms',
-        _hover: {
-          color: 'brandPrimaryDark',
-        },
       },
       h1: {
         fontSize: ['2.488rem', '4.209rem'],
