@@ -64,6 +64,7 @@ class News extends Component {
                 top={4}
                 left={[4, 8, 10, 12]}
                 p={2}
+                color="#222 !important"
                 bgColor="white"
               >
                 {item.date}

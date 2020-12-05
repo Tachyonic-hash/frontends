@@ -18,7 +18,9 @@ class Hero extends Component {
               The New Scalability
               <br /> Stack for Ethereum
             </Heading>
-            <Text>Instant transactions and scalable smart contracts</Text>
+            <Text fontSize={['lg', 'lg', 'xl']}>
+              Instant transactions and scalable smart contracts
+            </Text>
             <Box
               backgroundPosition="right bottom"
               height="50vw"

@@ -1,37 +1,41 @@
 import React, { Component } from 'react';
+import { Container, Flex, Box } from '@chakra-ui/react';
+import { SectionHeader } from '../../components/Headers';
 import styles from './Roadmap.module.scss';
 
 class Roadmap extends Component {
   render() {
     return (
-      <div>
-        <div class={styles.heading}>
-          <p>FOLLOW OUR JOURNEY</p>
-          <h1>Roadmap to Launch</h1>
-        </div>
-        <div class={styles.flexContainer}>
-          <table>
-            <tr>
+      <>
+        <Container maxW="containerLg">
+          <div class={styles.heading}>
+            {/* <p>FOLLOW OUR JOURNEY</p> */}
+            <SectionHeader>Roadmap to Launch</SectionHeader>
+          </div>
+        </Container>
+        <Box fontSize={['sm', 'md']}>
+          <table className={styles.roadMapTable}>
+            <tr className={styles.old}>
               <td>JUN 2019</td>
               <td> ✓ </td>
               <td>Introduced Optimistic Rollup</td>
             </tr>
-            <tr>
+            <tr className={styles.old}>
               <td>OCT 2019</td>
               <td> ✓ </td>
               <td>Launched PoC Unipig Exchange</td>
             </tr>
-            <tr>
+            <tr className={styles.old}>
               <td>DEC 2019</td>
               <td> ✓ </td>
               <td>Optimism PBC raises $3.5m</td>
             </tr>
-            <tr>
+            <tr className={styles.old}>
               <td>FEB 2020</td>
               <td> ✓ </td>
               <td>Release OVM Alpha</td>
             </tr>
-            <tr>
+            <tr className={styles.old}>
               <td>APR 2020</td>
               <td> ✓ </td>
               <td>Synthetix Demo & Trading Comp</td>
@@ -61,8 +65,8 @@ class Roadmap extends Component {
               <td>MEVA Powered Ecosystem Launch</td>
             </tr>
           </table>
-        </div>
-      </div>
+        </Box>
+      </>
     );
   }
 }

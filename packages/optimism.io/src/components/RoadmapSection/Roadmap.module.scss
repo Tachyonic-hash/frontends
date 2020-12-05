@@ -1,42 +1,11 @@
-.heading h1 {
-  font-size: 48px;
-  letter-spacing: -0.7;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-}
-
-.heading p {
-  font-size: 14px;
-  letter-spacing: -0.7;
-  margin-top: 6rem;
-}
-
-.flexContainer {
-  padding: 0;
-  margin: 0;
-  -ms-box-orient: horizontal;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-  flex-flow: row wrap;
-  overflow: hidden;
-}
-
-.flexContainer p {
-  color: #f01a37;
-  margin-right: 3px;
-}
-
-table {
-  width: 655px;
+.roadMapTable {
+  width: 90%;
+  max-width: 550px;
+  margin: 0 auto;
   border-collapse: collapse;
 }
 
-tr {
+.roadMapTable .old {
   background-color: #f2f4f7;
 }
 
@@ -52,17 +21,17 @@ tr {
   background-color: transparent;
 }
 
-td {
+.roadMapTable td {
   height: 50px;
   padding-left: 10px;
 }
 
-td:nth-child(2) {
+.roadMapTable td:nth-child(2) {
   width: 20px;
   color: #f01a37;
 }
 
-td:last-child {
+.roadMapTable td:last-child {
   padding-left: 10px;
   text-align: left;
 }

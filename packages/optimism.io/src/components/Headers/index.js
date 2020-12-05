@@ -22,13 +22,28 @@ export function PageHeader(props) {
 
 export function SectionHeader(props) {
   const { children, ...rest } = props;
-  return (
+  console.log(props);
+  return props.noLine ? (
     <Heading
       fontSize={['3xl', '4xl', '5xl']}
       fontWeight="300"
       position="relative"
       color="headingText"
-      my={[12, 20]}
+      textAlign={['center', null, 'left']}
+      mt={[8, 16, 28]}
+      mb={[6, 12, 20]}
+      {...rest}
+    >
+      {children}
+    </Heading>
+  ) : (
+    <Heading
+      fontSize={['3xl', '4xl', '5xl']}
+      fontWeight="300"
+      position="relative"
+      color="headingText"
+      mt={[8, 16, 28]}
+      mb={[6, 12, 20]}
       {...rest}
     >
       <Box
@@ -40,6 +55,7 @@ export function SectionHeader(props) {
         top="50%"
         left={0}
       />
+
       <Box d="inline" bgColor="white" zIndex={1} pos="relative" px={2}>
         {children}
       </Box>

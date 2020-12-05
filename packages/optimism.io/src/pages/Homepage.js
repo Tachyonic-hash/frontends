@@ -8,8 +8,8 @@ function Homepage() {
   return (
     <div>
       <Hero />
-      <News />
       <Roadmap />
+      <News />
       <Philosophy />
     </div>
   );
