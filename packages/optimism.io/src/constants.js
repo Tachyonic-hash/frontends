@@ -79,3 +79,19 @@ export const navItems = [
     category: 'product',
   },
 ];
+
+export const products = navItems.filter((item) => item.category === 'product');
+export const developers = navItems.filter(
+  (item) => item.category === 'developers'
+);
+export const community = navItems.filter(
+  (item) => item.category === 'community'
+);
+export const about = navItems.filter((item) => item.category === 'about');
+
+export const navCategories = [
+  { heading: 'About', items: about },
+  { heading: 'Products', items: products },
+  { heading: 'Developers', items: developers },
+  { heading: 'Community', items: community },
+];

@@ -5,14 +5,13 @@ export function PageHeader(props) {
   const { children, ...rest } = props;
   return (
     <Heading
-      fontSize="6xl"
+      as="h1"
+      fontSize={['4xl', '5xl']}
       fontWeight="normal"
-      textAlign="center"
+      textAlign={['center', null, 'left']}
       color="headingText"
-      pb={12}
-      mt={0}
+      py={12}
       mx="auto"
-      borderBottom="2px solid #e5e5e5"
       {...rest}
     >
       {children}

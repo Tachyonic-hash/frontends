@@ -25,7 +25,7 @@ class Philosophy extends Component {
             mt="-13rem"
             ml="auto"
             mr="auto"
-            p={['1px 2rem 2.5rem', '1px 10% 2.5rem']}
+            p={['1px 2rem 2.5rem', '1px 6% 2.5rem']}
             background="white"
             textAlign="left"
           >

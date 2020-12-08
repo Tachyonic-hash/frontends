@@ -18,6 +18,7 @@ body {
 }
 
 body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) *[role='button']:focus,
 body:not(.user-is-tabbing) a:focus,
 body:not(.user-is-tabbing) input:focus,
 body:not(.user-is-tabbing) select:focus,
@@ -43,16 +44,19 @@ code {
     monospace;
 }
 
-a {
+a,
+.rainbowText {
   background: linear-gradient(to right, #f01a37, rgb(22, 159, 201), #f01a37);
   background-size: 200% 200%;
-  animation: rainbow 3s ease infinite;
+  animation: rainbow 1.5s ease-in-out infinite;
   background-clip: text;
   -webkit-background-clip: text;
   transition: all 0.3s ease-in-out !important;
 }
 
-a:hover {
+a:hover,
+.rainbowText:hover,
+.rainbowText[aria-expanded='true'] {
   color: rgba(0, 0, 0, 0);
 }
 
@@ -73,4 +77,10 @@ a svg {
   100% {
     background-position: top left;
   }
+}
+
+// Popover component
+.css-n0uled {
+  width: auto !important;
+  max-width: 240px !important;
 }

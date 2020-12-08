@@ -2,20 +2,42 @@ import React from 'react';
 import styles from './FAQ.module.scss';
 import faqs from './faqData.yaml';
 import { PageHeader } from '../../components/Headers';
+import Container from '../../components/Container';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  Box,
+  AccordionIcon,
+  AccordionPanel,
+} from '@chakra-ui/react';
 
 function FAQ() {
   return (
-    <div className={styles.body}>
+    <Container>
       <PageHeader>Frequently Asked Questions</PageHeader>
-      <ul className={styles.list}>
+      <Accordion>
         {faqs.map((item) => (
-          <li>
-            <p>{item.question}</p>
-            <p>{item.answer}</p>
-          </li>
+          <AccordionItem mt={4}>
+            <AccordionButton
+              bgColor="transparent !important"
+              border="none"
+              borderBottom="1px solid #ccc"
+              py={4}
+              px={0}
+              fontSize="xl"
+              cursor="pointer"
+            >
+              <Box flex="1" textAlign="left">
+                {item.question}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel py={4}>{item.answer}</AccordionPanel>
+          </AccordionItem>
         ))}
-      </ul>
-    </div>
+      </Accordion>
+    </Container>
   );
 }
 

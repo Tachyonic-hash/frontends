@@ -9,20 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { Link as ReactLink } from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { navItems } from '../../constants';
-
-const products = navItems.filter((item) => item.category === 'product');
-const developers = navItems.filter((item) => item.category === 'developers');
-const community = navItems.filter((item) => item.category === 'community');
-const about = navItems.filter((item) => item.category === 'about');
-
-const columns = [
-  { heading: 'Products', items: products },
-  { heading: 'Developers', items: developers },
-  { heading: 'Community', items: community },
-  { heading: 'About', items: about },
-];
-console.log(columns);
+import { navCategories } from '../../constants';
 class Footer extends Component {
   render() {
     return (
@@ -38,7 +25,7 @@ class Footer extends Component {
             spacingX={[4, 8, 16]}
             spacingY={8}
           >
-            {columns.map((col, idx) => (
+            {navCategories.map((col, idx) => (
               <VStack alignItems="flex-start" key={idx}>
                 <Heading as="h3" color="white" fontSize="xl">
                   {col.heading}

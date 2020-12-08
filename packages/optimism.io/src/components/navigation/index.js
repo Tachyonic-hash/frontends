@@ -5,6 +5,7 @@ import {
   Heading,
   Box,
   Link,
+  Stack,
   Center,
   Drawer,
   DrawerOverlay,
@@ -13,11 +14,18 @@ import {
   DrawerFooter,
   useDisclosure,
   DrawerBody,
+  Popover,
+  PopoverTrigger,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  Portal,
 } from '@chakra-ui/react';
 import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { navItems } from '../../constants';
+import { navCategories } from '../../constants';
 
 function Navigation() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,6 +38,35 @@ function Navigation() {
       onOpen();
     }
   };
+
+  const NavLink = ({ item, ...rest }) =>
+    item.internal ? (
+      <Link
+        key={item.url}
+        as={ReactLink}
+        to={item.url}
+        fontSize={['md', 'lg']}
+        mb={2}
+        onClick={onClose}
+        {...rest}
+      >
+        {item.name}
+      </Link>
+    ) : (
+      <Link
+        key={item.url}
+        href={item.url}
+        fontSize={['md', 'lg']}
+        mb={2}
+        target="_blank"
+        rel="noopenner noreferrer"
+        onClick={onClose}
+        {...rest}
+      >
+        {item.name}
+        {/* <ExternalLinkIcon color="inherit" ml={1} mb={1} /> */}
+      </Link>
+    );
 
   const Logo = (...props) => {
     return (
@@ -76,59 +113,41 @@ function Navigation() {
               <Logo color="white" />
             </DrawerHeader>
             <DrawerBody py={4}>
-              <Box
-                as="nav"
-                d="flex"
-                flexDir="column"
-                alignItems="flex-start"
-                textTransform="uppercase"
-              >
-                {navItems.map((item) =>
-                  item.internal ? (
-                    <Link
-                      as={ReactLink}
-                      to={item.url}
-                      fontSize="2xl"
-                      mb={4}
-                      onClick={onClose}
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    item.headerNav && (
-                      <Link
-                        onClick={onClose}
-                        href={item.url}
-                        fontSize="2xl"
-                        mb={4}
-                        target="_blank"
-                        rel="noopenner noreferrer"
-                      >
-                        {item.name}
-                        <ExternalLinkIcon color="inherit" ml={1} mb={1} />
-                      </Link>
+              <Box as="nav" d="flex" flexDir="column" alignItems="flex-start">
+                {navCategories.map(
+                  (category) =>
+                    category.heading !== 'Community' && (
+                      <Stack mb={4}>
+                        <Heading
+                          mt={0}
+                          mb={2}
+                          as="h2"
+                          fontSize="lg"
+                          textTransform="uppercase"
+                        >
+                          {category.heading}
+                        </Heading>
+                        {category.items.map((item) => (
+                          <NavLink item={item} />
+                        ))}
+                      </Stack>
                     )
-                  )
                 )}
               </Box>
             </DrawerBody>
             <DrawerFooter
               justifyContent="space-between"
               borderTop="1px solid"
-              borderColor="brandPrimary_halfOpacity"
+              bgColor="brandPrimary"
+              border="none"
+              py={2}
             >
-              {navItems.map(
-                (item) =>
-                  item.category === 'community' && (
-                    <Link
-                      as={ReactLink}
-                      to={item.url}
-                      fontSize="lg"
-                      onClick={onClose}
-                    >
-                      {item.name}
-                    </Link>
-                  )
+              {navCategories.map(
+                (category) =>
+                  category.heading === 'Community' &&
+                  category.items.map((item) => (
+                    <NavLink item={item} color="white" fontSize="lg" />
+                  ))
               )}
             </DrawerFooter>
           </DrawerContent>
@@ -136,32 +155,37 @@ function Navigation() {
       </Drawer>
       {/* Desktop Menu */}
       <Logo color="brandPrimary" />
-      <Box as="nav" d={['none', null, null, 'block']}>
-        {navItems.map((item) =>
-          item.internal ? (
-            <Link
-              ml={6}
-              as={ReactLink}
-              to={item.url}
-              fontSize="1.15rem"
-              onClick={onClose}
-            >
-              {item.name}
-            </Link>
-          ) : item.headerNav ? (
-            <Link
-              onClick={onClose}
-              ml={6}
-              fontSize="1.1rem"
-              href={item.url}
-              target="_blank"
-              rel="noopenner noreferrer"
-            >
-              {item.name}
-              <ExternalLinkIcon color="inherit" ml={1} mb={1} />
-            </Link>
-          ) : null
-        )}
+      <Box as="nav" d={['none', null, null, 'flex']}>
+        {navCategories.map((col, idx) => (
+          <Popover key={idx} trigger="hover">
+            <PopoverTrigger>
+              <Heading
+                tabIndex="0"
+                role="button"
+                cursor="pointer"
+                p={5}
+                as="h2"
+                fontWeight="500"
+                textTransform="uppercase"
+                fontSize="lg"
+                color="brandPrimary"
+                className="rainbowText"
+              >
+                {col.heading}
+              </Heading>
+            </PopoverTrigger>
+            <Portal>
+              <PopoverContent p={2}>
+                <PopoverArrow />
+                <PopoverBody d="flex" flexDir="column">
+                  {col.items.map((item) => (
+                    <NavLink item={item} />
+                  ))}
+                </PopoverBody>
+              </PopoverContent>
+            </Portal>
+          </Popover>
+        ))}
       </Box>
       <Center d={['block', null, null, 'none']}>
         <HamburgerSpin
