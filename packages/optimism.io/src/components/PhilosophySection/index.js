@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Box, Image } from '@chakra-ui/react';
+import { Box, Image } from '@chakra-ui/react';
+import Container from '../../components/Container';
 import { SectionHeader } from '../../components/Headers';
 import ethlogo from './ethPlanetPhilosophy.svg';
 
@@ -20,13 +21,11 @@ class Philosophy extends Component {
         />
         <div>
           <Container
-            maxW="containerLg"
             pos="relative"
             mt="-13rem"
             ml="auto"
             mr="auto"
             p={['1px 2rem 2.5rem', '1px 10% 2.5rem']}
-            maxW="containerLg"
             background="white"
             textAlign="left"
           >

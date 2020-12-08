@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Flex, Box } from '@chakra-ui/react';
+import { Flex, Box } from '@chakra-ui/react';
 import { SectionHeader } from '../../components/Headers';
+import Container from '../../components/Container';
 import styles from './Roadmap.module.scss';
 
 class Roadmap extends Component {

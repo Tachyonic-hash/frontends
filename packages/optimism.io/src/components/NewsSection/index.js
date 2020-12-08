@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { SectionHeader } from '../Headers';
-import {
-  Container,
-  Heading,
-  Box,
-  Link,
-  Text,
-  Image,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import Container from '../Container';
+import { Heading, Box, Link, Text, Image, SimpleGrid } from '@chakra-ui/react';
+
 import news1 from './news1.png';
 import news2 from './news2.png';
 import news3 from './news3.png';
@@ -61,7 +55,7 @@ class News extends Component {
               <Box
                 pos="absolute"
                 top={4}
-                left={[4, 8, 10, 12]}
+                left={[4]}
                 p={2}
                 color="#222 !important"
                 bgColor="white"
@@ -78,7 +72,6 @@ class News extends Component {
                   mt={0}
                   fontSize={['xl', '2xl']}
                   fontWeight="500"
-                  // color="headingText"
                 >
                   {item.title}
                 </Heading>

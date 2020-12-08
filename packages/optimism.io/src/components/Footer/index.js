@@ -1,4 +1,3 @@
-import styles from './Footer.module.scss';
 import React, { Component } from 'react';
 import {
   Container,
@@ -31,12 +30,12 @@ class Footer extends Component {
         <Box as="footer" mt={24} w="100%" maxW="containerLg" mx="auto" pt={12}>
           <SimpleGrid
             gridTemplateColumns={[
-              '1fr',
-              'repeat(2, minmax(max-content,1000px))',
+              'repeat(2, 1fr)',
+              'repeat(2, minmax(max-content,100%))',
               null,
-              'repeat(4, minmax(max-content,1000px))',
+              'repeat(4, minmax(max-content,100%))',
             ]}
-            spacingX={16}
+            spacingX={[4, 8, 16]}
             spacingY={8}
           >
             {columns.map((col, idx) => (
@@ -50,7 +49,7 @@ class Footer extends Component {
                       key={item.url}
                       as={ReactLink}
                       to={item.url}
-                      fontSize="lg"
+                      fontSize={['md', 'lg']}
                       mb={1}
                       color="white"
                     >
@@ -60,7 +59,7 @@ class Footer extends Component {
                     <Link
                       key={item.url}
                       href={item.url}
-                      fontSize="lg"
+                      ontSize={['md', 'lg']}
                       mb={1}
                       color="white"
                       target="_blank"
