@@ -22,7 +22,6 @@ export function PageHeader(props) {
 
 export function SectionHeader(props) {
   const { children, ...rest } = props;
-  console.log(props);
   return props.noLine ? (
     <Heading
       fontSize={['3xl', '4xl', '5xl']}
@@ -49,14 +48,14 @@ export function SectionHeader(props) {
       <Box
         d={['none', 'block']}
         pos="absolute"
-        h="2px"
+        h="1px"
         width="100%"
         bgColor="brandPrimary"
         top="50%"
         left={0}
       />
 
-      <Box d="inline" bgColor="white" zIndex={1} pos="relative" px={2}>
+      <Box d="inline" bgColor="white" zIndex={1} pos="relative" pl={0} pr={4}>
         {children}
       </Box>
     </Heading>

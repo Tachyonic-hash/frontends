@@ -1,6 +1,6 @@
 .roadMapTable {
   width: 90%;
-  max-width: 550px;
+  max-width: 700px;
   margin: 0 auto;
   border-collapse: collapse;
 }
@@ -23,7 +23,7 @@
 
 .roadMapTable td {
   height: 50px;
-  padding-left: 10px;
+  padding-left: 30px;
 }
 
 .roadMapTable td:nth-child(2) {
@@ -32,6 +32,6 @@
 }
 
 .roadMapTable td:last-child {
-  padding-left: 10px;
+  padding-left: 30px;
   text-align: left;
 }

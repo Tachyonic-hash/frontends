@@ -46,7 +46,7 @@ const theme = {
     },
   },
   sizes: {
-    containerLg: '1400px',
+    containerLg: '1200px',
   },
   components: {
     Link: {

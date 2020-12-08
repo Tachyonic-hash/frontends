@@ -5,9 +5,9 @@ import { PageHeader } from '../../components/Headers';
 
 function FAQ() {
   return (
-    <div class={styles.body}>
+    <div className={styles.body}>
       <PageHeader>Frequently Asked Questions</PageHeader>
-      <ul class={styles.list}>
+      <ul className={styles.list}>
         {faqs.map((item) => (
           <li>
             <p>{item.question}</p>

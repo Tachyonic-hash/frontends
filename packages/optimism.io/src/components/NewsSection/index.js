@@ -6,8 +6,8 @@ import {
   Box,
   Link,
   Text,
-  Flex,
   Image,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import news1 from './news1.png';
 import news2 from './news2.png';
@@ -47,12 +47,11 @@ class News extends Component {
     return (
       <Container maxW="containerLg">
         <SectionHeader>Light Bedtime Reading</SectionHeader>
-        <Flex flexDir={['column', 'column', 'row']}>
+        <SimpleGrid columns={[1, null, 3]} spacing={12}>
           {posts.map((item) => (
             <Link
               key={item.link}
               w={['full', '1fr']}
-              px={[0, 2, 4, 8]}
               mb={8}
               color="bodyText"
               to={item.link}
@@ -86,7 +85,7 @@ class News extends Component {
               </Box>
             </Link>
           ))}
-        </Flex>
+        </SimpleGrid>
       </Container>
     );
   }

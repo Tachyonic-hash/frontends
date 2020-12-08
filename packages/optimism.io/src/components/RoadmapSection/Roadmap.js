@@ -8,7 +8,7 @@ class Roadmap extends Component {
     return (
       <>
         <Container maxW="containerLg">
-          <div class={styles.heading}>
+          <div className={styles.heading}>
             {/* <p>FOLLOW OUR JOURNEY</p> */}
             <SectionHeader>Roadmap to Launch</SectionHeader>
           </div>

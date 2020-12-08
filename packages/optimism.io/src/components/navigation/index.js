@@ -31,13 +31,22 @@ function Navigation() {
     }
   };
 
-  const Logo = ({ color }) => (
-    <Heading as="h1" m={0} fontSize="2xl">
-      <Link to="/" onClick={onClose} as={ReactLink} color={color}>
-        Optimism
-      </Link>
-    </Heading>
-  );
+  const Logo = (...props) => {
+    return (
+      <Heading as="h1" m={0} fontSize="2xl">
+        <Link
+          to="/"
+          onClick={onClose}
+          as={ReactLink}
+          fontStyle="italic"
+          fontWeight="500"
+          {...props[0]}
+        >
+          Optimism
+        </Link>
+      </Heading>
+    );
+  };
 
   return (
     <Container
@@ -46,7 +55,6 @@ function Navigation() {
       d="flex"
       justifyContent="space-between"
       alignItems="center"
-      textTransform="uppercase"
     >
       {/* Mobile Menu */}
       <Drawer
@@ -57,7 +65,7 @@ function Navigation() {
         size="full"
       >
         <DrawerOverlay>
-          <DrawerContent textTransform="uppercase">
+          <DrawerContent>
             <DrawerHeader
               d="flex"
               flex="50px 0 0"
@@ -68,7 +76,13 @@ function Navigation() {
               <Logo color="white" />
             </DrawerHeader>
             <DrawerBody py={4}>
-              <Box as="nav" d="flex" flexDir="column" alignItems="flex-start">
+              <Box
+                as="nav"
+                d="flex"
+                flexDir="column"
+                alignItems="flex-start"
+                textTransform="uppercase"
+              >
                 {navItems.map((item) =>
                   item.internal ? (
                     <Link
@@ -81,7 +95,7 @@ function Navigation() {
                       {item.name}
                     </Link>
                   ) : (
-                    !item.social && (
+                    item.headerNav && (
                       <Link
                         onClick={onClose}
                         href={item.url}
@@ -105,7 +119,7 @@ function Navigation() {
             >
               {navItems.map(
                 (item) =>
-                  item.social && (
+                  item.category === 'community' && (
                     <Link
                       as={ReactLink}
                       to={item.url}
@@ -122,7 +136,7 @@ function Navigation() {
       </Drawer>
       {/* Desktop Menu */}
       <Logo color="brandPrimary" />
-      <Box as="nav" d={['none', 'none', 'block']}>
+      <Box as="nav" d={['none', null, null, 'block']}>
         {navItems.map((item) =>
           item.internal ? (
             <Link
@@ -134,7 +148,7 @@ function Navigation() {
             >
               {item.name}
             </Link>
-          ) : !item.social ? (
+          ) : item.headerNav ? (
             <Link
               onClick={onClose}
               ml={6}
@@ -149,7 +163,7 @@ function Navigation() {
           ) : null
         )}
       </Box>
-      <Center d={['block', 'block', 'none']}>
+      <Center d={['block', null, null, 'none']}>
         <HamburgerSpin
           buttonWidth={30}
           className={styles.burger}
