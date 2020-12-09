@@ -1,14 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Navigation from './components/Navigation';
-import Main from './Main';
 import Footer from './components/Footer';
+import Home from './pages/Homepage';
+import FAQ from './pages/FAQ';
+import Philosophy from './pages/Philosophy';
+import Demos from './pages/Demos';
 
 function App() {
   React.useEffect(() => {
     // removes blue outline when user is using mouse
     function handleFirstTab(e) {
-      console.log('hey');
       if (e.keyCode === 9) {
         document.body.classList.add('user-is-tabbing');
 
@@ -30,7 +33,14 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <Main />
+      <ScrollToTop />
+      <Switch>
+        {/* The Switch decides which component to show based on the current URL.*/}
+        <Route exact path="/" component={Home} />
+        <Route exact path="/faq" component={FAQ} />
+        <Route exact path="/philosophy" component={Philosophy} />
+        <Route exact path="/demos" component={Demos} />
+      </Switch>
       <Footer />
     </div>
   );

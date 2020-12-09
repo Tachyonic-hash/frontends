@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Center, Container, Heading, Text, Box } from '@chakra-ui/react';
+import { Center, Heading, Text, Box } from '@chakra-ui/react';
+import Container from '../Container';
 
 class Hero extends Component {
   render() {
     return (
       <Container>
         <Center height="calc(100vh - 50px)">
-          <div>
+          <Box mb={16} textAlign={['center', null, 'left']}>
             <Heading
+              style={{ userSelect: 'none' }}
               as="h1"
               fontFamily="serifFont"
               fontWeight="bold"
@@ -15,11 +17,38 @@ class Hero extends Component {
               fontSize={['4xl', '5xl', '6xl']}
               mt={0}
             >
-              The New Scalability
-              <br /> Stack for Ethereum
+              The{' '}
+              <Box
+                as="span"
+                px={1}
+                color="brandPrimary"
+                className="rainbowText"
+              >
+                New
+              </Box>{' '}
+              Scalability
+              <br /> Stack for{' '}
+              <Box
+                as="span"
+                px={1}
+                color="brandPrimary"
+                className="rainbowText"
+              >
+                Ethereum
+              </Box>
             </Heading>
-            <Text fontSize={['lg', 'lg', 'xl']}>
-              Instant transactions and scalable smart contracts
+            <Text
+              fontSize={['lg', 'lg', 'xl']}
+              d="flex"
+              flexWrap="wrap"
+              justifyContent="center"
+            >
+              <Box as="span" whiteSpace="pre">
+                Instant transactions and{' '}
+              </Box>
+              <Box as="span" whiteSpace="pre">
+                scalable smart contracts
+              </Box>
             </Text>
             <Box
               backgroundPosition="right bottom"
@@ -34,7 +63,7 @@ class Hero extends Component {
               backgroundRepeat="no-repeat"
               backgroundSize="contain"
             />
-          </div>
+          </Box>
         </Center>
       </Container>
     );

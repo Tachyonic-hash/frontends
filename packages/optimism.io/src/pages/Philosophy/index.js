@@ -1,10 +1,11 @@
 import React from 'react';
-import { Center, Container, Text, Box } from '@chakra-ui/react';
+import { Center, Text, Box } from '@chakra-ui/react';
 import { PageHeader } from '../../components/Headers';
+import Container from '../../components/Container';
 
 export default function Philosophy() {
   return (
-    <Container maxW="container">
+    <Container>
       <PageHeader>Philosophy</PageHeader>
       <div>
         <p>

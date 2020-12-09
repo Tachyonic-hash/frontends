@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './FAQ.module.scss';
 import faqs from './faqData.yaml';
 import { PageHeader } from '../../components/Headers';
 import Container from '../../components/Container';
@@ -18,7 +17,7 @@ function FAQ() {
       <PageHeader>Frequently Asked Questions</PageHeader>
       <Accordion>
         {faqs.map((item) => (
-          <AccordionItem mt={4}>
+          <AccordionItem mt={4} key={item.question}>
             <AccordionButton
               bgColor="transparent !important"
               border="none"

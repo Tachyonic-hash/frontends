@@ -32,16 +32,20 @@ export const navItems = [
     category: 'developers',
     headerNav: true,
   },
-  { name: 'Goerli ETH Faucet', url: 'TODO', category: 'developers' },
-  { name: 'Early Access', url: 'TODO', category: 'developers' },
-  { name: 'Block Explorer', url: 'TODO', category: 'developers' },
+  { name: 'Goerli ETH Faucet', url: 'TODO-faucet', category: 'developers' },
+  { name: 'Early Access', url: 'TODO-access', category: 'developers' },
+  { name: 'Block Explorer', url: 'TODO-explorer', category: 'developers' },
   {
     name: 'Blog',
     url: 'https://medium.com/ethereum-optimism',
     category: 'about',
     headerNav: true,
   },
-  { name: 'Jobs', url: 'TODO', category: 'about' },
+  {
+    name: 'Jobs',
+    url: 'https://angel.co/company/optimism-pbc/jobs',
+    category: 'about',
+  },
   {
     name: 'Twitter',
     url: 'https://twitter.com/optimismPBC',
@@ -60,22 +64,22 @@ export const navItems = [
   },
   {
     name: 'Optimistic Virtual Machine',
-    url: 'TODO',
+    url: 'TODO-ovm',
     category: 'product',
   },
   {
     name: 'Solidity to OVM Compiler',
-    url: 'TODO',
+    url: 'TODO-compiler',
     category: 'product',
   },
   {
     name: 'Optimistic Verifier',
-    url: 'TODO',
+    url: 'TODO-verifier',
     category: 'product',
   },
   {
     name: 'Optimistic Ethereum',
-    url: 'TODO',
+    url: 'TODO-ethereum',
     category: 'product',
   },
 ];

@@ -42,7 +42,6 @@ function Navigation() {
   const NavLink = ({ item, ...rest }) =>
     item.internal ? (
       <Link
-        key={item.url}
         as={ReactLink}
         to={item.url}
         fontSize={['md', 'lg']}
@@ -54,7 +53,6 @@ function Navigation() {
       </Link>
     ) : (
       <Link
-        key={item.url}
         href={item.url}
         fontSize={['md', 'lg']}
         mb={2}
@@ -117,7 +115,7 @@ function Navigation() {
                 {navCategories.map(
                   (category) =>
                     category.heading !== 'Community' && (
-                      <Stack mb={4}>
+                      <Stack mb={4} key={category.heading}>
                         <Heading
                           mt={0}
                           mb={2}
@@ -128,7 +126,7 @@ function Navigation() {
                           {category.heading}
                         </Heading>
                         {category.items.map((item) => (
-                          <NavLink item={item} />
+                          <NavLink key={item.url} item={item} />
                         ))}
                       </Stack>
                     )
@@ -146,7 +144,12 @@ function Navigation() {
                 (category) =>
                   category.heading === 'Community' &&
                   category.items.map((item) => (
-                    <NavLink item={item} color="white" fontSize="lg" />
+                    <NavLink
+                      key={item.url}
+                      item={item}
+                      color="white"
+                      fontSize="lg"
+                    />
                   ))
               )}
             </DrawerFooter>
@@ -179,7 +182,7 @@ function Navigation() {
                 <PopoverArrow />
                 <PopoverBody d="flex" flexDir="column">
                   {col.items.map((item) => (
-                    <NavLink item={item} />
+                    <NavLink key={item.url} item={item} />
                   ))}
                 </PopoverBody>
               </PopoverContent>

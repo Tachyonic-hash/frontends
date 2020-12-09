@@ -20,8 +20,8 @@ export function PageHeader(props) {
 }
 
 export function SectionHeader(props) {
-  const { children, ...rest } = props;
-  return props.noLine ? (
+  const { children, noLine, ...rest } = props;
+  return noLine ? (
     <Heading
       fontSize={['3xl', '4xl', '5xl']}
       fontWeight="300"

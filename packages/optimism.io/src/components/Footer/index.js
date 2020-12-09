@@ -46,7 +46,7 @@ class Footer extends Component {
                     <Link
                       key={item.url}
                       href={item.url}
-                      ontSize={['md', 'lg']}
+                      fontSize={['md', 'lg']}
                       mb={1}
                       color="white"
                       target="_blank"

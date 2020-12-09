@@ -13,7 +13,7 @@ const theme = {
       'Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
     monoFont:
       'Roboto Mono, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
-    serifFont: 'Cormorant Garamond, serif',
+    serifFont: 'serif',
   },
   styles: {
     global: {
