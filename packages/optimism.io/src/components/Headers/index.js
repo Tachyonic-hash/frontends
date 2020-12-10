@@ -6,15 +6,29 @@ export function PageHeader(props) {
   return (
     <Heading
       as="h1"
-      fontSize={['4xl', '5xl']}
-      fontWeight="normal"
-      textAlign={['center', null, 'left']}
+      fontSize={['4xl', '5xl', '6xl']}
+      fontWeight="300"
+      position="relative"
       color="headingText"
-      py={12}
-      mx="auto"
+      fontStyle="italic"
+      mt={[8, 16, 28]}
+      mb={[6, 12, 20]}
+      ml={[0, null, null, null, '-4rem']}
       {...rest}
     >
-      {children}
+      <Box
+        d={['none', null, 'block']}
+        pos="absolute"
+        h="1px"
+        width="100%"
+        bgColor="brandPrimary"
+        top="50%"
+        left={0}
+      />
+
+      <Box d="inline" bgColor="white" zIndex={1} pos="relative" pl={0} pr={4}>
+        {children}
+      </Box>
     </Heading>
   );
 }
@@ -28,6 +42,7 @@ export function SectionHeader(props) {
       position="relative"
       color="headingText"
       textAlign={['center', null, 'left']}
+      fontStyle="italic"
       mt={[8, 16, 28]}
       mb={[6, 12, 20]}
       {...rest}
@@ -40,12 +55,13 @@ export function SectionHeader(props) {
       fontWeight="300"
       position="relative"
       color="headingText"
+      fontStyle="italic"
       mt={[8, 16, 28]}
       mb={[6, 12, 20]}
       {...rest}
     >
       <Box
-        d={['none', 'block']}
+        d={['none', null, 'block']}
         pos="absolute"
         h="1px"
         width="100%"

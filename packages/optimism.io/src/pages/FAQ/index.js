@@ -1,5 +1,5 @@
 import React from 'react';
-import faqs from './faqData.yaml';
+import faqs from './faq.yaml';
 import { PageHeader } from '../../components/Headers';
 import Container from '../../components/Container';
 import {
@@ -24,7 +24,8 @@ function FAQ() {
               borderBottom="1px solid #ccc"
               py={4}
               px={0}
-              fontSize="xl"
+              fontSize={('xl', '2xl')}
+              fontStyle="italic"
               cursor="pointer"
             >
               <Box flex="1" textAlign="left">

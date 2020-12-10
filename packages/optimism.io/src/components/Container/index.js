@@ -1,9 +1,12 @@
 import React from 'react';
 import { Container } from '@chakra-ui/react';
 
-function ContainerDefault({ children, ...rest }) {
+function ContainerDefault({ children, maxW, ...rest }) {
   return (
-    <Container {...rest} maxW={['1000px', null, null, null, 'containerLg']}>
+    <Container
+      maxW={maxW || ['1000px', null, null, null, 'containerLg']}
+      {...rest}
+    >
       {children}
     </Container>
   );

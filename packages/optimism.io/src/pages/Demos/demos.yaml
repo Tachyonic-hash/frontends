@@ -1,0 +1,36 @@
+- name: Synthetix
+  title: Synthetix Exchange
+  subtitle:
+    This demo represents a milestone in our journey to bring the speed of centralized finance to the world of
+    decentralized finance.
+  logo: "./images/synthetix-logo.png"
+  recapLink: https://blog.synthetix.io/l2-sx-ovm-demo-results/
+  appLink: https://www.synthetix.io/
+  quote:
+    text:
+      The OVM is one of the most exciting developments for Ethereum today. It tackles one of the biggest problems a
+      project like ours has - how to empower users with near-instant trading and subsecond tick data. Optimism has
+      consistently demonstrated their commitment to L1 compatability - both in terms of reusing our existing
+      infrastructure and in connecting to other L1 services we rely on, such as The Graph.
+    author: Justin J. Moses
+    authorTitle: Synthetix CTO
+    imageUrl:
+  screenCap: ./images/synthetix-screencap.png
+
+- name: Uniswap
+  title: Unipig Exchange
+  subtitle:
+    A testnet demo of Uniswap running on optimistic rollup to demonstrate the UX improvements that are possible with
+    layer 2.
+  logo: images/unipig-logo.png
+  recapLink: https://unipig.exchange/info
+  appLink: https://unipig.exchange
+  quote:
+    text:
+      Imagine not needing to make any changes to your solidity smart contracts to have a DAPP work natively on an
+      Ethereum L2 with security from Ethereum, massive scaling, no data availability issues, and synchronous
+      interoperability with other DAPPs on L2.
+    author: Hayden Adams
+    authorTitle: Uniswap Founder & CEO
+    imageUrl:
+  screenCap: images/unipig-screencap.png

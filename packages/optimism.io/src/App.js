@@ -39,7 +39,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/faq" component={FAQ} />
         <Route exact path="/philosophy" component={Philosophy} />
-        <Route exact path="/demos" component={Demos} />
+        <Route path="/demos" component={Demos} />
       </Switch>
       <Footer />
     </div>

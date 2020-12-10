@@ -44,6 +44,7 @@ class Philosophy extends Component {
               noLine
               margin={'60px 0'}
               textAlign={['center', null, null, 'left']}
+              fontStyle="normal"
             >
               Our Philosophy
             </SectionHeader>
