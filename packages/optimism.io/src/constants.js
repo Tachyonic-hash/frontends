@@ -99,3 +99,12 @@ export const navCategories = [
   { heading: 'Developers', items: developers },
   { heading: 'Community', items: community },
 ];
+
+export const images = {
+  nyanCat: 'nyancat.png',
+  hero: 'hero.svg',
+  hayden: 'hayden-adams.jpg',
+  justin: 'justin-moses.png',
+  synthetixScreenCap: 'synthetix-screencap.png',
+  unipigScreenCap: 'unipig-screencap.png',
+};

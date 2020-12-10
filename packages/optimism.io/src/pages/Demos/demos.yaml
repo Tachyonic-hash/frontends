@@ -3,7 +3,7 @@
   subtitle:
     This demo represents a milestone in our journey to bring the speed of centralized finance to the world of
     decentralized finance.
-  logo: "./images/synthetix-logo.png"
+  logo: images/synthetix-logo.png
   recapLink: https://blog.synthetix.io/l2-sx-ovm-demo-results/
   appLink: https://www.synthetix.io/
   quote:
@@ -14,15 +14,15 @@
       infrastructure and in connecting to other L1 services we rely on, such as The Graph.
     author: Justin J. Moses
     authorTitle: Synthetix CTO
-    imageUrl:
-  screenCap: ./images/synthetix-screencap.png
+    imageUrl: images/justin-moses.png
+  screenCap: images/synthetix-screencap.png
 
 - name: Uniswap
   title: Unipig Exchange
   subtitle:
     A testnet demo of Uniswap running on optimistic rollup to demonstrate the UX improvements that are possible with
     layer 2.
-  logo: images/unipig-logo.png
+  logo: /unipig-logo.png
   recapLink: https://unipig.exchange/info
   appLink: https://unipig.exchange
   quote:
@@ -32,5 +32,5 @@
       interoperability with other DAPPs on L2.
     author: Hayden Adams
     authorTitle: Uniswap Founder & CEO
-    imageUrl:
+    imageUrl: images/hayden-adams.jpg
   screenCap: images/unipig-screencap.png

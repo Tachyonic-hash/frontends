@@ -3,7 +3,7 @@ import { Box, Image } from '@chakra-ui/react';
 import Container from '../../components/Container';
 import { SectionHeader } from '../../components/Headers';
 import ethlogo from './ethPlanetPhilosophy.svg';
-
+import { images } from '../../constants';
 class Philosophy extends Component {
   render() {
     return (
@@ -14,7 +14,7 @@ class Philosophy extends Component {
           height="200px"
           pt="200px"
           w="100%"
-          backgroundImage="url('./images/nyancat.png')"
+          backgroundImage={`url(${images.nyanCat})`}
           backgroundPosition="top bottom"
           mt="50px"
           mr="0"

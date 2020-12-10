@@ -7,6 +7,7 @@ import Home from './pages/Homepage';
 import FAQ from './pages/FAQ';
 import Philosophy from './pages/Philosophy';
 import Demos from './pages/Demos';
+import { images } from './constants';
 
 function App() {
   React.useEffect(() => {
@@ -28,6 +29,16 @@ function App() {
     }
 
     window.addEventListener('keydown', handleFirstTab);
+
+    // preloads images
+    window.onload = () => {
+      const loadedImages = [];
+
+      Object.values(images).forEach((imgSrc, i) => {
+        loadedImages[i] = new Image();
+        loadedImages[i].src = imgSrc;
+      });
+    };
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Center, Heading, Text, Box } from '@chakra-ui/react';
 import Container from '../Container';
-
+import { images } from '../../constants';
 class Hero extends Component {
   render() {
     return (
@@ -59,7 +59,7 @@ class Hero extends Component {
               bottom={0}
               position="absolute"
               zIndex={-1}
-              backgroundImage="url(./images/hero.svg)"
+              backgroundImage={`url(${images.hero})`}
               backgroundRepeat="no-repeat"
               backgroundSize="contain"
             />

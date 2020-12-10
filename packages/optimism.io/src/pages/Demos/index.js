@@ -13,8 +13,6 @@ import {
 } from '@chakra-ui/react';
 import demosData from './demos.yaml';
 
-console.log(demosData);
-
 function Demos({ match }) {
   return (
     <Container maxW="1200px">
@@ -53,7 +51,13 @@ function Demos({ match }) {
               justifyContent="space-between"
               textAlign={isEven ? 'right' : 'left'}
             >
-              <Link href={demo.appLink} w={['100%', null, '60%']} d="block">
+              <Link
+                href={demo.appLink}
+                w={['100%', null, '60%']}
+                d="block"
+                target="_blank"
+                rel="noopenner"
+              >
                 <Image w="100%" src={demo.screenCap} alt={demo.title} />
               </Link>
               <Box w={['100%', null, '40%']}>
@@ -61,26 +65,28 @@ function Demos({ match }) {
               </Box>
             </Box>
             <Box>
-              <Box flexFlow="row" mt={24}>
-                {/* <Box class={styles.logo}>
-          <img src={ethTiltedLogo} />
-        </Box> */}
-
-                <Box
-                  maxWidth="800px"
-                  display="inline-block"
-                  alignContent="center"
-                  lineHeight="40px"
-                  pb="5rem"
+              <Box
+                d="flex"
+                flexDir={isEven ? 'row-reverse' : 'row'}
+                alignItems="flex-start"
+                mt={24}
+              >
+                <Image
+                  pt={8}
+                  pr={[0, null, !isEven ? 24 : 0]}
+                  pl={[0, null, isEven ? 24 : 0]}
+                  filter="grayscale(1)"
+                  src={demo.quote.imageUrl}
                   pos="relative"
-                >
+                />
+                <Box pos="relative">
                   <Text
                     fontFamily="serif"
                     fontSize="150px"
                     lineHeight={0}
                     top={0}
                     pos="absolute"
-                    mt={'-0.5rem'}
+                    mt={'1rem'}
                     ml={'-1rem'}
                   >
                     “
@@ -89,32 +95,23 @@ function Demos({ match }) {
                     lineHeight="normal"
                     fontSize={['2xl', '3xl']}
                     fontStyle="italic"
+                    ml="2rem"
+                    textAlign="left"
                   >
                     {demo.quote.text}"
                   </Text>
-                  <Box
-                    display="inline-flex"
-                    maxWidth="800px"
-                    flexFlow="row wrap"
-                    margin="20px"
-                  >
-                    <Box
-                      display="inline-block"
-                      fontSize="17px"
-                      my="auto"
-                      mx="10px"
+                  <Box>
+                    <Heading as="h4" my={0} textAlign="right">
+                      -{demo.quote.author}
+                    </Heading>
+                    <Text
+                      fontWeight="700"
+                      mt={0}
+                      fontSize="xl"
+                      textAlign="right"
                     >
-                      <Image src={demo.quote.imageUrl} />
-                    </Box>
-                    <Box
-                      display="inline-block"
-                      fontSize="17px"
-                      my="auto"
-                      mx="10px"
-                    >
-                      <Box>{demo.quote.author}</Box>
-                      <Box fontWeight="700">{demo.quote.authorTitle}</Box>
-                    </Box>
+                      {demo.quote.authorTitle}
+                    </Text>
                   </Box>
                 </Box>
               </Box>
