@@ -112,50 +112,26 @@ function Navigation() {
             >
               <Logo color="white" />
             </DrawerHeader>
-            <DrawerBody py={4}>
+            <DrawerBody pt={4} pb={24}>
               <Box as="nav" d="flex" flexDir="column" alignItems="flex-start">
-                {navCategories.map(
-                  (category) =>
-                    category.heading !== 'Community' && (
-                      <Stack mb={4} key={category.heading}>
-                        <Heading
-                          mt={0}
-                          mb={2}
-                          as="h2"
-                          fontSize="lg"
-                          textTransform="uppercase"
-                        >
-                          {category.heading}
-                        </Heading>
-                        {category.items.map((item) => (
-                          <NavLink key={item.url} item={item} />
-                        ))}
-                      </Stack>
-                    )
-                )}
+                {navCategories.map((category) => (
+                  <Stack mb={4} key={category.heading}>
+                    <Heading
+                      mt={0}
+                      mb={2}
+                      as="h2"
+                      fontSize="lg"
+                      textTransform="uppercase"
+                    >
+                      {category.heading}
+                    </Heading>
+                    {category.items.map((item) => (
+                      <NavLink key={item.url} item={item} />
+                    ))}
+                  </Stack>
+                ))}
               </Box>
             </DrawerBody>
-            <DrawerFooter
-              justifyContent="space-between"
-              borderTop="1px solid"
-              bgColor="brandPrimary"
-              border="none"
-              pt={2}
-              pb={12}
-            >
-              {navCategories.map(
-                (category) =>
-                  category.heading === 'Community' &&
-                  category.items.map((item) => (
-                    <NavLink
-                      key={item.url}
-                      item={item}
-                      color="white"
-                      fontSize="lg"
-                    />
-                  ))
-              )}
-            </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>

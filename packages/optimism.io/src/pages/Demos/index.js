@@ -27,7 +27,7 @@ function Demos({ match }) {
         const isEven = index % 2 === 0;
         return (
           <>
-            <Box textAlign={isEven ? 'right' : 'left'} mb={[8, 16]}>
+            <Box textAlign={isEven ? 'right' : 'left'} mb={[16, 24]}>
               <Image
                 src={demo.logo}
                 alt={demo.name}
@@ -148,7 +148,7 @@ function Demos({ match }) {
                 d={['block', null, null, 'flex']}
                 flexDir={['row-reverse', isEven ? 'row-reverse' : 'row']}
                 alignItems="flex-start"
-                mt={[12, 16, 24]}
+                mt={[6, 8, 24]}
                 maxW="90%"
                 mx="auto"
               >
@@ -210,7 +210,7 @@ function Demos({ match }) {
                   </Box>
                 </Box>
               </Box>
-              <Box textAlign={'center'} mt={8}>
+              <Box textAlign={'center'} mt={[8, 16]}>
                 <Link
                   fontSize={['xl', '2xl', '3xl']}
                   href={demo.recapLink}
@@ -227,7 +227,9 @@ function Demos({ match }) {
                 </Link>
               </Box>
             </Box>
-            {index < demosData.length - 1 && <Divider mb={[8, 16]} />}
+            {index < demosData.length - 1 && (
+              <Divider borderColor="brandPrimary" mb={[8, 16]} />
+            )}
           </>
         );
       })}
