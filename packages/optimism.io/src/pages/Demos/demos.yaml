@@ -3,7 +3,7 @@
   subtitle:
     This demo represents a milestone in our journey to bring the speed of centralized finance to the world of
     decentralized finance.
-  logo: images/synthetix-logo.png
+  logo: images/synthetix-logo-white.png
   recapLink: https://blog.synthetix.io/l2-sx-ovm-demo-results/
   appLink: https://www.synthetix.io/
   quote:
@@ -25,7 +25,7 @@
   subtitle:
     A testnet demo of Uniswap running on optimistic rollup to demonstrate the UX improvements that are possible with
     layer 2.
-  logo: /unipig-logo.png
+  logo: images/uniswap-logo.svg
   recapLink: https://unipig.exchange/info
   appLink: https://unipig.exchange
   quote:

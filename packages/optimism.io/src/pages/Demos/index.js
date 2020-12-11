@@ -13,9 +13,11 @@ import {
   StatArrow,
   Divider,
   AspectRatio,
+  Button,
 } from '@chakra-ui/react';
 import { TriangleDownIcon } from '@chakra-ui/icons';
 import demosData from './demos.yaml';
+import { images } from '../../constants';
 
 function Demos({ match }) {
   return (
@@ -26,10 +28,13 @@ function Demos({ match }) {
         return (
           <>
             <Box textAlign={isEven ? 'right' : 'left'} mb={[8, 16]}>
+              <Image
+                src={demo.logo}
+                alt={demo.name}
+                maxW={'200px'}
+                maxH={'35px'}
+              />
               <Box mb={[8, null, 16]}>
-                <Text fontStyle="italic" mb={0}>
-                  {demo.name}
-                </Text>
                 <Heading
                   as={Link}
                   href={demo.recapLink}
@@ -38,6 +43,7 @@ function Demos({ match }) {
                   mt={0}
                   fontSize={['3xl', '4xl', '5xl']}
                   color="brandPrimary"
+                  lineHeight={0.7}
                 >
                   {demo.title}
                 </Heading>
@@ -75,6 +81,12 @@ function Demos({ match }) {
                   w={['100%', null, '40%']}
                   d="flex"
                   justifyContent={isEven ? 'flex-end' : 'flex-start'}
+                  flexDir="column"
+                  alignItems={[
+                    'center',
+                    null,
+                    isEven ? 'flex-end' : 'flex-start',
+                  ]}
                 >
                   <Box
                     textAlign={['center', null, isEven ? 'right' : 'left']}
@@ -197,6 +209,22 @@ function Demos({ match }) {
                     </Text>
                   </Box>
                 </Box>
+              </Box>
+              <Box textAlign={'center'} mt={8}>
+                <Link
+                  fontSize={['xl', '2xl', '3xl']}
+                  href={demo.recapLink}
+                  target="_blank"
+                  rel="noopenner"
+                  borderWidth="1px"
+                  borderColor="brandPrimary"
+                  borderStyle="solid"
+                  px={4}
+                  py={1}
+                  borderRadius={'5px'}
+                >
+                  Learn more
+                </Link>
               </Box>
             </Box>
             {index < demosData.length - 1 && <Divider mb={[8, 16]} />}

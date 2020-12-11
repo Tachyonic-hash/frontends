@@ -106,6 +106,7 @@ export const images = {
   hayden: 'hayden-adams.jpg',
   justin: 'justin-moses.png',
   synthetixScreenCap: 'synthetix-screencap.png',
+  synthetixLogoWhite: 'synthetix-logo-white.png',
   unipigScreenCap: 'unipig-screencap.png',
   ethLogo: 'ethLogo.svg',
 };
