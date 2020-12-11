@@ -11,13 +11,13 @@ export function PageHeader(props) {
       position="relative"
       color="headingText"
       fontStyle="italic"
-      mt={[8, 16, 28]}
-      mb={[6, 12, 20]}
-      ml={[0, null, null, null, '-4rem']}
+      mt={[8, 16, 20, 24]}
+      mb={[4, 8, 16]}
+      ml={[0, null, null, null, -8]}
       {...rest}
     >
       <Box
-        d={['none', null, 'block']}
+        d={['none', 'block']}
         pos="absolute"
         h="1px"
         width="100%"
@@ -61,7 +61,7 @@ export function SectionHeader(props) {
       {...rest}
     >
       <Box
-        d={['none', null, 'block']}
+        d={['none', 'block']}
         pos="absolute"
         h="1px"
         width="100%"

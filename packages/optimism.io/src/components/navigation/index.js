@@ -98,6 +98,7 @@ function Navigation() {
         onClose={onClose}
         finalFocusRef={btnRef}
         size="full"
+        reserveScrollBarGap={true}
       >
         <DrawerOverlay>
           <DrawerContent>

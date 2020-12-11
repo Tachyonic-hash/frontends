@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Box,
-  Link,
-  SimpleGrid,
-  VStack,
-  Heading,
-} from '@chakra-ui/react';
+import { Box, Link, SimpleGrid, VStack, Heading } from '@chakra-ui/react';
+import Container from '../Container';
 import { Link as ReactLink } from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '../../constants';
 class Footer extends Component {
   render() {
     return (
-      <Container backgroundColor="black" maxW="none !important" px="8%">
-        <Box as="footer" mt={24} w="100%" maxW="containerLg" mx="auto" pt={12}>
+      <Box as="footer" backgroundColor="black" mt={24}>
+        <Container pt={8}>
           <SimpleGrid
             gridTemplateColumns={[
               'repeat(2, 1fr)',
@@ -62,8 +56,8 @@ class Footer extends Component {
           <Box maxW="containerLg" py={12} color="white" opacity={0.5}>
             Copybyte Optimism PBC 2020. All flights reserved.
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      </Box>
     );
   }
 }

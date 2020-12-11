@@ -59,7 +59,7 @@ class Hero extends Component {
               bottom={0}
               position="absolute"
               zIndex={-1}
-              backgroundImage={`url(${images.hero})`}
+              backgroundImage={`url(images/${images.hero})`}
               backgroundRepeat="no-repeat"
               backgroundSize="contain"
             />

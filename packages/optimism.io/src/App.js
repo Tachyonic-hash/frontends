@@ -32,11 +32,9 @@ function App() {
 
     // preloads images
     window.onload = () => {
-      const loadedImages = [];
-
       Object.values(images).forEach((imgSrc, i) => {
-        loadedImages[i] = new Image();
-        loadedImages[i].src = imgSrc;
+        const img = new Image();
+        img.src = imgSrc;
       });
     };
   }, []);

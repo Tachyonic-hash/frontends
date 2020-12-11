@@ -9,12 +9,16 @@ import {
   Box,
   AccordionIcon,
   AccordionPanel,
+  useMediaQuery,
 } from '@chakra-ui/react';
 
 function FAQ() {
+  const [smallScreen] = useMediaQuery('(max-width: 900px)');
   return (
     <Container>
-      <PageHeader>Frequently Asked Questions</PageHeader>
+      <PageHeader>
+        {smallScreen ? 'FAQ' : 'Frequently Asked Questions'}
+      </PageHeader>
       <Accordion>
         {faqs.map((item) => (
           <AccordionItem mt={4} key={item.question}>

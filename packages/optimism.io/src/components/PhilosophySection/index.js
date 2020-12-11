@@ -14,7 +14,7 @@ class Philosophy extends Component {
           height="200px"
           pt="200px"
           w="100%"
-          backgroundImage={`url(${images.nyanCat})`}
+          backgroundImage={`url(images/${images.nyanCat})`}
           backgroundPosition="top bottom"
           mt="50px"
           mr="0"
