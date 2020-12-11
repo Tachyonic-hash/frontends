@@ -65,6 +65,9 @@ function Demos({ match }) {
                   mb={[8, null, 0]}
                   mr={[0, null, isEven ? 4 : 0]}
                   ml={[0, null, !isEven ? 4 : 0]}
+                  pos="relative"
+                  className={isEven ? 'redAccent--left' : 'redAccent--right'}
+                  _after={{ background: "url('images/ethLogo.svg')" }}
                 >
                   <Image w="100%" src={demo.screenCap} alt={demo.title} />
                 </Link>
@@ -82,16 +85,16 @@ function Demos({ match }) {
                     mx="auto"
                     w="100%"
                   >
-                    <Box>
+                    <Box w={['100%', '50%', '100%']}>
                       <Text fontSize={['lg', null, 'xl', '2xl']} mb={2} mt={0}>
                         Decrease in Gas Cost
                       </Text>
                       <Text
                         fontSize={[
                           '2.5rem',
-                          null,
+                          '2.6rem',
+                          '2.7rem',
                           '3rem',
-                          null,
                           '4rem',
                           '5rem',
                         ]}
@@ -103,10 +106,12 @@ function Demos({ match }) {
                         {demo.gasDecrease}
                       </Text>
                     </Box>
-                    <Box>
-                      <Text fontSize={['lg', null, 'xl', '2xl']} mb={2}>
-                        Transaction
-                        <br /> confirmation time
+                    <Box w={['100%', '50%', '100%']}>
+                      <Text fontSize={['lg', null, 'xl', '2xl']} mt={0} mb={2}>
+                        Transaction{' '}
+                        <Box as="span" d={['block', 'inline', 'block']}>
+                          confirmation time
+                        </Box>
                       </Text>
                       <Text
                         mt={2}

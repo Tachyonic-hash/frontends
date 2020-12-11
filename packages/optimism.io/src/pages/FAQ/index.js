@@ -19,7 +19,7 @@ function FAQ() {
       <PageHeader>
         {smallScreen ? 'FAQ' : 'Frequently Asked Questions'}
       </PageHeader>
-      <Accordion>
+      <Accordion allowToggle>
         {faqs.map((item) => (
           <AccordionItem mt={4} key={item.question}>
             <AccordionButton

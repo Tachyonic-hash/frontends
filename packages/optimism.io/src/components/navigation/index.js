@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styles from './Navigation.module.scss';
 import {
-  Container,
   Heading,
   Box,
   Link,
@@ -26,6 +25,7 @@ import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '../../constants';
+import Container from '../Container';
 
 function Navigation() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +44,7 @@ function Navigation() {
       <Link
         as={ReactLink}
         to={item.url}
-        fontSize={['md', 'lg']}
+        fontSize={['xl']}
         mb={2}
         onClick={onClose}
         {...rest}
@@ -54,7 +54,7 @@ function Navigation() {
     ) : (
       <Link
         href={item.url}
-        fontSize={['md', 'lg']}
+        fontSize={['xl']}
         mb={2}
         target="_blank"
         rel="noopenner noreferrer"
@@ -85,11 +85,12 @@ function Navigation() {
 
   return (
     <Container
-      maxW="none"
+      maxW="1200px"
       h="50px"
       d="flex"
       justifyContent="space-between"
       alignItems="center"
+      px={['1rem !important', null, 16]}
     >
       {/* Mobile Menu */}
       <Drawer
@@ -139,7 +140,8 @@ function Navigation() {
               borderTop="1px solid"
               bgColor="brandPrimary"
               border="none"
-              py={2}
+              pt={2}
+              pb={12}
             >
               {navCategories.map(
                 (category) =>
@@ -167,7 +169,8 @@ function Navigation() {
                 tabIndex="0"
                 role="button"
                 cursor="pointer"
-                p={5}
+                py={5}
+                pl={10}
                 as="h2"
                 fontWeight="500"
                 textTransform="uppercase"

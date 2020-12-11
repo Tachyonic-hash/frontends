@@ -107,4 +107,5 @@ export const images = {
   justin: 'justin-moses.png',
   synthetixScreenCap: 'synthetix-screencap.png',
   unipigScreenCap: 'unipig-screencap.png',
+  ethLogo: 'ethLogo.svg',
 };

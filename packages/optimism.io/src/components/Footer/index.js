@@ -7,8 +7,8 @@ import { navCategories } from '../../constants';
 class Footer extends Component {
   render() {
     return (
-      <Box as="footer" backgroundColor="black" mt={24}>
-        <Container pt={8}>
+      <Box as="footer" backgroundColor="black" mt={32}>
+        <Container pt={8} maxW="1200px">
           <SimpleGrid
             gridTemplateColumns={[
               'repeat(2, 1fr)',

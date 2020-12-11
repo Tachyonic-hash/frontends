@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Box, Image } from '@chakra-ui/react';
 import Container from '../../components/Container';
 import { SectionHeader } from '../../components/Headers';
-import ethlogo from './ethPlanetPhilosophy.svg';
 import { images } from '../../constants';
 class Philosophy extends Component {
   render() {
@@ -30,7 +29,7 @@ class Philosophy extends Component {
             textAlign="left"
           >
             <Image
-              src={ethlogo}
+              src={`images/${images.ethLogo}`}
               alt="ethlogo"
               height={['140px', null, null, '195px']}
               width="160px"

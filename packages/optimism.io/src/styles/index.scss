@@ -84,3 +84,33 @@ a svg {
   width: auto !important;
   max-width: 240px !important;
 }
+
+// Demos page
+.redAccent--right::after,
+.redAccent--left::after {
+  content: '';
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  top: -25%;
+  background-repeat: no-repeat !important;
+  background-size: cover;
+  display: none;
+}
+
+.redAccent--right::after {
+  right: -15%;
+  transform: rotate(10deg);
+}
+
+.redAccent--left::after {
+  left: -15%;
+  transform: rotate(-10deg);
+}
+
+@media only screen and (min-width: 1200px) {
+  .redAccent--right::after,
+  .redAccent--left::after {
+    display: block;
+  }
+}
