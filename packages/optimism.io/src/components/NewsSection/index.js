@@ -48,7 +48,9 @@ class News extends Component {
               w={['full', '1fr']}
               mb={8}
               color="bodyText"
-              to={item.link}
+              href={item.link}
+              target="_blank"
+              rel="noopenner noreferrer"
               pos="relative"
               _hover={{ '*': { color: 'inherit' } }}
             >

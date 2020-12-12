@@ -39,7 +39,7 @@ function Demos({ match }) {
                   as={Link}
                   href={demo.recapLink}
                   target="_blank"
-                  rel="noopenner"
+                  rel="noopenner noreferrer"
                   mt={0}
                   fontSize={['3xl', '4xl', '5xl']}
                   color="brandPrimary"
@@ -67,7 +67,7 @@ function Demos({ match }) {
                   w={['100%', null, '80%']}
                   d="block"
                   target="_blank"
-                  rel="noopenner"
+                  rel="noopenner noreferrer"
                   mb={[8, null, 0]}
                   mr={[0, null, isEven ? 4 : 0]}
                   ml={[0, null, !isEven ? 4 : 0]}
@@ -215,7 +215,7 @@ function Demos({ match }) {
                   fontSize={['xl', '2xl', '3xl']}
                   href={demo.recapLink}
                   target="_blank"
-                  rel="noopenner"
+                  rel="noopenner noreferrer"
                   borderWidth="1px"
                   borderColor="brandPrimary"
                   borderStyle="solid"
