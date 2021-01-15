@@ -60,7 +60,7 @@ class Navigation extends Component {
             {/*<li><Link to="/FAQ">FAQ</Link></li>*/}
             <h1>OPTIMISM</h1>
             <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">GITHUB↗</a></li>
-            <li><a href="https://docs.optimism.io/">DOCUMENTATION</a></li>
+            <li><a href="https://community.optimism.io/">COMMUNITY</a></li>
             <li><a href="https://medium.com/ethereum-optimism">BLOG↗</a></li>
             <li><a href="https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH">YOUTUBE</a></li>
             <li><a href="https://twitter.com/optimismPBC">TWITTER</a></li>
@@ -69,7 +69,7 @@ class Navigation extends Component {
           {/* Desktop Menu */}
           <ul class={`${styles.mobileNav}, ${styles.desktopNav}`}>
             <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">GITHUB↗</a></li>
-            <li><a href="https://docs.optimism.io/">DOCUMENTATION</a></li>
+            <li><a href="https://community.optimism.io/">COMMUNITY</a></li>
             <li><a href="https://medium.com/ethereum-optimism">BLOG↗</a></li>
           </ul>
           <div className={styles.burger}>

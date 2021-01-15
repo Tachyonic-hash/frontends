@@ -11,7 +11,7 @@ class Footer extends Component {
           </div>
           <div class={styles.flexItem}>
             <li><a href="https://github.com/ethereum-optimism/optimism-monorepo">Github</a></li>
-            <li style={{borderBottom:"none"}}><a href="https://docs.optimism.io/">Documentation</a></li>
+            <li style={{borderBottom:"none"}}><a href="https://community.optimism.io/">Community</a></li>
             <li style={{borderBottom:"none"}}><a href="https://medium.com/ethereum-optimism">Blog</a></li>
           </div>
           <div class={styles.flexItem}>
