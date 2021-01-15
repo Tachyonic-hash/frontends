@@ -36,15 +36,15 @@ class Roadmap extends Component {
 	    				<td> ✓ </td>
 	    				<td>Synthetix Demo & Trading Comp</td>
 	    			</tr>
-	    			<tr className={styles.current}>
-	    				<td style={{color: "#F01A37"}}><b>SEP 2020</b></td>
-	    				<td></td>
-	    				<td><b>OPTIMISTIC ROLLUP TESTNET</b></td>
+					<tr>
+	    				<td>SEP 2020</td>
+	    				<td> ✓ </td>
+	    				<td>OPTIMISTIC ROLLUP TESTNET</td>
 	    			</tr>
-	    			<tr className={styles.new}>
-	    				<td>Qx 202y</td>
-	    				<td> </td>
-	    				<td>Single Sequencer Mainnet</td>
+	    			<tr className={styles.current}>
+	    				<td style={{color: "#F01A37"}}><b>JAN 2021</b></td>
+	    				<td></td>
+	    				<td><b>Single Sequencer Mainnet</b></td>
 	    			</tr>
 	    			<tr className={styles.new}>
 	    				<td>Qz 202a</td>
