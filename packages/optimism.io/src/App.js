@@ -4,7 +4,8 @@ import ScrollToTop from './components/ScrollToTop';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Homepage';
-import FAQ from './pages/FAQ';
+import NotFound from './pages/404';
+// import FAQ from './pages/FAQ';
 // import Philosophy from './pages/Philosophy';
 import Demos from './pages/Demos';
 import { images } from './constants';
@@ -49,6 +50,7 @@ function App() {
         {/* <Route exact path="/faq" component={FAQ} /> */}
         {/* <Route exact path="/philosophy" component={Philosophy} /> */}
         <Route path="/demos" component={Demos} />
+        <Route component={NotFound} />
       </Switch>
       <Footer />
     </div>
