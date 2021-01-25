@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Box, Link, SimpleGrid, VStack, Heading } from '@chakra-ui/react';
 import Container from '../Container';
 import { Link as ReactLink } from 'react-router-dom';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '../../constants';
+import SocialLinks from '../SocialLinks';
 class Footer extends Component {
   render() {
     return (
@@ -53,8 +53,17 @@ class Footer extends Component {
               </VStack>
             ))}
           </SimpleGrid>
-          <Box maxW="containerLg" py={12} color="white" opacity={0.5}>
-            Copybyte Optimism PBC 2020. All flights reserved.
+          <Box
+            maxW="containerLg"
+            py={12}
+            color="white"
+            d="flex"
+            justifyContent="space-between"
+          >
+            <Box as="span" opacity={0.5}>
+              Copybyte Optimism PBC 2020. All flights reserved.
+            </Box>
+            <SocialLinks />
           </Box>
         </Container>
       </Box>

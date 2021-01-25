@@ -10,6 +10,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
+  DrawerFooter,
   useDisclosure,
   DrawerBody,
   Popover,
@@ -24,6 +25,7 @@ import { Link as ReactLink } from 'react-router-dom';
 // import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '../../constants';
 import Container from '../Container';
+import SocialLinks from '../SocialLinks';
 
 function Navigation() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -107,6 +109,7 @@ function Navigation() {
               alignItems="center"
               py={0}
               bgColor="brandPrimary"
+              justifyContent="space-between"
             >
               <Logo color="white" />
             </DrawerHeader>
@@ -130,6 +133,9 @@ function Navigation() {
                 ))}
               </Box>
             </DrawerBody>
+            <DrawerFooter justifyContent="center" pb={12}>
+              <SocialLinks size={'35px'} spacing={8} />
+            </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
@@ -168,6 +174,7 @@ function Navigation() {
             </Portal>
           </Popover>
         ))}
+        <SocialLinks ml={10} />
       </Box>
       <Center d={['block', null, null, 'none']}>
         <HamburgerSpin

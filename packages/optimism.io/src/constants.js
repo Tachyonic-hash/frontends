@@ -3,101 +3,117 @@ export const navItems = [
     name: 'Demos',
     url: '/demos',
     internal: true,
-    category: 'about',
+    categories: ['about'],
     headerNav: true,
   },
   // {
   //   name: 'Philosophy',
   //   url: '/philosophy',
   //   internal: true,
-  //   category: 'about',
+  //   categories: ['about'],
   //   headerNav: true,
   // },
   // {
   //   name: 'FAQ',
   //   url: '/faq',
   //   internal: true,
-  //   category: 'about',
+  //   categories: ['about'],
   //   headerNav: true,
   // },
   {
     name: 'Github',
     url: 'https://github.com/ethereum-optimism/optimism-monorepo',
-    category: 'developers',
+    categories: ['developers'],
     headerNav: true,
   },
   {
     name: 'Documentation',
     url: 'https://docs.optimism.io/',
-    category: 'developers',
+    categories: ['developers'],
     headerNav: true,
   },
-  // { name: 'Goerli ETH Faucet', url: 'TODO-faucet', category: 'developers' },
-  // { name: 'Early Access', url: 'TODO-access', category: 'developers' },
-  // { name: 'Block Explorer', url: 'TODO-explorer', category: 'developers' },
+  {
+    name: 'Tutorial',
+    url: 'http://community.optimism.io/tutorial',
+    categories: ['developers'],
+  },
+  {
+    name: 'FAQs',
+    url: 'http://community.optimism.io/faqs',
+    categories: ['developers'],
+  },
+  // { name: 'Goerli ETH Faucet', url: 'TODO-faucet', categories: ['developers'] },
+  // { name: 'Early Access', url: 'TODO-access', categories: ['developers'] },
+  // { name: 'Block Explorer', url: 'TODO-explorer', categories: ['developers'] },
   {
     name: 'Blog',
     url: 'https://medium.com/ethereum-optimism',
-    category: 'about',
+    categories: ['about'],
     headerNav: true,
   },
   {
     name: 'Jobs',
     url: 'https://angel.co/company/optimism-pbc/jobs',
-    category: 'about',
+    categories: ['about'],
   },
   {
     name: 'Twitter',
     url: 'https://twitter.com/optimismPBC',
-    category: 'community',
+    categories: ['social'],
   },
   {
     name: 'Discord',
     url: 'https://discord.com/invite/jrnFEvq',
-    category: 'community',
+    categories: ['social'],
   },
   {
     name: 'Youtube',
     url:
       'https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH',
-    category: 'community',
+    categories: ['social'],
+  },
+  {
+    name: 'Twitch',
+    url: 'https://www.twitch.tv/optimismpbc',
+    categories: ['social'],
   },
   // {
   //   name: 'Optimistic Virtual Machine',
   //   url: 'TODO-ovm',
-  //   category: 'product',
+  //   categories: ['product'],
   // },
   // {
   //   name: 'Solidity to OVM Compiler',
   //   url: 'TODO-compiler',
-  //   category: 'product',
+  //   categories: ['product'],
   // },
   // {
   //   name: 'Optimistic Verifier',
   //   url: 'TODO-verifier',
-  //   category: 'product',
+  //   categories: ['product'],
   // },
   // {
   //   name: 'Optimistic Ethereum',
   //   url: 'TODO-ethereum',
-  //   category: 'product',
+  //   categories: ['product'],
   // },
 ];
 
-// export const products = navItems.filter((item) => item.category === 'product');
-export const developers = navItems.filter(
-  (item) => item.category === 'developers'
+// export const products = navItems.filter((item) => item.categories.includes('product'));
+export const developers = navItems.filter((item) =>
+  item.categories.includes('developers')
 );
-export const community = navItems.filter(
-  (item) => item.category === 'community'
+export const community = navItems.filter((item) =>
+  item.categories.includes('community')
 );
-export const about = navItems.filter((item) => item.category === 'about');
+export const about = navItems.filter((item) =>
+  item.categories.includes('about')
+);
 
 export const navCategories = [
   { heading: 'About', items: about },
   // { heading: 'Products', items: products },
   { heading: 'Developers', items: developers },
-  { heading: 'Community', items: community },
 ];
 
 export const images = {

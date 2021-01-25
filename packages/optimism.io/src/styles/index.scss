@@ -46,7 +46,7 @@ code {
 
 a,
 .rainbowText {
-  background: linear-gradient(to right, #f01a37, rgb(22, 159, 201), #f01a37);
+  background: linear-gradient(to right, #f01a37, #169fc9, #f01a37);
   background-size: 200% 200%;
   animation: rainbow 1.5s ease-in-out infinite;
   background-clip: text;
@@ -59,6 +59,7 @@ a:hover,
 .rainbowText:hover,
 .rainbowText[aria-expanded='true'] {
   color: rgba(0, 0, 0, 0);
+  fill: linear-gradient(to right, #f01a37, #169fc9, #f01a37);
 }
 
 a svg {
@@ -78,6 +79,19 @@ a svg {
   100% {
     background-position: top left;
   }
+}
+
+.socialIcon {
+  transform: scale(1.2);
+}
+
+svg .rainbowFill {
+  fill: #f01a37;
+  transition: fill 0.5s ease;
+}
+
+svg:hover .rainbowFill {
+  fill: #cc142d;
 }
 
 // Popover component
