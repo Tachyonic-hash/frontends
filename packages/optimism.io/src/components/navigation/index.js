@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './Navigation.module.scss';
 import {
   Heading,
@@ -10,20 +10,18 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
-  DrawerFooter,
   useDisclosure,
   DrawerBody,
   Popover,
   PopoverTrigger,
   PopoverArrow,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
   Portal,
 } from '@chakra-ui/react';
 import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+// import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '../../constants';
 import Container from '../Container';
 
@@ -145,8 +143,9 @@ function Navigation() {
                 tabIndex="0"
                 role="button"
                 cursor="pointer"
-                py={5}
-                pl={10}
+                py={2}
+                my={3}
+                ml={10}
                 as="h2"
                 fontWeight="500"
                 textTransform="uppercase"

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Homepage';
 import FAQ from './pages/FAQ';
-import Philosophy from './pages/Philosophy';
+// import Philosophy from './pages/Philosophy';
 import Demos from './pages/Demos';
 import { images } from './constants';
 
@@ -46,8 +46,8 @@ function App() {
       <Switch>
         {/* The Switch decides which component to show based on the current URL.*/}
         <Route exact path="/" component={Home} />
-        <Route exact path="/faq" component={FAQ} />
-        <Route exact path="/philosophy" component={Philosophy} />
+        {/* <Route exact path="/faq" component={FAQ} /> */}
+        {/* <Route exact path="/philosophy" component={Philosophy} /> */}
         <Route path="/demos" component={Demos} />
       </Switch>
       <Footer />

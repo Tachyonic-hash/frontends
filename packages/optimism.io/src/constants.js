@@ -6,20 +6,20 @@ export const navItems = [
     category: 'about',
     headerNav: true,
   },
-  {
-    name: 'Philosophy',
-    url: '/philosophy',
-    internal: true,
-    category: 'about',
-    headerNav: true,
-  },
-  {
-    name: 'FAQ',
-    url: '/faq',
-    internal: true,
-    category: 'about',
-    headerNav: true,
-  },
+  // {
+  //   name: 'Philosophy',
+  //   url: '/philosophy',
+  //   internal: true,
+  //   category: 'about',
+  //   headerNav: true,
+  // },
+  // {
+  //   name: 'FAQ',
+  //   url: '/faq',
+  //   internal: true,
+  //   category: 'about',
+  //   headerNav: true,
+  // },
   {
     name: 'Github',
     url: 'https://github.com/ethereum-optimism/optimism-monorepo',
@@ -32,9 +32,9 @@ export const navItems = [
     category: 'developers',
     headerNav: true,
   },
-  { name: 'Goerli ETH Faucet', url: 'TODO-faucet', category: 'developers' },
-  { name: 'Early Access', url: 'TODO-access', category: 'developers' },
-  { name: 'Block Explorer', url: 'TODO-explorer', category: 'developers' },
+  // { name: 'Goerli ETH Faucet', url: 'TODO-faucet', category: 'developers' },
+  // { name: 'Early Access', url: 'TODO-access', category: 'developers' },
+  // { name: 'Block Explorer', url: 'TODO-explorer', category: 'developers' },
   {
     name: 'Blog',
     url: 'https://medium.com/ethereum-optimism',
@@ -62,29 +62,29 @@ export const navItems = [
       'https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH',
     category: 'community',
   },
-  {
-    name: 'Optimistic Virtual Machine',
-    url: 'TODO-ovm',
-    category: 'product',
-  },
-  {
-    name: 'Solidity to OVM Compiler',
-    url: 'TODO-compiler',
-    category: 'product',
-  },
-  {
-    name: 'Optimistic Verifier',
-    url: 'TODO-verifier',
-    category: 'product',
-  },
-  {
-    name: 'Optimistic Ethereum',
-    url: 'TODO-ethereum',
-    category: 'product',
-  },
+  // {
+  //   name: 'Optimistic Virtual Machine',
+  //   url: 'TODO-ovm',
+  //   category: 'product',
+  // },
+  // {
+  //   name: 'Solidity to OVM Compiler',
+  //   url: 'TODO-compiler',
+  //   category: 'product',
+  // },
+  // {
+  //   name: 'Optimistic Verifier',
+  //   url: 'TODO-verifier',
+  //   category: 'product',
+  // },
+  // {
+  //   name: 'Optimistic Ethereum',
+  //   url: 'TODO-ethereum',
+  //   category: 'product',
+  // },
 ];
 
-export const products = navItems.filter((item) => item.category === 'product');
+// export const products = navItems.filter((item) => item.category === 'product');
 export const developers = navItems.filter(
   (item) => item.category === 'developers'
 );
@@ -95,7 +95,7 @@ export const about = navItems.filter((item) => item.category === 'about');
 
 export const navCategories = [
   { heading: 'About', items: about },
-  { heading: 'Products', items: products },
+  // { heading: 'Products', items: products },
   { heading: 'Developers', items: developers },
   { heading: 'Community', items: community },
 ];
