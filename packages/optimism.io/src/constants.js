@@ -28,7 +28,7 @@ export const navItems = [
   },
   {
     name: 'Documentation',
-    url: 'https://docs.optimism.io/',
+    url: 'https://community.optimism.io/docs',
     categories: ['developers'],
     headerNav: true,
   },

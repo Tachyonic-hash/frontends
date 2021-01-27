@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ethereum-optimism.github.io/homepage",
+  "homepage": "https://ethereum-optimism.github.io",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@chakra-ui/icons": "^1.0.1",
