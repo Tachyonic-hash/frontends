@@ -10,7 +10,6 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
-  DrawerFooter,
   useDisclosure,
   DrawerBody,
   Popover,
@@ -113,7 +112,7 @@ function Navigation() {
             >
               <Logo color="white" />
             </DrawerHeader>
-            <DrawerBody pt={4} pb={24}>
+            <DrawerBody pt={4} h="100%">
               <Box as="nav" d="flex" flexDir="column" alignItems="flex-start">
                 {navCategories.map((category) => (
                   <Stack mb={4} key={category.heading}>
@@ -132,10 +131,13 @@ function Navigation() {
                   </Stack>
                 ))}
               </Box>
+              <SocialLinks
+                size={'35px'}
+                spacing={8}
+                justifyContent="center"
+                mt={12}
+              />
             </DrawerBody>
-            <DrawerFooter justifyContent="center" pb={12}>
-              <SocialLinks size={'35px'} spacing={8} />
-            </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
