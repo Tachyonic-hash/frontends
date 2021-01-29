@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { SectionHeader } from '../../components/Headers';
 import Container from '../../components/Container';
 import styles from './Roadmap.module.scss';

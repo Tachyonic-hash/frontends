@@ -25,10 +25,10 @@ function Icon({ name, className, size }) {
         <svg
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          stroke-linejoin="round"
-          stroke-miterlimit="2"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          strokeLinejoin="round"
+          strokeMiterlimit="2"
         >
           <path
             className="rainbowFill"
@@ -42,10 +42,10 @@ function Icon({ name, className, size }) {
         <svg
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          stroke-linejoin="round"
-          stroke-miterlimit="2"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          strokeLinejoin="round"
+          strokeMiterlimit="2"
         >
           <path
             className="rainbowFill"
@@ -70,10 +70,10 @@ function Icon({ name, className, size }) {
         <svg
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          stroke-linejoin="round"
-          stroke-miterlimit="2"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          strokeLinejoin="round"
+          strokeMiterlimit="2"
         >
           <path
             className="rainbowFill"

@@ -3,21 +3,15 @@ import { PageHeader } from '../../components/Headers';
 import Container from '../../components/Container';
 import {
   Box,
-  Center,
-  SimpleGrid,
-  HStack,
   Heading,
   Link,
   Image,
   Text,
-  StatArrow,
   Divider,
   AspectRatio,
-  Button,
 } from '@chakra-ui/react';
 import { TriangleDownIcon } from '@chakra-ui/icons';
 import demosData from './demos.yaml';
-import { images } from '../../constants';
 
 function Demos({ match }) {
   return (
@@ -26,7 +20,7 @@ function Demos({ match }) {
       {demosData.map((demo, index) => {
         const isEven = index % 2 === 0;
         return (
-          <>
+          <Box key={index}>
             <Box textAlign={isEven ? 'right' : 'left'} mb={[16, 24]}>
               <Image
                 src={demo.logo}
@@ -110,11 +104,11 @@ function Demos({ match }) {
                           '4rem',
                           '5rem',
                         ]}
-                        lineHeight={0}
+                        lineHeight="normal"
                         mt={0}
                         mb={8}
                       >
-                        <TriangleDownIcon color="brandPrimary" />
+                        <TriangleDownIcon color="brandPrimary" fontSize={40} />
                         {demo.gasDecrease}
                       </Text>
                     </Box>
@@ -136,7 +130,6 @@ function Demos({ match }) {
                           '5rem',
                         ]}
                         lineHeight={0.8}
-                        mt={0}
                       >
                         {demo.confTime}
                       </Text>
@@ -230,7 +223,7 @@ function Demos({ match }) {
             {index < demosData.length - 1 && (
               <Divider borderColor="brandPrimary" mb={[8, 16]} />
             )}
-          </>
+          </Box>
         );
       })}
     </Container>
