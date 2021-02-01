@@ -1,11 +1,12 @@
 import React from 'react';
 import { PageHeader } from '../../components/Headers';
 import Container from '../../components/Container';
+import ButtonLink from '../../components/ButtonLink';
 import {
   Box,
   Heading,
-  Link,
   Image,
+  Link,
   Text,
   Divider,
   AspectRatio,
@@ -204,20 +205,7 @@ function Demos({ match }) {
                 </Box>
               </Box>
               <Box textAlign={'center'} mt={[8, 16]}>
-                <Link
-                  fontSize={['xl', '2xl', '3xl']}
-                  href={demo.recapLink}
-                  target="_blank"
-                  rel="noopenner noreferrer"
-                  borderWidth="1px"
-                  borderColor="brandPrimary"
-                  borderStyle="solid"
-                  px={4}
-                  py={1}
-                  borderRadius={'5px'}
-                >
-                  Learn more
-                </Link>
+                <ButtonLink href={demo.recapLink}>Learn more</ButtonLink>
               </Box>
             </Box>
             {index < demosData.length - 1 && (

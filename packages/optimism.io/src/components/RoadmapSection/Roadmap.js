@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Text, Divider } from '@chakra-ui/react';
 import { SectionHeader } from '../../components/Headers';
+import ButtonLink from '../../components/ButtonLink';
 import Container from '../../components/Container';
 import styles from './Roadmap.module.scss';
 
 class Roadmap extends Component {
   render() {
     return (
-      <>
-        <Container maxW="containerLg">
-          <div className={styles.heading}>
-            {/* <p>FOLLOW OUR JOURNEY</p> */}
-            <SectionHeader>Roadmap to Launch</SectionHeader>
-          </div>
-        </Container>
+      <Container maxW="containerLg">
+        <div className={styles.heading}>
+          {/* <p>FOLLOW OUR JOURNEY</p> */}
+          <SectionHeader>Roadmap to Launch</SectionHeader>
+        </div>
+
         <Box fontSize={['sm', 'md']}>
           <table className={styles.roadMapTable}>
             <tbody>
@@ -68,8 +68,17 @@ class Roadmap extends Component {
               </tr>
             </tbody>
           </table>
+          <Divider borderColor="brandPrimary" mb={[8, 16]} mt={20} />
+          <Box mt={20} mx="auto" textAlign="center">
+            <Text fontSize={[20, 24, 28]}>
+              Interested in deploying your app on Optimism?
+            </Text>
+            <ButtonLink href="https://docs.google.com/forms/d/e/1FAIpQLSdKyXpXY1C4caWD3baQBK1dPjEboOJ9dpj9flc-ursqq8KU0w/viewform">
+              Sign up here
+            </ButtonLink>
+          </Box>
         </Box>
-      </>
+      </Container>
     );
   }
 }
