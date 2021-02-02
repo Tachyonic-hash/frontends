@@ -10,9 +10,9 @@ class Demo extends Component {
     	<div>
 	    	<div class={styles.quoteSection}>
 				<div class={styles.logo}>
-		    			<img src={ethTiltedLogo}></img>
+		    			<img alt="" src={ethTiltedLogo}></img>
 		    	</div>
-				<img class={styles.quotationMark} src={quotationMarks}></img>
+				<img alt="" class={styles.quotationMark} src={quotationMarks}></img>
 	    		<div class={styles.quote}>
 					<h1>The OVM is one of the most exciting developments for Ethereum today. It
 		    		tackles one of the biggest problems a project like ours has - how to 
@@ -21,7 +21,7 @@ class Demo extends Component {
 		    		infrastructure and in connecting to other L1 services we rely on, such as The Graph.”</h1>
 		    		<div class={styles.flexContainer}>
 		    			<div class={styles.flexItem}>
-		    				<img src={justin}></img>
+		    				<img alt="" src={justin}></img>
 		    			</div>
 		    			<div class={styles.flexItem}>
 		    				<div>Justin J. Moses</div>

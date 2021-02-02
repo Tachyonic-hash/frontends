@@ -15,8 +15,8 @@ class Demo extends Component {
 			</div>
     		<div class={styles.demoCard}>
 	    		<div class={styles.flexDemoHeader}>
-		    		<div class={styles.flexItem}><img className={styles.synthetixLogo} src={synthetixlogo}></img></div>
-					<a href='https://blog.synthetix.io/l2-sx-ovm-demo-results/' target="_blank">
+		    		<div class={styles.flexItem}><img alt="" className={styles.synthetixLogo} src={synthetixlogo}></img></div>
+					<a href='https://blog.synthetix.io/l2-sx-ovm-demo-results/' target="_blank" rel="noopener noreferrer">
 						<div class={styles.flexItem}><button>Demo Recap↗</button></div>
 					</a>
 	    		</div>
