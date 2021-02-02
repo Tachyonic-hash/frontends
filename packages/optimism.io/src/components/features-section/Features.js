@@ -20,7 +20,7 @@ class Features extends Component {
     				<a href="https://unipig.exchange/welcome">UNISWAP DEMO COLLAB ↗</a>
     			</div>
     			<div class={styles.flexItem}>
-    				<img src={unipig}></img>
+    				<img alt="" src={unipig}></img>
     			</div>
     		</div>
     		<div class={`${styles.flexContainer} ${styles.wrap}`} style={{backgroundColor: "#EFF0F8"}}>
@@ -34,7 +34,7 @@ class Features extends Component {
     				</a>
     			</div>
     			<div class={styles.flexItem}>
-    				<img src={integrations}></img>
+    				<img alt="" src={integrations}></img>
     			</div>
     		</div>
     		<div class={`${styles.flexContainerDark} ${styles.wrap}`}>
@@ -45,7 +45,7 @@ class Features extends Component {
     				by Ethereum.</p>
     			</div>
     			<div class={styles.flexItem}>
-    				<img src={babyeth}></img>
+    				<img alt="" src={babyeth}></img>
     			</div>
     		</div>
 	    </div>

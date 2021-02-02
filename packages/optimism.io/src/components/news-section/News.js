@@ -12,7 +12,7 @@ class News extends Component {
 	    	<div class={`${styles.flexNews} ${styles.wrap}`}>
 		        <div class={styles.flexItem}>
 		        	<div class={styles.date}>15 Jan</div>
-		        	<img src={news1}></img>
+		        	<img alt="" src={news1}></img>
 		        	<h3>The Block | Non-techincal</h3>
 		        	<h2><a href="https://www.theblockcrypto.com/post/53017/plasma-group-researchers-
 		        	raise-3-5m-from-paradigm-and-ideo-to-start-new-company">
@@ -20,7 +20,7 @@ class News extends Component {
 		        </div>
 		        <div class={styles.flexItem}>
 		        	<div class={styles.date}>11 Feb</div>
-		        	<img src={news2}></img>
+		        	<img alt="" src={news2}></img>
 		        	<h3>Our Blog | Mildly technical</h3>
 		        	<h2><a href="https://medium.com/ethereum-optimism/optimistic-
 		        	virtual-machine-alpha-cdf51f5d49e">
@@ -28,7 +28,7 @@ class News extends Component {
 		        </div>
 		        <div class={styles.flexItem}>
 		        	<div class={styles.date}>15 Jan</div>
-		        	<img src={news3}></img>
+		        	<img alt="" src={news3}></img>
 		        	<h3>Ethresearch | Very technical</h3>
 		        	<h2><a href="https://ethresear.ch/t/mev-auction-auctioning-transaction-ordering-
 		        	rights-as-a-solution-to-miner-extractable-value/6788">
