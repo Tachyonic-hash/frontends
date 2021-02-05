@@ -22,7 +22,7 @@ export const navItems = [
   // },
   {
     name: 'Github',
-    url: 'https://github.com/ethereum-optimism/optimism-monorepo',
+    url: 'https://github.com/ethereum-optimism',
     categories: ['developers'],
     headerNav: true,
   },

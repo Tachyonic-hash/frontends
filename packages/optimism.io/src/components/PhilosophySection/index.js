@@ -48,7 +48,7 @@ class Philosophy extends Component {
               Our Philosophy
             </SectionHeader>
             <p>
-              Optimism is a Public Benefit Corporation (PBC)="a for-profit
+              Optimism is a Public Benefit Corporation (PBC): a for-profit
               corporation intended to produce a public benefit and operate in a
               responsible and sustainable manner. This means that we are
               obligated to balance the pecuniary interests of our stockholders
