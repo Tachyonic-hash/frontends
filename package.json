@@ -10,13 +10,13 @@
   "private": true,
   "scripts": {
     "gateway:build": "yarn workspace @project/gateway build",
-    "gateway:start": "yarn workspace @project/gateway start"
+    "gateway:start": "yarn workspace @project/gateway start",
+    "home:build": "yarn workspace @project/optimism.io build",
+    "home:start": "yarn workspace @project/optimism.io start",
+    "status:build": "yarn workspace @project/network-status build",
+    "status:start": "yarn workspace @project/network-status start"
   },
   "workspaces": {
-    "nohoist": [
-      "**/@graphprotocol/graph-ts",
-      "**/@graphprotocol/graph-ts/**"
-    ],
     "packages": [
       "packages/*"
     ]
