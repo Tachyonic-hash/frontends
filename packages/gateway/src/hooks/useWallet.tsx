@@ -5,7 +5,7 @@ import { Link, useColorMode, Text } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import Notify, { API } from 'bnc-notify';
 import { Contract } from '@ethersproject/contracts';
-import { abis } from '@project/contracts';
+import { abis } from '../contracts';
 import useToast from './useToast';
 import { modalTypes } from '../components/Modal';
 import { chainIdLayerMap, chainIds } from '../constants';
@@ -44,10 +44,11 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       // if this is reached, it means the user has disconnected metamask
       window.location.reload();
     },
-    [closeModal, toast, connectedChainId]
+    [closeModal, toast, toastIdRef]
   );
 
   const handleChainInitializedOrChanged = React.useCallback(async () => {
+    console.log('handleChainInitializedOrChanged');
     closeModal();
     let provider = walletProvider;
     let chainId = connectedChainId;
@@ -90,7 +91,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       setConnectedChainId(chainId);
       setWalletProvider(provider);
     }
-  }, [connectedChainId, walletProvider]);
+  }, [closeModal, connectedChainId, showErrorToast, walletProvider]);
 
   /** Connect to wallet provider */
   const connectToLayer = async (layer: number) => {

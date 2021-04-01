@@ -15,7 +15,7 @@ import AppContext from '../context';
 import DateTime from 'luxon/src/datetime.js';
 import { tokens as tokenList } from '../tokenLists/optimismTokenList.json';
 import useGraphQueries from '../hooks/useGraphQueries';
-import { abis } from '@project/contracts';
+import { abis } from '../contracts';
 import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
 import {
   chainIds,
@@ -136,11 +136,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     } else {
       tx.layer1Hash = relayedTx?.txHash;
       tx.layer2Hash = tx.txHash;
-      tx.awaitingRelay =
-        !tx.layer1Hash &&
-        DateTime.fromMillis(tx.timestamp)
-          .plus({ days: 7 })
-          .toMillis() < Date.now();
+      tx.awaitingRelay = !tx.layer1Hash && DateTime.fromMillis(tx.timestamp).plus({ days: 7 }).toMillis() < Date.now();
     }
     tx.relayedTxTimestamp = relayedTx && relayedTx.timestamp * 1000;
     return tx;
@@ -300,8 +296,43 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     return amountPending;
   };
 
+  /**
+   * Token total amounts
+   */
+  const calculateTotals = React.useCallback(
+    async (pendingIn: Fraction, pendingOut: Fraction) => {
+      if (!tokenSelection) return;
+      const chainId = connectedChainId || 1;
+
+      const oppositeChainId = oppositeChainIdMap[chainId];
+
+      const l1TokenData = tokenList.find(tokenData => {
+        const id = chainIdLayerMap[chainId] === 1 ? chainId : oppositeChainId;
+        return tokenData.chainId === id && tokenData.symbol === tokenSelection.symbol;
+      });
+      const l2TokenData = tokenList.find(tokenData => {
+        const id = chainIdLayerMap[chainId] === 2 ? chainId : oppositeChainId;
+        return tokenData.chainId === id && tokenData.symbol === tokenSelection.symbol;
+      });
+
+      if (l1TokenData && l2TokenData) {
+        const l1TokenContract = new Contract(l1TokenData.address as string, abis.erc20, l1Provider);
+        const l2TokenContract = new Contract(l2TokenData.address as string, abis.erc20, l2Provider);
+
+        const l1TotalAmt = new Fraction(await l1TokenContract.balanceOf(l1TokenData.extensions.optimismBridgeAddress));
+        const l2TotalAmt = new Fraction(await l2TokenContract.totalSupply());
+
+        const diff = l1TotalAmt.add(pendingIn).subtract(l2TotalAmt).subtract(pendingOut);
+        setl1VsL2lDiff(diff.divide((1e18).toString()).toFixed(2));
+        setl1TotalAmt(l1TotalAmt.divide((1e18).toString()).toFixed(2));
+        setl2TotalAmt(l2TotalAmt.divide((1e18).toString()).toFixed(2));
+      }
+    },
+    [connectedChainId, tokenSelection]
+  );
+
   // fetches batches of 100 txs each in descending timestamp order until we reach the completed txs
-  const calculateStats = async () => {
+  const calculateStats = React.useCallback(async () => {
     let pendingIn: Fraction = new Fraction(JSBI.BigInt(0));
     let pendingOut: Fraction = new Fraction(JSBI.BigInt(0));
     const allUncompletedTxs: Transaction[] = [];
@@ -332,42 +363,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       }
     }
     calculateTotals(pendingIn, pendingOut);
-  };
-
-  /**
-   * Token total amounts
-   */
-  const calculateTotals = async (pendingIn: Fraction, pendingOut: Fraction) => {
-    if (!tokenSelection) return;
-    const chainId = connectedChainId || 1;
-
-    const oppositeChainId = oppositeChainIdMap[chainId];
-
-    const l1TokenData = tokenList.find(tokenData => {
-      const id = chainIdLayerMap[chainId] === 1 ? chainId : oppositeChainId;
-      return tokenData.chainId === id && tokenData.symbol === tokenSelection.symbol;
-    });
-    const l2TokenData = tokenList.find(tokenData => {
-      const id = chainIdLayerMap[chainId] === 2 ? chainId : oppositeChainId;
-      return tokenData.chainId === id && tokenData.symbol === tokenSelection.symbol;
-    });
-
-    if (l1TokenData && l2TokenData) {
-      const l1TokenContract = new Contract(l1TokenData.address as string, abis.erc20, l1Provider);
-      const l2TokenContract = new Contract(l2TokenData.address as string, abis.erc20, l2Provider);
-
-      const l1TotalAmt = new Fraction(await l1TokenContract.balanceOf(l1TokenData.extensions.optimismBridgeAddress));
-      const l2TotalAmt = new Fraction(await l2TokenContract.totalSupply());
-
-      const diff = l1TotalAmt
-        .add(pendingIn)
-        .subtract(l2TotalAmt)
-        .subtract(pendingOut);
-      setl1VsL2lDiff(diff.divide((1e18).toString()).toFixed(2));
-      setl1TotalAmt(l1TotalAmt.divide((1e18).toString()).toFixed(2));
-      setl2TotalAmt(l2TotalAmt.divide((1e18).toString()).toFixed(2));
-    }
-  };
+  }, [calculateTotals, fetchTransactions]);
 
   /**
    * Fetches on initial page load
@@ -395,6 +391,9 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     connectedChainId,
     txsLoading,
     transactions,
+    isAdmin,
+    calculateStats,
+    fetchTransactions,
   ]);
 
   /**
@@ -418,7 +417,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     if (filterAddress) {
       fetchTransactions({});
     }
-  }, [filterAddress]);
+  }, [fetchTransactions, filterAddress]);
 
   const currentNetworkLayer =
     network === 'kovan'

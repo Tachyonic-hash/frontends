@@ -9,11 +9,8 @@
   ],
   "private": true,
   "scripts": {
-    "app:build": "yarn workspace @project/react-app build",
-    "app:eject": "yarn workspace @project/react-app eject",
-    "app:start": "yarn workspace @project/react-app start",
-    "app:test": "yarn workspace @project/react-app test",
-    "app:deploy": "surge packages/react-app/build optimism-snx-tracker.surge.sh"
+    "gateway:build": "yarn workspace @project/gateway build",
+    "gateway:start": "yarn workspace @project/gateway start"
   },
   "workspaces": {
     "nohoist": [

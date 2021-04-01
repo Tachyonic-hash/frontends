@@ -1,11 +1,10 @@
-# OΞ Optimism Gateway
+# OΞ Optimism Frontends
 
-This app enables L1<>L2 ETH transfers and tracks transactions to & from Optimism
-## Running locally
+This monorepo contains all of Optimism's frontends:
+- optimism.io - `packages/optimism.io`
+- gateway.optimism.io - `packages/gateway`
+- status.optimism.io - `packages/status`
 
-`yarn` to install
-`yarn app:start` to run the website
-
-## Contributing
-
-- Branch from `staging` and please follow existing code patterns unless you have a compelling reason to change them
+Additionally packages:
+- `packages/ovm-subgraphs` - git submodule hosted at https://github.com/ethereum-optimism/ovm-subgraphs)
+- `packages/shared-ui` - shared react components (header, footer, etc)
