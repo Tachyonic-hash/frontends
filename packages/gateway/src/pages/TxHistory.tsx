@@ -53,7 +53,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const [l1VsL2lDiff, setl1VsL2lDiff] = React.useState<string>('');
   const [totalTxCount, setTotalTxCount] = React.useState(Number.MAX_SAFE_INTEGER); // used for pagination
   const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>();
-  const filterAddress = params.address || userAddress;
+  const [filterAddress, setFilterAddress] = React.useState(params.address || userAddress);
   const {
     sentMessagesFromL1,
     sentMessagesFromL2,
@@ -413,11 +413,18 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     }
   }, [location, queryParams, setTokenSelection]);
 
+  /**
+   * Fetch if currently filtering by an address
+   */
   React.useEffect(() => {
-    if (filterAddress) {
-      fetchTransactions({});
+    if (params.address || userAddress) {
+      const newFilterAddress = params.address || userAddress;
+      if (newFilterAddress !== filterAddress) {
+        setFilterAddress(newFilterAddress);
+        fetchTransactions({});
+      }
     }
-  }, [fetchTransactions, filterAddress]);
+  }, [fetchTransactions, filterAddress, params.address, userAddress]);
 
   const currentNetworkLayer =
     network === 'kovan'
