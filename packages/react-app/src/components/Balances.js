@@ -4,8 +4,6 @@ import {
   Image,
   Heading,
   HStack,
-  Grid,
-  GridItem,
   Text,
   NumberInput,
   NumberInputField,
@@ -15,14 +13,17 @@ import {
   useColorModeValue,
   Button,
   Spinner,
+  IconButton,
 } from '@chakra-ui/react';
+import { InfoOutlineIcon } from '@chakra-ui/icons';
 import OptimismButton from './OptimismButton';
 import { ArrowDownIcon } from '@chakra-ui/icons';
-import { capitalize } from '../helpers';
 import { chainIdLayerMap, chainIds } from '../constants';
+import { modalTypes } from './Modal';
+import AppContext from '../context';
 
 const MaxButton = ({ onClick }) => (
-  <Button opacity={0.8} bg="transparent" p={0.5} _focus={{ boxShadow: 'none' }} onClick={onClick}>
+  <Button opacity={0.8} bg="transparent" p={0.5} _focus={{ boxShadow: 'none' }} onClick={onClick} height="auto">
     Max
   </Button>
 );
@@ -34,7 +35,6 @@ const TopRow = ({
   inputValue,
   heading,
   handleTransaction,
-  txPending,
   bg,
   isDisabled,
 }) => {
@@ -46,14 +46,22 @@ const TopRow = ({
       <Heading size="sm" mt={0} mb={4} px={2}>
         {heading}
       </Heading>
-      <Box columnGap={4} templateColumns="1fr 50px" borderRadius="20px" padding="1rem 1rem 1.5rem" bg={bg}>
+      <Box borderRadius="20px" padding="1rem 1rem 1.5rem" bg={bg}>
         <Box>
           <AccentText />
           <Box d="flex" alignItems="center" mb={4} justifyContent="space-between">
-            <Box d="flex" alignItems="center">
+            <Box fontSize="1.125rem" d="flex" alignItems="center">
               <Image d="inline" w={5} h={5} mr={2} src="/logos/ETH.svg" alt="ETH Logo" />
-              <Box whiteSpace="pre" overflow="hidden" textOverflow="ellipsis" mr={2}>
-                <Button bg="transparent !important" padding={0} onClick={handleMaxValue}>
+              <Box whiteSpace="pre" overflow="hidden" textOverflow="ellipsis" mr={2} d="flex" alignItems="center">
+                <Button
+                  fontSize="1.125rem"
+                  bg="transparent !important"
+                  fontWeight="300 !important"
+                  minW={0}
+                  padding={0}
+                  onClick={handleMaxValue}
+                  height="auto"
+                >
                   {balancesLoading ? <Spinner size="xs" /> : balance}
                 </Button>
               </Box>{' '}
@@ -91,27 +99,26 @@ const TopRow = ({
 };
 
 const AccentText = () => (
-  <Text fontSize="sm" opacity={0.7} mb={2}>
+  <Text fontSize="1.125rem" opacity={0.7} mb={2}>
     Balance
   </Text>
 );
 
-function Balances({
-  contracts,
-  userAddress,
-  txPending,
-  l1Balance,
-  l2Balance,
-  inputValue,
-  setInputValue,
-  handleDeposit,
-  handleWithdraw,
-  showErrorToast,
-  showConnectModal,
-  connectedChainId,
-  switchLayers,
-  balancesLoading,
-}) {
+function Balances({ openModal }) {
+  const {
+    userAddress,
+    contracts,
+    connectedChainId,
+    l1Balance,
+    l2Balance,
+    balancesLoading,
+    txPending,
+    inputValue,
+    setInputValue,
+    handleDeposit,
+    handleWithdraw,
+    swapLayers,
+  } = React.useContext(AppContext);
   const sectionBg = useColorModeValue('white', 'gray.800');
   const connectedLayer = chainIdLayerMap[connectedChainId];
   const network =
@@ -119,25 +126,32 @@ function Balances({
 
   return (
     <>
-      <Box pb={8} d="flex" alignItems="center" justifyContent="space-between">
-        <Box>
-          {connectedLayer && (
-            <>
-              Connected to{' '}
-              <Box as="span" color="brand.primary">
-                {connectedLayer === 1 ? capitalize(network) : 'Optimism'}
-              </Box>
-            </>
-          )}
-        </Box>
+      <Box pb={8} d="flex" justifyContent="space-between">
+        <IconButton
+          top="-12px"
+          left="-20px"
+          variant="outline"
+          borderWidth={0}
+          colorScheme="teal"
+          aria-label="Call Sage"
+          fontSize="20px"
+          borderRadius="100%"
+          onClick={() => openModal(modalTypes.INFO)}
+          icon={<InfoOutlineIcon color="brand.secondary" />}
+        />
         {connectedLayer ? (
-          <OptimismButton size="sm" ml={4} px={0} boxShadow="none !important" onClick={switchLayers} variant="link">
-            Switch network
+          <OptimismButton
+            alignItems="flex-start"
+            size="sm"
+            px={0}
+            boxShadow="none !important"
+            onClick={swapLayers}
+            variant="link"
+          >
+            Switch to layer {connectedLayer === 1 ? '2' : '1'}
           </OptimismButton>
         ) : (
-          <Text fontWeight="bold" color="brand.primary">
-            Not connected
-          </Text>
+          <Text color="brand.primary">Not connected</Text>
         )}
       </Box>
 
@@ -148,7 +162,6 @@ function Balances({
           heading={connectedLayer ? network.toUpperCase() : ''}
           handleTransaction={handleDeposit}
           inputValue={inputValue}
-          txPending={txPending}
           bg={sectionBg}
           isDisabled={connectedLayer === null}
           balancesLoading={balancesLoading}
@@ -160,7 +173,6 @@ function Balances({
           setInputValue={setInputValue}
           heading={connectedLayer ? 'OPTIMISM' : ''}
           handleTransaction={handleWithdraw}
-          txPending={txPending}
           bg={sectionBg}
           balancesLoading={balancesLoading}
         />
@@ -176,11 +188,22 @@ function Balances({
         color={connectedLayer ? 'brand.primary' : 'inherit'}
       />
       <Heading size="sm" mt={0} mb={4} px={2}>
-        {connectedLayer === 2 ? network.toUpperCase() : connectedLayer === 1 ? 'OPTIMISM' : ''}
+        {connectedLayer === 2
+          ? network.toUpperCase()
+          : connectedLayer === 1
+          ? `${network === 'kovan' ? 'KOVAN ' : ''}OPTIMISM`
+          : ''}
       </Heading>
       <Box px={4} borderWidth="1px" borderRadius="20px" py="1rem">
         <AccentText />
-        <Box whiteSpace="pre" textOverflow="ellipsis" overflow="hidden" d="flex" alignItems="center">
+        <Box
+          fontSize="1.125rem !important"
+          whiteSpace="pre"
+          textOverflow="ellipsis"
+          overflow="hidden"
+          d="flex"
+          alignItems="center"
+        >
           <Image d="inline" w={5} h={5} mr={2} src="/logos/ETH.svg" alt="ETH Logo" />
           {balancesLoading ? <Spinner size="xs" /> : connectedLayer === 2 ? l1Balance : l2Balance} ETH
         </Box>
@@ -195,7 +218,7 @@ function Balances({
             Withdraw
           </OptimismButton>
         ) : (
-          <OptimismButton size="huge" onClick={showConnectModal} textTransform="uppercase">
+          <OptimismButton size="huge" onClick={() => openModal(modalTypes.CHOOSE_NETWORK)} textTransform="uppercase">
             Connect
           </OptimismButton>
         )}

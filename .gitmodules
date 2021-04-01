@@ -1,6 +1,3 @@
-[submodule "packages/optimism-l1-subgraph"]
-	path = packages/optimism-l1-subgraph
-	url = https://github.com/ethereum-optimism/optimism-l1-subgraph.git
-[submodule "packages/optimism-l2-subgraph"]
-	path = packages/optimism-l2-subgraph
-	url = https://github.com/ethereum-optimism/optimism-l2-subgraph.git
+[submodule "packages/ovm-subgraphs"]
+	path = packages/ovm-subgraphs
+	url = https://github.com/ethereum-optimism/ovm-subgraphs.git

@@ -16,15 +16,9 @@ function Pulse(props) {
         animation="pulsate 1s ease-out infinite"
         opacity="0"
       />
-      <Box
-        width="12px"
-        height="12px"
-        backgroundColor={colors.brandSecondary}
-        borderRadius="50%"
-        position="absolute"
-        top="4px"
-        left="4px"
-      />
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="30" fill={colors.brandSecondary} />
+      </svg>
     </Box>
   );
 }

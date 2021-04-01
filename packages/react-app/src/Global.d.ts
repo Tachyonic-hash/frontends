@@ -1,10 +1,12 @@
+declare type GenericObject = { [key: string]: any };
+
 declare type Transaction = {
   account?: string;
   to?: string;
   from?: string;
   message?: string;
   timestamp: number;
-  hash?: string;
+  txHash?: string;
   layer1Hash?: string;
   layer2Hash?: string;
   awaitingRelay?: boolean;
@@ -12,18 +14,19 @@ declare type Transaction = {
   amount?: bigint;
   index: number;
   msgHash?: string;
+  iconURL?: string;
+  symbol?: string;
+  tokenId?: string;
 };
 
 declare type TokenSelection = {
   name: string;
   symbol: string;
   iconURL: string;
-  coingeckoId: string;
+  id: string;
 };
 
-declare type TransactionViewType = 'deposits' | 'withdrawals';
-
-declare type TableViewType = 'incoming' | 'outgoing';
+declare type TransactionType = 'deposits' | 'withdrawals';
 
 declare type Layer = 1 | 2;
 

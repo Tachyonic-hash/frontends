@@ -4,5 +4,9 @@
   "jsRules": {
   },
   "rulesDirectory": [],
-  "rules": {}
+  "rules": {
+    "no-shadowed-variable": false,
+    "jsx-no-lambda": false,
+    "no-console": false
+  }
 }

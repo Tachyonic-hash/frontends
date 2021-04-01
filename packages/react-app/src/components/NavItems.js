@@ -8,9 +8,10 @@ function NavItems({ screenSm }) {
     <>
       {[
         { path: '/', text: 'Gateway' },
-        { path: '/txs', text: 'History' },
+        { path: '/txs', text: 'Transactions' },
       ].map(navItem => (
         <Link
+          key={navItem.path}
           as={RouterLink}
           fontSize={'1.4rem'}
           color="default !important"

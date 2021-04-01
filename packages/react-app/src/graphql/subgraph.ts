@@ -1,100 +1,51 @@
 import { gql } from 'apollo-boost';
 
-export const getDeposits = (indexTo?: number) => {
-  const queryString = `
-  ${indexTo ? `query deposits($indexTo: Int!)` : ''} {
-    deposits(first: 100, orderBy: index, orderDirection: desc ${indexTo ? `, where: { index_lt: $indexTo }` : ''}) {
-      index
-      account
-      amount
-      timestamp
-      hash
-    }
-  }
+const sentMsgTxResponseParams = `
+    txHash
+    from
+    message
+    timestamp
+    index
 `;
-  return gql(queryString);
-};
 
-export const getWithdrawals = (indexTo?: number) => {
-  const queryString = `
-  ${indexTo ? `query withdrawals($indexTo: Int!)` : ''} {
-    withdrawals(first: 100, orderBy: index, orderDirection: desc ${indexTo ? `, where: { index_lt: $indexTo }` : ''}) {
-      index
-      account
-      amount
-      timestamp
-      hash
-    }
+export const GET_ALL_SENT_MSGS = gql`
+  query sentMessages($indexTo: Int) {
+    sentMessages(first: 100, orderBy: index, orderDirection: desc , where: { index_lt: $indexTo }) {
+    ${sentMsgTxResponseParams}
   }
-`;
-  return gql(queryString);
-};
+}`;
 
-export const getSentMessages = ({ searchHashes, indexTo }: { searchHashes?: string[]; indexTo?: number } = {}) => {
-  let query = '';
-  const responseContent = ` {
-      hash
-      from
-      message
-      timestamp
-      index
-    }
-  }`;
-  if (searchHashes && indexTo) {
-    query =
-      `
-    query sentMessages($searchHashes: [String!], $indexTo: Int!) {
-      sentMessages(first: 100, orderBy: index, orderDirection: desc , where: { hash_in: $searchHashes, index_lt: $indexTo }) ` +
-      responseContent;
-  } else if (indexTo) {
-    query =
-      `
-    query sentMessages($indexTo: Int!) {
-      sentMessages(first: 100, orderBy: index, orderDirection: desc , where: { index_lt: $indexTo }) ` +
-      responseContent;
-  } else if (searchHashes) {
-    query =
-      `
-    query sentMessages($searchHashes: [String!]) {
-      sentMessages(first: 100, orderBy: index, orderDirection: desc , where: { hash_in: $searchHashes }) ` +
-      responseContent;
-  } else {
-    query =
-      `{
-  sentMessages(first: 100, orderBy: index, orderDirection: desc) ` + responseContent;
+export const GET_SENT_MSGS_BY_ADDRESS = gql`
+  query sentMessages($address: String!, $indexTo: Int!) {
+    sentMessages(first: 100, orderBy: index, orderDirection: desc , where: { from: $address, index_lt: $indexTo }) {
+    ${sentMsgTxResponseParams}
   }
-  return gql(query);
-};
+}`;
 
-export const getRelayedMessages = (searchHashes?: string[]) => {
-  const queryString = `
-  ${searchHashes ? `query relayedMessages($searchHashes: [String!])` : ''} {
-    relayedMessages(first: 100, orderBy: timestamp, orderDirection: desc ${
-      searchHashes ? `, where: { msgHash_in: $searchHashes }` : ''
-    }) {
-      hash
+const relayedMsgTxResponseParams = `
+      txHash
       timestamp
       msgHash
-    }
-  }
 `;
-  return gql(queryString);
-};
+
+export const GET_ALL_RELAYED_MSGS = gql`{
+    relayedMessages(first: 100, orderBy: index, orderDirection: desc ) {
+    ${relayedMsgTxResponseParams}
+    }
+  }`;
+
+export const GET_RELAYED_MSGS_BY_HASH_LIST = gql`
+  query relayedMessages($searchHashes: [String!]) {
+    relayedMessages(first: 100, orderBy: index, orderDirection: desc , where: { msgHash_in: $searchHashes }) {
+    ${relayedMsgTxResponseParams}
+  }
+}`;
 
 export const GET_MSG_STATS = gql`
   {
     messageStats(id: "1") {
       sentMessageCount
       relayedMessageCount
-    }
-  }
-`;
-
-export const GET_TX_STATS = gql`
-  {
-    txStats(id: "1") {
-      totalCount
-      totalAmount
     }
   }
 `;

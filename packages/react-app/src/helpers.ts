@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
 import { abis } from '@project/contracts';
-import DateTime from 'luxon/src/datetime.js';
-import { getRelayedMessages } from './graphql/subgraph';
-import { QueryResult } from '@apollo/client';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { chainIdLayerMap, chainIds } from './constants';
+import { tokens as tokenList } from './tokenLists/optimismTokenList.json';
 
-const xDomainInterface = new ethers.utils.Interface(abis.XDomainMessenger);
+const xDomainInterface = new ethers.utils.Interface(abis.xDomainMessenger);
 
 export const formatNumber = (num: number | string) => {
   return new Intl.NumberFormat('en-US', { maximumSignificantDigits: 20 }).format(+num);
@@ -38,52 +38,48 @@ export const formatUSD = (num: number) =>
 
 export const decodeSentMessage = (message: string) => xDomainInterface.decodeFunctionData('relayMessage', message);
 
-export const processSentMessage = (
-  rawTx: Transaction,
-  layer: number,
-  relayedTxs: { msgHash: string; hash: string; timestamp: number }[]
-) => {
-  const tx = { ...rawTx };
-  // tslint:disable-next-line
-  const [_, to] = decodeSentMessage(tx.message as string);
-  const sentMsgHash = ethers.utils.solidityKeccak256(['bytes'], [tx.message]);
-  const relayedTx = relayedTxs.find(msg => msg.msgHash === sentMsgHash);
-  tx.from = rawTx.from;
-  tx.to = to;
-  tx.timestamp = tx.timestamp * 1000;
-  if (layer === 1) {
-    tx.layer1Hash = tx.hash;
-    tx.layer2Hash = relayedTx?.hash;
-  } else {
-    tx.layer1Hash = relayedTx?.hash;
-    tx.layer2Hash = tx.hash;
-    tx.awaitingRelay =
-      !tx.layer1Hash &&
-      DateTime.fromMillis(tx.timestamp)
-        .plus({ days: 7 })
-        .toMillis() < Date.now();
-  }
-  tx.relayedTxTimestamp = relayedTx && relayedTx.timestamp * 1000;
-  return tx;
-};
-
-export const getFilteredRelayedTxs = async (
-  sentMsgTxs: Transaction[],
-  relayedMsgTxs: QueryResult<any, Record<string, any>>
-) => {
-  const sentMsgHashes = sentMsgTxs.map((msgTx: Transaction) => {
-    return ethers.utils.solidityKeccak256(['bytes'], [msgTx.message]);
-  });
-  const relayedTxs = (
-    await relayedMsgTxs.fetchMore({
-      variables: { searchHashes: sentMsgHashes },
-      query: getRelayedMessages(sentMsgHashes),
-    })
-  ).data.relayedMessages;
-  return relayedTxs;
-};
-
 export const capitalize = (s: string) => {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+export const shortenAddress = (address: string = '', charLength: number = 12) =>
+  address.slice(0, charLength + 2) + '...' + address.slice(address.length - charLength, address.length);
+
+export const getRpcProviders = (chainId: number) => {
+  // TODO: show error if node endpoints are not repsonsive
+  const network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
+  const rpcL1 = new JsonRpcProvider(`https://${network}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
+  const rpcL2 = new JsonRpcProvider(`https://${network}.optimism.io`);
+  return [rpcL1, rpcL2];
+};
+
+export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0) => {
+  const network =
+    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2
+      ? 'kovan'
+      : connectedChainId === chainIds.MAINNET_L1 || connectedChainId === chainIds.MAINNET_L2
+      ? 'mainnet'
+      : '';
+
+  if (!network) console.error('unsupported network!');
+
+  const l1Data = tokenList.find(
+    tokenData =>
+      tokenData.symbol === token &&
+      ((tokenData.chainId === chainIds.KOVAN_L1 && network === 'kovan') ||
+        (tokenData.chainId === chainIds.MAINNET_L1 && network === 'mainnet'))
+  );
+  const l2Data = tokenList.find(
+    tokenData =>
+      tokenData.symbol === token &&
+      ((tokenData.chainId === chainIds.KOVAN_L2 && network === 'kovan') ||
+        (tokenData.chainId === chainIds.MAINNET_L2 && network === 'mainnet'))
+  );
+  const l1Address =
+    ethers.utils.isAddress(l1Data?.extensions.optimismBridgeAddress || '') && l1Data?.extensions.optimismBridgeAddress;
+  const l2Address =
+    ethers.utils.isAddress(l2Data?.extensions.optimismBridgeAddress || '') && l2Data?.extensions.optimismBridgeAddress;
+
+  return [l1Address || '', l2Address || ''];
 };

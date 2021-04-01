@@ -1,0 +1,105 @@
+{
+  "name": "Optimism",
+  "logoURI": "https://www.coingecko.com/assets/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png",
+  "keywords": [
+    "scaling",
+    "layer2",
+    "infrastructure"
+  ],
+  "timestamp": "2021-03-22T10:01:21.042+00:00",
+  "tokens": [
+    {
+      "chainId": 1,
+      "address": "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
+      "name": "Synthetix",
+      "symbol": "SNX",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/synthetix-network-token-snx-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0x045e507925d2e05D114534D0810a1abD94aca8d6"
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0xD85eAFa37734E4ad237C3A3443D64DC94ae998E7",
+      "name": "Synthetix",
+      "symbol": "SNX",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/synthetix-network-token-snx-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0x4D7186818daBFe88bD80421656BbD07Dffc979Cc"
+      }
+    },
+    {
+      "chainId": 42,
+      "address": "0xD85eAFa37734E4ad237C3A3443D64DC94ae998E7",
+      "name": "Synthetix",
+      "symbol": "SNX",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/synthetix-network-token-snx-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0xE8Bf8fe5ce9e15D30F478E1647A57CB6B0271228"
+      }
+    },
+    {
+      "chainId": 69,
+      "address": "0xCA731366244C07221C07fC25d660b365A02bDcB7",
+      "name": "Synthetix",
+      "symbol": "SNX",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/synthetix-network-token-snx-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0xC2E4aB21D4d68B82bA71C2Fb449EC8aACc86133A"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": null,
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "TODO"
+      }
+    },
+    {
+      "chainId": 10,
+      "address": null,
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0x4200000000000000000000000000000000000006"
+      }
+    },
+    {
+      "chainId": 42,
+      "address": null,
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0x6647D5BD9EB9425838Bb89f76a166228b95671a3"
+      }
+    },
+    {
+      "chainId": 69,
+      "address": null,
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
+      "extensions": {
+        "optimismBridgeAddress": "0x4200000000000000000000000000000000000006"
+      }
+    }
+  ],
+  "version": {
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

@@ -27,7 +27,7 @@ const theme = extendTheme({
         marginTop: '2rem',
       },
       h2: {
-        fontWeight: '400 !important',
+        fontWeight: '200 !important',
         margin: '3.5rem auto 3rem',
       },
       h3: {
@@ -42,20 +42,29 @@ const theme = extendTheme({
         marginTop: '2rem',
         fontWeight: '200 !important',
       },
+      label: {
+        opacity: '0.7 !important',
+      },
     },
   },
   components: {
     Link: {
       baseStyle: ({ colorMode }: { colorMode: string }) => ({
         color: colorMode === 'dark' ? colors.brandSecondaryLight : colors.brandSecondary,
+        boxShadow: 'none !important',
+        textDecoration: 'none !important',
       }),
     },
   },
   colors: {
+    darkBackground: colors.darkBackground,
     brand: {
       primary: colors.brandPrimary,
+      primaryLowOpacity: colors.primaryLowOpacity,
       secondary: colors.brandSecondary,
       secondaryLight: colors.brandSecondaryLight,
+      secondaryDark: colors.brandSecondaryDark,
+      secondaryLowOpacity: colors.secondaryLowOpacity,
     },
   },
   fonts: {
@@ -65,7 +74,7 @@ const theme = extendTheme({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={clients.l2}>
+  <ApolloProvider client={clients.mainnet.l1}>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
