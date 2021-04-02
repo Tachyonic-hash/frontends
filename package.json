@@ -20,7 +20,17 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": ["**/react-dom/**", "**/babel-jest","**/react-scripts", "**/react-scripts/**", "**/jest", "**/webpack"]
+    "nohoist": [
+      "**/react",
+      "**/react/**",
+      "**/react-dom",
+      "**/react-dom/**",
+      "**/babel-jest",
+      "**/react-scripts",
+      "**/react-scripts/**",
+      "**/jest",
+      "**/webpack"
+    ]
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
