@@ -1,0 +1,24 @@
+# L1 to L2 message from OVM_L1CrossDomainMessenger
+type SentMessage @entity {
+  id: ID!
+  index: Int!
+  timestamp: Int!
+  txHash: String!
+  from: Bytes!
+  message: Bytes!
+}
+
+type RelayedMessage @entity {
+  id: ID!
+  to: Bytes!
+  txHash: String!
+  timestamp: Int!
+  msgHash: String!
+  index: Int!
+}
+
+type MessageStats @entity {
+  id: ID!
+  sentMessageCount: Int!
+  relayedMessageCount: Int!
+}

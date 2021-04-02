@@ -1,0 +1,32 @@
+mainnet:
+  startBlock: 11657097
+  contracts:
+    ovmCrossDomainMessenger:
+      address: "0xfBE93ba0a2Df92A8e8D40cE00acCF9248a6Fc812"
+    ovmL1EthGateway:
+      address: "0x0000000000000000000000000000000000000000" # TODO: replace this
+  networkName: mainnet
+optimism:
+  startBlock: 0
+  contracts:
+    ovmCrossDomainMessenger:
+      address: "0x4200000000000000000000000000000000000007"
+    ovmETH:
+      address: "0x4200000000000000000000000000000000000006"
+  networkName: optimism
+kovan:
+  startBlock: 23037306
+  contracts:
+    ovmCrossDomainMessenger:
+      address: "0xb89065D5eB05Cac554FDB11fC764C679b4202322"
+    ovmL1EthGateway:
+      address: "0x6647D5BD9EB9425838Bb89f76a166228b95671a3"
+  networkName: kovan
+kovan-optimism:
+  startBlock: 0
+  contracts:
+    ovmCrossDomainMessenger:
+      address: "0x4200000000000000000000000000000000000007"
+    ovmETH:
+      address: "0x4200000000000000000000000000000000000006"
+  networkName: optimism-kovan
