@@ -19,17 +19,6 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/react",
-      "**/react/**",
-      "**/react-dom",
-      "**/react-dom/**",
-      "**/babel-jest",
-      "**/react-scripts",
-      "**/react-scripts/**",
-      "**/jest",
-      "**/webpack"
     ]
   },
   "dependencies": {
