@@ -9,6 +9,8 @@
   ],
   "private": true,
   "scripts": {
+    "common:build": "yarn workspace @optimism/common-ui build",
+    "common:start": "yarn workspace @optimism/common-ui start",
     "gateway:build": "yarn workspace gateway.optimism.io build",
     "gateway:start": "yarn workspace gateway.optimism.io start",
     "home:build": "yarn workspace optimism.io build",

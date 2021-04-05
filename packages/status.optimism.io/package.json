@@ -1,5 +1,5 @@
 {
-  "name": "status-ui",
+  "name": "status.optimism.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,12 +10,12 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
-    "eslint-plugin-jest": "^24.3.3",
     "framer-motion": "^3.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "@optimism/common-ui": "*"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,7 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "eslint-plugin-jest": "^24.3.3"
-  }
+  "nohoist": ["**/babel**", "**/eslint**", "**/jest", "**/webpack**"]
 }
