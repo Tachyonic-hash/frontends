@@ -4,6 +4,7 @@ import { Container, useDisclosure, useMediaQuery } from '@chakra-ui/react';
 import ETHGateway from './pages/ETHGateway';
 import TxHistory from './pages/TxHistory';
 import HeaderNav from './components/HeaderNav';
+import Footer from './components/Footer';
 import Modal, { modalTypes } from './components/Modal';
 import useWallet from './hooks/useWallet';
 import AppContext from './context';
@@ -97,7 +98,7 @@ function App() {
         handleDisconnect,
       }}
     >
-      <Container maxW={'1400px'} py={2} px={4}>
+      <Container maxW={'1400px'} py={2} px={4} minH="calc(100vh)">
         <Modal isOpen={isModalOpen} onClose={closeModal} currentModal={currentModal} />
         <HeaderNav
           isMobileDrawerOpen={isMobileDrawerOpen}
@@ -122,6 +123,7 @@ function App() {
           </Route>
         </Switch>
       </Container>
+      <Footer />
     </AppContext.Provider>
   );
 }

@@ -84,7 +84,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         status: 'error',
         duration: 2000,
         isClosable: true,
-        position: 'bottom-right',
+        position: 'bottom-left',
       });
     }
   };

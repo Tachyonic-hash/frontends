@@ -12,20 +12,20 @@ import {
   useColorMode,
   HStack,
   Text,
+  Image,
   useToast,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Link as RouterLink } from 'react-router-dom';
-import NavItems from './NavItems';
 import { HamburgerSpin } from 'react-animated-burgers';
 import { chainIds } from '../constants';
 import { modalTypes } from './Modal';
+import NavItems from '../components/NavItems';
 import { shortenAddress } from '../helpers';
 import AppContext from '../context';
 
 const Title = () => (
-  <Link as={RouterLink} to="/" textDecoration="none !important" boxShadow="none !important">
+  <Link href="https://optimism.io" textDecoration="none !important" boxShadow="none !important">
     <Heading
       className="rainbowText"
       userSelect="none"
@@ -36,7 +36,7 @@ const Title = () => (
       fontStyle="italic"
       color="brand.primary"
     >
-      OΞ
+      <Image src="/logos/_optimism.svg" w="30px" h="30px" />
     </Heading>
   </Link>
 );
@@ -78,7 +78,7 @@ function HeaderNav({
       status: 'success',
       duration: 3000,
       isClosable: true,
-      position: 'bottom-right',
+      position: 'bottom-left',
     });
   };
 
@@ -118,7 +118,7 @@ function HeaderNav({
               <>
                 <CopyToClipboard text={userAddress} onCopy={copiedToClipboard}>
                   <Text opacity={0.7} cursor="pointer" ml={1} borderWidth="1px" px={2} borderRadius="5px" mr={2}>
-                    {shortenAddress(userAddress || '', screenSm ? 6 : 4)}
+                    {shortenAddress(userAddress || '', screenSm ? 6 : 3)}
                   </Text>
                 </CopyToClipboard>
               </>

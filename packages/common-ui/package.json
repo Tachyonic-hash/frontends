@@ -2,9 +2,7 @@
   "name": "@optimism/common-ui",
   "version": "1.0.12",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
+  "main": "index.js",
   "scripts": {
     "test": "react-scripts test --env=jsdom",
     "build": "rollup -c",
@@ -50,9 +48,6 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-url": "^1.4.0"
   },
-  "files": [
-    "dist"
-  ],
   "workspaces": {
     "nohoist": [
       "**"

@@ -275,7 +275,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         closeModal();
         toast({
           title: 'Success!',
-          position: 'bottom-right',
+          position: 'bottom-left',
           description: (
             <Text>
               <>Your withdrawal was initiated. Navigate to the the transactions page to track its progress.</>
@@ -297,8 +297,9 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     setWalletProvider(undefined);
     setUserAddress(undefined);
     setConnectedChainId(undefined);
-    setL1Balance('');
-    setL2Balance('');
+    setL1Balance('0');
+    setL2Balance('0');
+    setInputValue('0');
     closeModal();
     localStorage.removeItem('previouslyConnected');
     toast({
@@ -307,7 +308,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       status: 'success',
       duration: 3000,
       isClosable: true,
-      position: 'bottom-right',
+      position: 'bottom-left',
     });
   };
 

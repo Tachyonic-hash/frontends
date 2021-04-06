@@ -10,7 +10,7 @@ function useCustomToast() {
     (message?: string | ReactNode) => {
       toastIdRef.current = toast({
         title: 'Error',
-        position: 'bottom-right',
+        position: 'bottom-left',
         description: (
           <Text>
             {message || (
@@ -46,7 +46,7 @@ function useCustomToast() {
         status: 'info',
         duration: 3000,
         isClosable: true,
-        position: 'bottom-right',
+        position: 'bottom-left',
       });
     },
     [toast]

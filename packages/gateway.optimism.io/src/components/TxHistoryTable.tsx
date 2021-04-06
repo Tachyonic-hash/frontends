@@ -58,7 +58,7 @@ function TxHistoryTable({
   isFetchingMore,
   totalTxCount,
 }: TxHistoryProps) {
-  const { connectedChainId, prices, userAddress } = React.useContext(AppContext);
+  const { connectedChainId, prices, userAddress, screenSm } = React.useContext(AppContext);
   const history = useHistory();
   const [lastBtnClicked, setLastBtnClicked] = React.useState('');
   const [dateFormat, setDateFormat] = React.useState('MOMENT');
@@ -77,7 +77,7 @@ function TxHistoryTable({
       status: 'success',
       duration: 3000,
       isClosable: true,
-      position: 'bottom-right',
+      position: 'bottom-left',
     });
   };
 

@@ -66,4 +66,78 @@ export const oppositeChainIdMap = {
   [chainIds.KOVAN_L2]: chainIds.KOVAN_L1,
 };
 
+export const navItems = [
+  {
+    name: 'Demos',
+    url: '/demos',
+    internal: true,
+    categories: ['about'],
+    headerNav: true,
+  },
+  {
+    name: 'Github',
+    url: 'https://github.com/ethereum-optimism',
+    categories: ['developers'],
+    headerNav: true,
+  },
+  {
+    name: 'Documentation',
+    url: 'https://community.optimism.io/docs',
+    categories: ['developers'],
+    headerNav: true,
+  },
+  {
+    name: 'Tutorial',
+    url: 'https://github.com/ethereum-optimism/optimism-tutorial',
+    categories: ['developers'],
+  },
+  {
+    name: 'FAQs',
+    url: 'http://community.optimism.io/faqs',
+    categories: ['developers'],
+  },
+  {
+    name: 'Blog',
+    url: 'https://medium.com/ethereum-optimism',
+    categories: ['about'],
+    headerNav: true,
+  },
+  {
+    name: 'Jobs',
+    url: 'https://angel.co/company/optimism-pbc/jobs',
+    categories: ['about'],
+  },
+  {
+    name: 'Twitter',
+    url: 'https://twitter.com/optimismPBC',
+    categories: ['social'],
+  },
+  {
+    name: 'Discord',
+    url: 'https://discord.com/invite/jrnFEvq',
+    categories: ['social'],
+  },
+  {
+    name: 'Youtube',
+    url: 'https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH',
+    categories: ['social'],
+  },
+  {
+    name: 'Twitch',
+    url: 'https://www.twitch.tv/optimismpbc',
+    categories: ['social'],
+  },
+];
+
+// export const products = navItems.filter((item) => item.categories.includes('product'));
+export const developers = navItems.filter(item => item.categories.includes('developers'));
+export const community = navItems.filter(item => item.categories.includes('community'));
+export const about = navItems.filter(item => item.categories.includes('about'));
+
+export const navCategories = [
+  { heading: 'About', items: about },
+  // { heading: 'Products', items: products },
+  { heading: 'Developers', items: developers },
+];
+
 export const THE_GRAPH_MAX_INTEGER = 2147483647;
