@@ -68,8 +68,7 @@ export const navItems = [
   },
   {
     name: 'Youtube',
-    url:
-      'https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH',
+    url: 'https://www.youtube.com/playlist?list=PLX_rXoLYCf5HqTWygUfoMfzRirGz5lekH',
     categories: ['social'],
   },
   {
@@ -100,15 +99,9 @@ export const navItems = [
 ];
 
 // export const products = navItems.filter((item) => item.categories.includes('product'));
-export const developers = navItems.filter((item) =>
-  item.categories.includes('developers')
-);
-export const community = navItems.filter((item) =>
-  item.categories.includes('community')
-);
-export const about = navItems.filter((item) =>
-  item.categories.includes('about')
-);
+export const developers = navItems.filter(item => item.categories.includes('developers'));
+export const community = navItems.filter(item => item.categories.includes('community'));
+export const about = navItems.filter(item => item.categories.includes('about'));
 
 export const navCategories = [
   { heading: 'About', items: about },

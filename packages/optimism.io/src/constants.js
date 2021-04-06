@@ -34,7 +34,7 @@ export const navItems = [
   },
   {
     name: 'Tutorial',
-    url: 'http://community.optimism.io/tutorial',
+    url: 'https://github.com/ethereum-optimism/optimism-tutorial',
     categories: ['developers'],
   },
   {

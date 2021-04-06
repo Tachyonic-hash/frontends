@@ -188,6 +188,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "nohoist": ["**/babel**", "**/eslint**", "**/jest", "**/webpack**"]
+  }
 }

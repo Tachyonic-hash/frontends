@@ -1,5 +1,8 @@
 import { extendTheme } from '@chakra-ui/react';
 
+// If chakra has something stored locally, clear it (ex: dark/light mode)
+localStorage.clear();
+
 const theme = {
   colors: {
     brandPrimary: '#f01a37',

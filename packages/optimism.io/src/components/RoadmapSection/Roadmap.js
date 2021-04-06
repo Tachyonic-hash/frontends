@@ -28,33 +28,28 @@ class Roadmap extends Component {
                 <td>Launched PoC Unipig Exchange</td>
               </tr>
               <tr className={styles.old}>
-                <td>DEC 2019</td>
-                <td> ✓ </td>
-                <td>Optimism PBC raises $3.5m</td>
-              </tr>
-              <tr className={styles.old}>
-                <td>FEB 2020</td>
-                <td> ✓ </td>
-                <td>Release OVM Alpha</td>
-              </tr>
-              <tr className={styles.old}>
-                <td>APR 2020</td>
-                <td> ✓ </td>
-                <td>Synthetix Demo & Trading Comp</td>
-              </tr>
-              <tr className={styles.old}>
                 <td>SEP 2020</td>
                 <td> ✓ </td>
-                <td>OPTIMISTIC ROLLUP TESTNET</td>
+                <td>Testnet Trial</td>
+              </tr>
+              <tr className={styles.old}>
+                <td>JAN 2021</td>
+                <td> ✓ </td>
+                <td>Test-in-prod Mainnet</td>
               </tr>
               <tr className={styles.current}>
                 <td style={{ color: '#F01A37' }}>
-                  <b>JAN 2021</b>
+                  <b>APR 2021</b>
                 </td>
                 <td></td>
                 <td>
-                  <b>Single Sequencer Mainnet</b>
+                  <b>Hackathon Testnet</b>
                 </td>
+              </tr>
+              <tr className={styles.new}>
+                <td>JUL 2021</td>
+                <td> </td>
+                <td>Public Mainnet</td>
               </tr>
               <tr className={styles.new}>
                 <td>Qz 202a</td>
@@ -69,7 +64,7 @@ class Roadmap extends Component {
             </tbody>
           </table>
           <Divider borderColor="brandPrimary" mb={[8, 16]} mt={20} />
-          <Box mt={20} mx="auto" textAlign="center">
+          <Box my={20} mx="auto" textAlign="center">
             <Text fontSize={[20, 24, 28]}>
               Interested in deploying your app on Optimism?
             </Text>

@@ -4,10 +4,9 @@ import ScrollToTop from './components/ScrollToTop';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Homepage';
-import NotFound from './pages/404';
-// import FAQ from './pages/FAQ';
-// import Philosophy from './pages/Philosophy';
+import NotFound from './pages/NotFound';
 import Demos from './pages/Demos';
+import NetworkStatus from './pages/NetworkStatus';
 import { images } from './constants';
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
     window.onload = () => {
       Object.values(images).forEach((imgSrc, i) => {
         const img = new Image();
-        img.src = imgSrc;
+        img.src = '/images/' + imgSrc;
       });
     };
   }, []);
@@ -47,9 +46,8 @@ function App() {
       <Switch>
         {/* The Switch decides which component to show based on the current URL.*/}
         <Route exact path="/" component={Home} />
-        {/* <Route exact path="/faq" component={FAQ} /> */}
-        {/* <Route exact path="/philosophy" component={Philosophy} /> */}
         <Route path="/demos" component={Demos} />
+        <Route path="/status" component={NetworkStatus} />
         <Route component={NotFound} />
       </Switch>
       <Footer />
