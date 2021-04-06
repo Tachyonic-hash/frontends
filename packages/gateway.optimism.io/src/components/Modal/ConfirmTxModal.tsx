@@ -39,7 +39,7 @@ function ConfirmTxModal({ type }: { type: string }) {
       const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18));
       setL2GasFee(l2GasPrice.mul(l2GasAmount).toString());
     })();
-  }, [connectedChainId, contracts, getRpcProviders, inputValue]);
+  }, [connectedChainId, contracts, inputValue]);
 
   const timeDelay = DateTime.fromMillis(Date.now() + 6.048e8).toLocaleString(DateTime.DATETIME_MED);
 
@@ -61,7 +61,7 @@ function ConfirmTxModal({ type }: { type: string }) {
             <Cell textOverflow="ellipsis" overflow="hidden" whiteSpace="pre">
               Amount:{' '}
             </Cell>
-            <Cell d="flex" justifyContent="space-between">
+            <Cell d="flex">
               <Text textOverflow="ellipsis" overflow="hidden" whiteSpace="pre">
                 {formatNumber(inputValue || 0)}
               </Text>
