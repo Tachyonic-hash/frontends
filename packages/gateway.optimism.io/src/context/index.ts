@@ -25,6 +25,7 @@ type ContextProps = {
   l2Balance: string;
   txPending: boolean;
   swapLayers: () => void;
+  handleDisconnect: () => void;
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});

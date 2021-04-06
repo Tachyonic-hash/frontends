@@ -29,6 +29,7 @@ function App() {
     l2Balance,
     txPending,
     swapLayers,
+    handleDisconnect,
   } = useWallet({ isModalOpen, openModal: handleOpenModal, closeModal });
   const { isOpen: isMobileDrawerOpen, onOpen: openMobileDrawer, onClose: closeMobileDrawer } = useDisclosure();
   const [tokenSelection, setTokenSelection] = React.useState<TokenSelection | undefined>(undefined);
@@ -93,6 +94,7 @@ function App() {
         l2Balance,
         txPending,
         swapLayers,
+        handleDisconnect,
       }}
     >
       <Container maxW={'1400px'} py={2} px={4}>

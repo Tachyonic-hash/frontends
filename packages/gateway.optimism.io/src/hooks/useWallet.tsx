@@ -18,7 +18,6 @@ type UseWalletProps = {
 };
 
 function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
-  const [previouslyConnected, setPreviouslyConnected] = React.useState(false);
   const { showErrorToast, showInfoToast, toastIdRef, toast, warningLinkColor } = useToast();
   const [notify, setNotify] = React.useState<API | undefined>();
   const [isInitialized, setIsInitialized] = React.useState(false);
@@ -90,6 +89,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       setContracts(contracts);
       setConnectedChainId(chainId);
       setWalletProvider(provider);
+      localStorage.setItem('previouslyConnected', 'true');
     }
   }, [closeModal, connectedChainId, showErrorToast, walletProvider]);
 
@@ -292,6 +292,25 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     }
   };
 
+  const handleDisconnect = () => {
+    console.log('hanldeDisconnect');
+    setWalletProvider(undefined);
+    setUserAddress(undefined);
+    setConnectedChainId(undefined);
+    setL1Balance('');
+    setL2Balance('');
+    closeModal();
+    localStorage.removeItem('previouslyConnected');
+    toast({
+      title: 'Disconnected',
+      description: '',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'bottom-right',
+    });
+  };
+
   /**
    * Initializer (runs only once)
    */
@@ -307,8 +326,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
             try {
               await handleChainInitializedOrChanged();
               await connectToLayer();
-              localStorage.setItem('previouslyConnected', 'true');
-              setPreviouslyConnected(true);
             } catch (error) {
               console.error(error);
             }
@@ -326,7 +343,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     handleAccountChanged,
     handleChainInitializedOrChanged,
     isInitialized,
-    previouslyConnected,
     showErrorToast,
     toast,
   ]);
@@ -422,6 +438,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     l2Balance,
     txPending,
     setInputValue,
+    handleDisconnect,
   };
 }
 

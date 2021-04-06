@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, useColorModeValue } from '@chakra-ui/react';
 import ChooseNetworkModal from './ChooseNetworkModal';
+import DisconnectModal from './DisconnectModal';
 import WelcomeModal from './WelcomeModal';
 import ConfirmTxModal from './ConfirmTxModal';
 import AppContext from '../../context';
@@ -20,6 +13,7 @@ export const modalTypes = {
   CONFIRM_WITHDRAWAL: 'CONFIRM_WITHDRAWAL',
   CONFIRM_DEPOSIT: 'CONFIRM_DEPOSIT',
   INFO: 'INFO',
+  DISCONNECT: 'DISCONNECT',
 };
 
 type BaseModalProps = {
@@ -44,6 +38,7 @@ function BaseModal({ isOpen, onClose, currentModal }: BaseModalProps) {
             {currentModal === modalTypes.INFO && <DisclaimerContent />}
             {currentModal === modalTypes.CONFIRM_DEPOSIT && <ConfirmTxModal type="deposit" />}
             {currentModal === modalTypes.CONFIRM_WITHDRAWAL && <ConfirmTxModal type="withdrawal" />}
+            {currentModal === modalTypes.DISCONNECT && <DisconnectModal />}
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -9,14 +9,14 @@
   ],
   "private": true,
   "scripts": {
-    "common:build": "yarn workspace @optimism/common-ui build",
-    "common:start": "yarn workspace @optimism/common-ui start",
-    "gateway:build": "yarn workspace gateway.optimism.io build",
-    "gateway:start": "yarn workspace gateway.optimism.io start",
-    "home:build": "yarn workspace optimism.io build",
-    "home:start": "yarn workspace optimism.io start",
-    "status:build": "yarn workspace status.optimism.io build",
-    "status:start": "yarn workspace status.optimism.io start"
+    "build:common:": "yarn workspace @optimism/common-ui build",
+    "build:common": "yarn workspace @optimism/common-ui start",
+    "build:gateway": "yarn workspace gateway.optimism.io build",
+    "start:gateway": "yarn workspace gateway.optimism.io start",
+    "build:home": "yarn workspace optimism.io build",
+    "start:home": "yarn workspace optimism.io start",
+    "build:status": "yarn workspace status.optimism.io build",
+    "start:status": "yarn workspace status.optimism.io start"
   },
   "workspaces": {
     "packages": [

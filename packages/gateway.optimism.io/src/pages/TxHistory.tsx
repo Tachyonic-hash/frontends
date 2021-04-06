@@ -136,7 +136,11 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     } else {
       tx.layer1Hash = relayedTx?.txHash;
       tx.layer2Hash = tx.txHash;
-      tx.awaitingRelay = !tx.layer1Hash && DateTime.fromMillis(tx.timestamp).plus({ days: 7 }).toMillis() < Date.now();
+      tx.awaitingRelay =
+        !tx.layer1Hash &&
+        DateTime.fromMillis(tx.timestamp)
+          .plus({ days: 7 })
+          .toMillis() < Date.now();
     }
     tx.relayedTxTimestamp = relayedTx && relayedTx.timestamp * 1000;
     return tx;
@@ -322,7 +326,10 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         const l1TotalAmt = new Fraction(await l1TokenContract.balanceOf(l1TokenData.extensions.optimismBridgeAddress));
         const l2TotalAmt = new Fraction(await l2TokenContract.totalSupply());
 
-        const diff = l1TotalAmt.add(pendingIn).subtract(l2TotalAmt).subtract(pendingOut);
+        const diff = l1TotalAmt
+          .add(pendingIn)
+          .subtract(l2TotalAmt)
+          .subtract(pendingOut);
         setl1VsL2lDiff(diff.divide((1e18).toString()).toFixed(2));
         setl1TotalAmt(l1TotalAmt.divide((1e18).toString()).toFixed(2));
         setl2TotalAmt(l2TotalAmt.divide((1e18).toString()).toFixed(2));
@@ -460,7 +467,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         <SearchInput handleAddressSearch={handleAddressSearch} />
         {filterAddress && filterAddress !== userAddress && (
           <SimpleGrid
-            ml={8}
+            ml={screenLg ? 8 : 0}
             opacity={0.8}
             columns={2}
             spacingX={4}

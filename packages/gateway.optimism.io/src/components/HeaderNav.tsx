@@ -138,8 +138,10 @@ function HeaderNav({
             _active={{
               bg: 'brand.primaryLowOpacity',
             }}
-            cursor={connectedNetwork ? 'default' : 'pointer'}
-            onClick={connectedNetwork ? () => {} : () => openModal(modalTypes.CHOOSE_NETWORK)}
+            cursor={'pointer'}
+            onClick={
+              connectedNetwork ? () => openModal(modalTypes.DISCONNECT) : () => openModal(modalTypes.CHOOSE_NETWORK)
+            }
           >
             {connectedNetwork || 'Connect'}
           </Button>
