@@ -18,6 +18,7 @@ type UseWalletProps = {
 };
 
 function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
+  const [previouslyConnected, setPreviouslyConnected] = React.useState(false);
   const { showErrorToast, showInfoToast, toastIdRef, toast, warningLinkColor } = useToast();
   const [notify, setNotify] = React.useState<API | undefined>();
   const [isInitialized, setIsInitialized] = React.useState(false);
@@ -48,17 +49,16 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   );
 
   const handleChainInitializedOrChanged = React.useCallback(async () => {
-    console.log('handleChainInitializedOrChanged');
+    console.log('handleChainInit...');
     closeModal();
     let provider = walletProvider;
     let chainId = connectedChainId;
 
     if (!provider || !chainId) {
       provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      const userAddress = (await provider.listAccounts())[0];
+      // const userAddress = (await provider.listAccounts())[0];
 
-      // if no account connected, bail out
-      if (!userAddress) return;
+      // if (!userAddress) return;
       chainId = (await provider.getNetwork()).chainId;
     }
 
@@ -94,101 +94,126 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   }, [closeModal, connectedChainId, showErrorToast, walletProvider]);
 
   /** Connect to wallet provider */
-  const connectToLayer = async (layer: number) => {
-    if (!closeModal) return;
-    // If attempting to connect to connected network, abort
-    if (connectedChainId && layer === chainIdLayerMap[connectedChainId]) {
-      closeModal();
-      showInfoToast('Already connected.');
-      return;
-    }
-
-    if (!(window as any).ethereum) {
-      const message = 'Metamask not found. Please install it before continuing. More wallet support coming soon.';
-      showErrorToast(message);
-      console.error(message);
-    }
-
-    // connect to wallet if not connected yet
-    let provider = walletProvider;
-    if (!provider) {
-      await (window as any).ethereum.enable();
-      provider = new ethers.providers.Web3Provider((window as any).ethereum);
-    }
-
-    const chainId = (await provider.getNetwork()).chainId;
-
-    if (!connectedChainId && chainId === 1) {
-      showErrorToast('Please switch to Kovan in Metamask (Mainnet not supported yet)');
-      return;
-    }
-
-    if (layer === 1) {
-      // If connected network isn't a supported L1, abort (error message gets triggered elsewhere)
-      if (!chainIdLayerMap[chainId]) {
+  const connectToLayer = React.useCallback(
+    async (layer?: number) => {
+      if (!closeModal) return;
+      // If attempting to connect to connected network, abort
+      if (connectedChainId && layer === chainIdLayerMap[connectedChainId]) {
+        closeModal();
+        showInfoToast('Already connected.');
         return;
       }
-      // If user is trying to connect to L1 from an unconnected state, show message
-      if (connectedChainId === chainIds.MAINNET_L2 || connectedChainId === chainIds.KOVAN_L2) {
-        // TODO: remove "to Kovan" when mainnet support is added
-        showInfoToast('Please change your network to Kovan in MetaMask and try again.');
+
+      if (!(window as any).ethereum) {
+        const message = 'Metamask not found. Please install it before continuing. More wallet support coming soon.';
+        showErrorToast(message);
+        console.error(message);
+      }
+
+      // connect to wallet if not connected yet
+      let provider = walletProvider;
+      if (!provider) {
+        if (!(window as any).ethereum) {
+          showErrorToast('Metamask not found.');
+        } else {
+          try {
+            await (window as any).ethereum.enable();
+            provider = new ethers.providers.Web3Provider((window as any).ethereum);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+      if (!provider) return;
+
+      const chainId = (await provider.getNetwork()).chainId;
+
+      if (!connectedChainId && chainId === 1) {
+        showErrorToast('Please switch to Kovan in Metamask (Mainnet not supported yet)');
         return;
       }
-      // If user is trying to connect to L1 but they're connected to L2 prompt them to change their network in MM (currently can't be changed programatically)
-      if (chainId === chainIds.MAINNET_L2 || chainId === chainIds.KOVAN_L2) {
-        // TODO: remove "to Kovan" when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
-        showInfoToast('Please change your network to Kovan in MetaMask and try again.');
-        return;
+
+      // If layer isn't provided, it means we're connecting programatically (ex: after browser refresh)
+      if (!layer) {
+        layer = chainIdLayerMap[chainId];
       }
-    } else {
-      // If there is a chainId, switch to the corresponding network on the other layer
-      // TODO: make app switch to corresponding L2 when mainnet is ready. Forcing kovan for now. https://github.com/ethereum-optimism/roadmap/issues/847
-      let network = 'kovan';
-      // if (chainId) {
-      //   network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
-      // }
-      // TODO: remove this when mainnet support is added
-      // if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
-      try {
-        await provider.send('wallet_addEthereumChain', [
-          {
-            chainId:
-              network === 'mainnet' ? '0x' + chainIds.MAINNET_L2.toString(16) : '0x' + chainIds.KOVAN_L2.toString(16),
-            chainName: network === 'mainnet' ? 'Optimism' : 'Optimistic Kovan',
-            rpcUrls: [`https://${network}.optimism.io`],
-            nativeCurrency: {
-              name: 'Optimism ETH',
-              symbol: 'ETH',
-              decimals: 18,
+
+      if (layer === 1) {
+        // If connected network isn't a supported L1, abort (error message gets triggered elsewhere)
+        if (!chainIdLayerMap[chainId]) {
+          return;
+        }
+        // If user is trying to connect to L1 from an unconnected state, show message
+        if (connectedChainId === chainIds.MAINNET_L2 || connectedChainId === chainIds.KOVAN_L2) {
+          // TODO: remove "to Kovan" when mainnet support is added
+          showInfoToast('Please change your network to Kovan in MetaMask and try again.');
+          return;
+        }
+        // If user is trying to connect to L1 but they're connected to L2 prompt them to change their network in MM (currently can't be changed programatically)
+        if (chainId === chainIds.MAINNET_L2 || chainId === chainIds.KOVAN_L2) {
+          // TODO: remove "to Kovan" when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
+          showInfoToast('Please change your network to Kovan in MetaMask and try again.');
+          return;
+        }
+      } else {
+        // If there is a chainId, switch to the corresponding network on the other layer
+        // TODO: make app switch to corresponding L2 when mainnet is ready. Forcing kovan for now. https://github.com/ethereum-optimism/roadmap/issues/847
+        let network = 'kovan';
+        // if (chainId) {
+        //   network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
+        // }
+        // TODO: remove this when mainnet support is added
+        // if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
+        try {
+          await provider.send('wallet_addEthereumChain', [
+            {
+              chainId:
+                network === 'mainnet' ? '0x' + chainIds.MAINNET_L2.toString(16) : '0x' + chainIds.KOVAN_L2.toString(16),
+              chainName: network === 'mainnet' ? 'Optimism' : 'Optimistic Kovan',
+              rpcUrls: [`https://${network}.optimism.io`],
+              nativeCurrency: {
+                name: 'Optimism ETH',
+                symbol: 'ETH',
+                decimals: 18,
+              },
+              blockExplorerUrls: [`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/`],
             },
-            blockExplorerUrls: [`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/`],
-          },
-        ]);
-      } catch (err) {
-        showErrorToast(
-          <>
-            Something went wrong. Please note that the app currently only supports Metamask so other wallets may
-            experience problems. If you're using Metamask, please open it to see if there are any errors. If you
-            continue to experience problems, reach out to us on{' '}
-            <Link
-              href="https://discord.com/invite/jrnFEvq"
-              isExternal={true}
-              textDecoration="underline"
-              color={`${warningLinkColor} !important`}
-            >
-              Discord
-            </Link>
-            .
-          </>
-        );
-        return;
+          ]);
+        } catch (err) {
+          showErrorToast(
+            <>
+              Something went wrong. Please note that the app currently only supports Metamask so other wallets may
+              experience problems. If you're using Metamask, please open it to see if there are any errors. If you
+              continue to experience problems, reach out to us on{' '}
+              <Link
+                href="https://discord.com/invite/jrnFEvq"
+                isExternal={true}
+                textDecoration="underline"
+                color={`${warningLinkColor} !important`}
+              >
+                Discord
+              </Link>
+              .
+            </>
+          );
+          return;
+        }
       }
-    }
-    handleChainInitializedOrChanged();
-    setConnectedChainId(chainId);
-    setWalletProvider(provider);
-    closeModal();
-  };
+      handleChainInitializedOrChanged();
+      setConnectedChainId(chainId);
+      setWalletProvider(provider);
+      closeModal();
+    },
+    [
+      closeModal,
+      connectedChainId,
+      handleChainInitializedOrChanged,
+      showErrorToast,
+      showInfoToast,
+      walletProvider,
+      warningLinkColor,
+    ]
+  );
 
   const handleDeposit = async () => {
     if (!walletProvider || !contracts || !notify || !openModal || !closeModal) return;
@@ -276,14 +301,35 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         if ((window as any).ethereum) {
           (window as any).ethereum.on('chainChanged', handleChainInitializedOrChanged);
           (window as any).ethereum.on('accountsChanged', handleAccountChanged);
+
+          // automatically connect wallet if the user has previously connected
+          if (localStorage.getItem('previouslyConnected')) {
+            try {
+              await handleChainInitializedOrChanged();
+              await connectToLayer();
+              localStorage.setItem('previouslyConnected', 'true');
+              setPreviouslyConnected(true);
+            } catch (error) {
+              console.error(error);
+            }
+          }
         } else {
           showErrorToast('Metamask not found.');
           console.error('No injected web3 found');
         }
       }
+      setIsInitialized(true);
     })();
-    setIsInitialized(true);
-  }, [connectedChainId, handleAccountChanged, handleChainInitializedOrChanged, isInitialized, showErrorToast, toast]);
+  }, [
+    connectToLayer,
+    connectedChainId,
+    handleAccountChanged,
+    handleChainInitializedOrChanged,
+    isInitialized,
+    previouslyConnected,
+    showErrorToast,
+    toast,
+  ]);
 
   /**
    * Set balances when dependencies change
