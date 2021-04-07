@@ -44,6 +44,8 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const location = useLocation();
   const history = useHistory();
   const [transactions, _setTransactions] = React.useState<Transaction[] | undefined>(undefined);
+  const [firstTxIndex, setFirstTxIndex] = React.useState(THE_GRAPH_MAX_INTEGER);
+  const [lastTxIndex, setLastTxIndex] = React.useState(0);
   const [isFetchingMore, setIsFetchingMore] = React.useState(false);
   const [txsLoading, setTxsLoading] = React.useState(false);
   const [depositAmountPending, setDepositAmountPending] = React.useState('');
@@ -52,7 +54,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const [l2TotalAmt, setl2TotalAmt] = React.useState('');
   const [l1VsL2lDiff, setl1VsL2lDiff] = React.useState<string>('');
   const [totalTxCount, setTotalTxCount] = React.useState(Number.MAX_SAFE_INTEGER); // used for pagination
-  const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>();
+  const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>(txDirection.INCOMING);
   const [filterAddress, setFilterAddress] = React.useState(params.address || userAddress);
   const {
     sentMessagesFromL1,
@@ -226,37 +228,15 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   );
 
   const fetchTransactions = React.useCallback(
-    async ({
-      page,
-      indexTo: _indexTo,
-      direction = currentTableView,
-    }: {
-      page?: string;
-      indexTo?: number;
-      direction?: keyof TxDirectionType;
-    }) => {
+    async ({ page, indexTo, direction }: { page?: string; indexTo: number; direction: keyof TxDirectionType }) => {
       if (!l1MessageStats.data || !l2MessageStats.data) return;
       let txs: Transaction[] = [];
-      let indexTo = _indexTo;
 
       if (!page) {
         // If no page specified, this is the first fetch
         setTxsLoading(true);
       } else {
         setIsFetchingMore(true);
-      }
-
-      if (!indexTo) {
-        const firstTxIndex = (transactions?.length && transactions[0].index) || THE_GRAPH_MAX_INTEGER;
-        const lastTxIndex = (transactions?.length && transactions[transactions.length - 1].index) || 0;
-
-        // If page isn't specified, start from the start of the list
-        indexTo =
-          !page || !transactions
-            ? THE_GRAPH_MAX_INTEGER
-            : page === 'prev'
-            ? firstTxIndex + FETCH_LIMIT + 1
-            : lastTxIndex;
       }
 
       if (direction === txDirection.INCOMING) {
@@ -279,15 +259,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       setIsFetchingMore(false);
       return txs;
     },
-    [
-      transactions,
-      currentTableView,
-      l1MessageStats.data,
-      l2MessageStats.data,
-      processPageOfxDomainTxs,
-      sentMessagesFromL1,
-      sentMessagesFromL2,
-    ]
+    [l1MessageStats.data, l2MessageStats.data, processPageOfxDomainTxs, sentMessagesFromL1, sentMessagesFromL2]
   );
 
   const setPendingAmount = (type: keyof TxDirectionType, transactions: Transaction[]) => {
@@ -381,7 +353,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         if (isAdmin && tokenSelection) {
           calculateStats();
         } else {
-          fetchTransactions({});
+          fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
         }
       }
     })();
@@ -401,6 +373,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     isAdmin,
     calculateStats,
     fetchTransactions,
+    currentTableView,
   ]);
 
   /**
@@ -428,10 +401,21 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       const newFilterAddress = params.address || userAddress;
       if (newFilterAddress !== filterAddress) {
         setFilterAddress(newFilterAddress);
-        fetchTransactions({});
+        fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
       }
     }
-  }, [fetchTransactions, filterAddress, params.address, userAddress]);
+  }, [currentTableView, fetchTransactions, filterAddress, params.address, userAddress]);
+
+  /**
+   * Fetch if changing view from incoming <> outgoing txs
+   */
+  React.useEffect(() => {
+    (async () => {
+      const txs = await fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
+      setTransactions(txs as Transaction[]);
+      console.log(currentTableView);
+    })();
+  }, [currentTableView, fetchTransactions]);
 
   const currentNetworkLayer =
     network === 'kovan'
