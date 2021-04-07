@@ -18,6 +18,7 @@ import {
   useToast,
   Tooltip,
 } from '@chakra-ui/react';
+import { useHistory, Link, useRouteMatch } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import DateTime from 'luxon/src/datetime.js';
@@ -25,7 +26,7 @@ import Interval from 'luxon/src/interval.js';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { formatNumber, formatUSD, shortenAddress } from '../helpers';
 import { txDirection, chainIds, TxDirectionType } from '../constants';
-import { useHistory, Link, useRouteMatch } from 'react-router-dom';
+import { modalTypes } from './Modal';
 import AppContext from '../context';
 
 const Dot = ({ color }: { color: string }) => (
@@ -58,7 +59,7 @@ function TxHistoryTable({
   isFetchingMore,
   totalTxCount,
 }: TxHistoryProps) {
-  const { connectedChainId, prices, userAddress, screenSm } = React.useContext(AppContext);
+  const { connectedChainId, prices, userAddress, openModal } = React.useContext(AppContext);
   const history = useHistory();
   const [lastBtnClicked, setLastBtnClicked] = React.useState('');
   const [dateFormat, setDateFormat] = React.useState('MOMENT');
@@ -261,7 +262,16 @@ function TxHistoryTable({
                             ) : tx.awaitingRelay ? (
                               <>
                                 <Dot color="#efefa2" />
-                                Awaiting relay
+                                Claimable
+                                <Button
+                                  ml={4}
+                                  background="transparent"
+                                  borderWidth="1px"
+                                  size="xs"
+                                  onClick={() => openModal(modalTypes.CLAIM)}
+                                >
+                                  Claim withdrawal
+                                </Button>
                               </>
                             ) : (
                               <Tooltip

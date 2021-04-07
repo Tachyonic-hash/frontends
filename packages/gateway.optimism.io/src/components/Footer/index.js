@@ -3,12 +3,11 @@ import { Box, Link, SimpleGrid, VStack, Heading, Container } from '@chakra-ui/re
 import { Link as ReactLink } from 'react-router-dom';
 import { navCategories } from '@optimism/common-ui';
 import SocialLinks from '../SocialLinks';
-
 class Footer extends Component {
   render() {
     return (
       <Box as="footer" backgroundColor="black">
-        <Container pt={8} maxW="1200px">
+        <Container pt={8} maxW="1400px">
           <SimpleGrid
             gridTemplateColumns={[
               'repeat(2, 1fr)',
@@ -21,20 +20,12 @@ class Footer extends Component {
           >
             {navCategories.map((col, idx) => (
               <VStack alignItems="flex-start" key={idx}>
-                <Heading as="h3" color="white" fontSize="xl">
+                <Heading as="h3" color="white" fontSize="xl" fontWeight="500 !important" mb={4}>
                   {col.heading}
                 </Heading>
                 {col.items.map(item =>
                   item.internal ? (
-                    <Link
-                      key={item.url}
-                      as={ReactLink}
-                      to={item.url}
-                      fontSize={['md', 'lg']}
-                      mb={1}
-                      color="white"
-                      className="rainbowText"
-                    >
+                    <Link key={item.url} as={ReactLink} to={item.url} fontSize={['md', 'lg']} mb={1} color="white">
                       {item.name}
                     </Link>
                   ) : (
@@ -44,9 +35,8 @@ class Footer extends Component {
                       fontSize={['md', 'lg']}
                       mb={1}
                       color="white"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="rainbowText"
+                      target={item.isExternal ? '_blank' : ''}
+                      rel={item.isExternal ? 'noopenner noreferrer' : ''}
                     >
                       {item.name}
                     </Link>

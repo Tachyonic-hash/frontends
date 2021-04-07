@@ -182,9 +182,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         } catch (err) {
           showErrorToast(
             <>
-              Something went wrong. Please note that the app currently only supports Metamask so other wallets may
-              experience problems. If you're using Metamask, please open it to see if there are any errors. If you
-              continue to experience problems, reach out to us on{' '}
+              Something went wrong. If you continue to experience problems, reach out to us on{' '}
               <Link
                 href="https://discord.com/invite/jrnFEvq"
                 isExternal={true}
@@ -310,6 +308,10 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       isClosable: true,
       position: 'bottom-left',
     });
+  };
+
+  const handleClaimWithdrawal = () => {
+    console.log('handleClaimWithdrawal');
   };
 
   /**
@@ -440,6 +442,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     txPending,
     setInputValue,
     handleDisconnect,
+    handleClaimWithdrawal,
   };
 }
 
