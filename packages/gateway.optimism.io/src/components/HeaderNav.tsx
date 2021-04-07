@@ -82,6 +82,8 @@ function HeaderNav({
     });
   };
 
+  console.log('connectedChainId', connectedChainId);
+
   const connectedNetwork =
     connectedChainId === chainIds.MAINNET_L1
       ? 'Mainnet'

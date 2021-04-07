@@ -41,7 +41,7 @@ function useCustomToast() {
   const showInfoToast = React.useCallback(
     (message: string | ReactNode) => {
       toastIdRef.current = toast({
-        title: '', // TODO: remove "to Kovan" when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
+        title: '',
         description: message,
         status: 'info',
         duration: 3000,

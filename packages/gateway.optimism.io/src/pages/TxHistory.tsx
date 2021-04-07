@@ -413,7 +413,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     (async () => {
       const txs = await fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
       setTransactions(txs as Transaction[]);
-      console.log(currentTableView);
     })();
   }, [currentTableView, fetchTransactions]);
 

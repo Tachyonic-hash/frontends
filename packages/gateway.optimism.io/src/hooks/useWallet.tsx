@@ -68,14 +68,14 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       return;
     }
 
-    // TODO: remove this when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
-    if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
-      const message = 'Please switch Metamask to Kovan or Optimistic Kovan (Mainnet not supported yet)';
-      showErrorToast(message);
-      console.error(message);
-      setBalancesLoading(false);
-      return;
-    }
+    // // TODO: remove this when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
+    // if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
+    //   const message = 'Please switch Metamask to Kovan or Optimistic Kovan (Mainnet not supported yet)';
+    //   showErrorToast(message);
+    //   console.error(message);
+    //   setBalancesLoading(false);
+    //   return;
+    // }
 
     const [rpcL1, rpcL2] = getRpcProviders(chainId);
     const [l1Address, l2Address] = getAddresses('ETH', chainId);
@@ -128,11 +128,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
 
       const chainId = (await provider.getNetwork()).chainId;
 
-      if (!connectedChainId && chainId === 1) {
-        showErrorToast('Please switch to Kovan in Metamask (Mainnet not supported yet)');
-        return;
-      }
-
       // If layer isn't provided, it means we're connecting programatically (ex: after browser refresh)
       if (!layer) {
         layer = chainIdLayerMap[chainId];
@@ -144,26 +139,25 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
         // If user is trying to connect to L1 from an unconnected state, show message
-        if (connectedChainId === chainIds.MAINNET_L2 || connectedChainId === chainIds.KOVAN_L2) {
-          // TODO: remove "to Kovan" when mainnet support is added
-          showInfoToast('Please change your network to Kovan in MetaMask and try again.');
-          return;
-        }
-        // If user is trying to connect to L1 but they're connected to L2 prompt them to change their network in MM (currently can't be changed programatically)
-        if (chainId === chainIds.MAINNET_L2 || chainId === chainIds.KOVAN_L2) {
-          // TODO: remove "to Kovan" when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
-          showInfoToast('Please change your network to Kovan in MetaMask and try again.');
+        if (
+          connectedChainId === chainIds.MAINNET_L2 ||
+          connectedChainId === chainIds.KOVAN_L2 ||
+          chainId === chainIds.MAINNET_L2 ||
+          chainId === chainIds.KOVAN_L2
+        ) {
+          const network = connectedChainId === chainIds.MAINNET_L2 ? 'Mainnet' : 'Kovan';
+          showInfoToast(`Please change your network to ${network} in MetaMask and try again.`);
           return;
         }
       } else {
         // If there is a chainId, switch to the corresponding network on the other layer
-        // TODO: make app switch to corresponding L2 when mainnet is ready. Forcing kovan for now. https://github.com/ethereum-optimism/roadmap/issues/847
-        let network = 'kovan';
-        // if (chainId) {
-        //   network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
-        // }
-        // TODO: remove this when mainnet support is added
-        // if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
+        let network;
+        if (chainId) {
+          network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
+        } else {
+          showErrorToast('Network not supported or not connected');
+          return;
+        }
         try {
           await provider.send('wallet_addEthereumChain', [
             {
@@ -298,6 +292,9 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     setL1Balance('0');
     setL2Balance('0');
     setInputValue('0');
+    setBalancesLoading(false);
+    setTxPending(false);
+    setIsInitialized(false);
     closeModal();
     localStorage.removeItem('previouslyConnected');
     toast({

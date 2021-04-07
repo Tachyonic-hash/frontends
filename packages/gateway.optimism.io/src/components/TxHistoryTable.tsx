@@ -263,7 +263,7 @@ function TxHistoryTable({
                               <>
                                 <Dot color="#efefa2" />
                                 Ready to claim
-                                <Button
+                                {/* <Button
                                   ml={4}
                                   background="transparent"
                                   borderWidth="1px"
@@ -271,7 +271,7 @@ function TxHistoryTable({
                                   onClick={() => openModal(modalTypes.CLAIM)}
                                 >
                                   Claim
-                                </Button>
+                                </Button> */}
                               </>
                             ) : (
                               <Tooltip
