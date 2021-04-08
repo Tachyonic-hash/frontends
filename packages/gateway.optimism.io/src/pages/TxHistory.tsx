@@ -27,6 +27,7 @@ import {
   THE_GRAPH_MAX_INTEGER,
 } from '../constants';
 import { shortenAddress, decodeSentMessage } from '../helpers';
+import Watcher from '@eth-optimism/watcher';
 
 type TxHistoryProps = { isAdmin?: boolean };
 
@@ -245,7 +246,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       indexTo: number;
       direction?: keyof TxDirectionType;
     }) => {
-      console.log('here!', !l1MessageStats.data, !l2MessageStats.data, !queryParams);
       if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
       const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
       let txs: Transaction[] = [];
@@ -492,6 +492,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
 
   // TODO: remove
   React.useEffect(() => {
+    const watcher = new Watcher({
+      l1: {
+        provider: new JsonRpcProvider('INFURA_L1_URL'),
+        messengerAddress: '0xb89065D5eB05Cac554FDB11fC764C679b4202322',
+      },
+      l2: {
+        provider: new JsonRpcProvider('OPTIMISM_L2_URL'),
+        messengerAddress: '0x4200000000000000000000000000000000000007',
+      },
+    });
+
     if (!gettingAllTxs && !allTxs) {
       setGettingAllTxs(true);
       getAllTransactions();
