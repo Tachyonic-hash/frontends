@@ -25,7 +25,7 @@ import DateTime from 'luxon/src/datetime.js';
 import Interval from 'luxon/src/interval.js';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { formatNumber, formatUSD, shortenAddress } from '../helpers';
-import { txDirection, chainIds, TxDirectionType, THE_GRAPH_MAX_INTEGER } from '../constants';
+import { txDirection, chainIds, TxDirectionType, THE_GRAPH_MAX_INTEGER, FETCH_LIMIT } from '../constants';
 import { modalTypes } from './Modal';
 import AppContext from '../context';
 
@@ -59,7 +59,7 @@ function TxHistoryTable({
   isFetchingMore,
   totalTxCount,
 }: TxHistoryProps) {
-  const { connectedChainId, prices, userAddress, openModal } = React.useContext(AppContext);
+  const { connectedChainId, prices, userAddress } = React.useContext(AppContext);
   const history = useHistory();
   const [lastBtnClicked, setLastBtnClicked] = React.useState('');
   const [dateFormat, setDateFormat] = React.useState('MOMENT');
@@ -343,7 +343,7 @@ function TxHistoryTable({
                       setLastBtnClicked('prev');
                       fetchTransactions({
                         page: 'prev',
-                        indexTo: (transactions[0].index || THE_GRAPH_MAX_INTEGER) + 1,
+                        indexTo: (transactions[0].index + FETCH_LIMIT || THE_GRAPH_MAX_INTEGER) + 1,
                       });
                     }}
                     // descending order, so we're at the start of the list if the index === totalTxCount

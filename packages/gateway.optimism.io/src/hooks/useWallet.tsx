@@ -18,6 +18,7 @@ type UseWalletProps = {
 };
 
 function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
+  const [isConnecting, setIsConnecting] = React.useState(false);
   const { showErrorToast, showInfoToast, toastIdRef, toast, warningLinkColor } = useToast();
   const [notify, setNotify] = React.useState<API | undefined>();
   const [isInitialized, setIsInitialized] = React.useState(false);
@@ -31,7 +32,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [txPending, setTxPending] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
-  const history = useHistory();
 
   const handleAccountChanged = React.useCallback(
     async ([newAddress]) => {
@@ -48,7 +48,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   );
 
   const handleChainInitializedOrChanged = React.useCallback(async () => {
-    console.log('handleChainInit...');
     closeModal();
     let provider = walletProvider;
     let chainId = connectedChainId;
@@ -324,8 +323,10 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           // automatically connect wallet if the user has previously connected
           if (localStorage.getItem('previouslyConnected')) {
             try {
+              setIsConnecting(true);
               await handleChainInitializedOrChanged();
               await connectToLayer();
+              setIsConnecting(false);
             } catch (error) {
               console.error(error);
             }
@@ -440,6 +441,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     setInputValue,
     handleDisconnect,
     handleClaimWithdrawal,
+    isConnecting,
   };
 }
 

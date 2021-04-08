@@ -1,7 +1,7 @@
 import React from 'react';
 import JSBI from 'jsbi';
 import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
-import { SimpleGrid, Box, Flex, useToast } from '@chakra-ui/react';
+import { SimpleGrid, Box, Flex, useToast, Select, FormLabel } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { QueryResult, OperationVariables } from '@apollo/client';
 import { JsonRpcProvider } from '@ethersproject/providers';
@@ -25,7 +25,6 @@ import {
   TxDirectionType,
   tokens,
   THE_GRAPH_MAX_INTEGER,
-  FETCH_LIMIT,
 } from '../constants';
 import { shortenAddress, decodeSentMessage } from '../helpers';
 
@@ -35,17 +34,21 @@ const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.e
 const l2Provider = new JsonRpcProvider(`https://mainnet.optimism.io`);
 
 function TxHistory({ isAdmin }: TxHistoryProps) {
-  const { screenLg, screenSm, setTokenSelection, tokenSelection, connectedChainId, userAddress } = React.useContext(
-    AppContext
-  );
+  const {
+    screenLg,
+    screenSm,
+    setTokenSelection,
+    tokenSelection,
+    connectedChainId,
+    userAddress,
+    isConnecting,
+  } = React.useContext(AppContext);
   const [queryParams, setQueryParams] = React.useState<URLSearchParams | undefined>(undefined);
   const { params }: GenericObject = useRouteMatch();
   const toast = useToast();
   const location = useLocation();
   const history = useHistory();
   const [transactions, _setTransactions] = React.useState<Transaction[] | undefined>(undefined);
-  const [firstTxIndex, setFirstTxIndex] = React.useState(THE_GRAPH_MAX_INTEGER);
-  const [lastTxIndex, setLastTxIndex] = React.useState(0);
   const [isFetchingMore, setIsFetchingMore] = React.useState(false);
   const [txsLoading, setTxsLoading] = React.useState(false);
   const [depositAmountPending, setDepositAmountPending] = React.useState('');
@@ -56,6 +59,9 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const [totalTxCount, setTotalTxCount] = React.useState(Number.MAX_SAFE_INTEGER); // used for pagination
   const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>(txDirection.INCOMING);
   const [filterAddress, setFilterAddress] = React.useState(params.address || userAddress);
+  const [currentNetwork, setCurrentNetwork] = React.useState(
+    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet'
+  );
   const {
     sentMessagesFromL1,
     sentMessagesFromL2,
@@ -63,9 +69,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     relayedMessagesOnL2,
     l1MessageStats,
     l2MessageStats,
-  } = useGraphQueries(filterAddress, connectedChainId);
-  const network =
-    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
+  } = useGraphQueries(currentNetwork);
 
   const setTransactions = (transactions: Transaction[]) => {
     _setTransactions(transactions);
@@ -228,8 +232,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   );
 
   const fetchTransactions = React.useCallback(
-    async ({ page, indexTo, direction }: { page?: string; indexTo: number; direction: keyof TxDirectionType }) => {
-      if (!l1MessageStats.data || !l2MessageStats.data) return;
+    async ({
+      page,
+      indexTo,
+      direction: _dir,
+    }: {
+      page?: string;
+      indexTo: number;
+      direction?: keyof TxDirectionType;
+    }) => {
+      if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
+      const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
       let txs: Transaction[] = [];
 
       if (!page) {
@@ -259,7 +272,14 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       setIsFetchingMore(false);
       return txs;
     },
-    [l1MessageStats.data, l2MessageStats.data, processPageOfxDomainTxs, sentMessagesFromL1, sentMessagesFromL2]
+    [
+      l1MessageStats.data,
+      l2MessageStats.data,
+      processPageOfxDomainTxs,
+      queryParams,
+      sentMessagesFromL1,
+      sentMessagesFromL2,
+    ]
   );
 
   const setPendingAmount = (type: keyof TxDirectionType, transactions: Transaction[]) => {
@@ -345,6 +365,21 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   }, [calculateTotals, fetchTransactions]);
 
   /**
+   * Change network initiated by user so they can see the history of kovan even if not connected via their wallet
+   */
+  const handleChangeNetwork = (e: React.FormEvent<HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
+    setCurrentNetwork(target.value);
+    fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+  };
+  /**
+   * Sets filter address
+   */
+  React.useEffect(() => {
+    setFilterAddress(userAddress);
+  }, [userAddress]);
+
+  /**
    * Fetches on initial page load
    */
   React.useEffect(() => {
@@ -353,7 +388,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         if (isAdmin && tokenSelection) {
           calculateStats();
         } else {
-          fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
+          fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
         }
       }
     })();
@@ -401,7 +436,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       const newFilterAddress = params.address || userAddress;
       if (newFilterAddress !== filterAddress) {
         setFilterAddress(newFilterAddress);
-        fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
+        fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
       }
     }
   }, [currentTableView, fetchTransactions, filterAddress, params.address, userAddress]);
@@ -411,17 +446,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
    */
   React.useEffect(() => {
     (async () => {
-      const txs = await fetchTransactions({ direction: currentTableView, indexTo: THE_GRAPH_MAX_INTEGER });
+      const txs = await fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
       setTransactions(txs as Transaction[]);
     })();
   }, [currentTableView, fetchTransactions]);
 
   const currentNetworkLayer =
-    network === 'kovan'
+    currentNetwork === 'kovan'
       ? currentTableView === txDirection.INCOMING
         ? 'Kovan'
         : 'Optimism Kovan'
-      : network === 'mainnet'
+      : currentNetwork === 'mainnet'
       ? currentTableView === txDirection.OUTGOING
         ? 'Optimism'
         : 'Mainnet'
@@ -448,6 +483,15 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       )}
       <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column'}>
         <SearchInput handleAddressSearch={handleAddressSearch} />
+        {!filterAddress && !isConnecting && (
+          <Box mb="4" ml={8}>
+            <FormLabel opacity="0.7">Network</FormLabel>
+            <Select onChange={handleChangeNetwork} value={currentNetwork}>
+              <option value="mainnet">Mainnet</option>
+              <option value="kovan">Kovan</option>
+            </Select>
+          </Box>
+        )}
         {filterAddress && filterAddress !== userAddress && (
           <SimpleGrid
             ml={screenLg ? 8 : 0}
@@ -456,12 +500,13 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
             spacingX={4}
             d="inline-grid"
             gridTemplateColumns="repeat(2, minmax(0, min-content))"
-            pb={4}
+            mb={5}
+            fontSize="1.2rem"
           >
-            <Box mr={1} fontWeight="400">
+            {/* <Box mr={1} fontWeight="400">
               NETWORK:
             </Box>
-            <Box>{currentNetworkLayer}</Box>
+            <Box>{currentNetworkLayer}</Box> */}
             <Box as="span" mr={1} fontWeight="400">
               ADDRESS:
             </Box>

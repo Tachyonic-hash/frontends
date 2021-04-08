@@ -2,12 +2,8 @@ import React from 'react';
 import clients from '../graphql/clients';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_SENT_MSGS, GET_MSG_STATS, GET_ALL_RELAYED_MSGS } from '../graphql/subgraph';
-import { chainIds } from '../constants';
 
-function useQueries(address?: string, connectedChainId?: number) {
-  const network =
-    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
-
+function useQueries(network: string = 'mainnet') {
   const l1Client = network === 'mainnet' ? clients.mainnet.l1 : clients.kovan.l1;
   const l2Client = network === 'mainnet' ? clients.mainnet.l2 : clients.kovan.l2;
 
