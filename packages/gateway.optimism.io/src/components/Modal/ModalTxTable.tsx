@@ -7,7 +7,7 @@ function ModalTxTable({ l2GasFee, type }: { l2GasFee?: string; type?: string }) 
   const { inputValue, prices } = React.useContext(AppContext);
 
   return (
-    <Box columns={3} mb={8} fontSize={'1.6rem'}>
+    <Box mb={8} fontSize={'1.6rem'}>
       <Text mb={2} textAlign="left" fontSize={'1rem'}>
         Amount
       </Text>

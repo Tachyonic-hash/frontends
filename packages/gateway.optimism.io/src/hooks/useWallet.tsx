@@ -21,6 +21,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const { showErrorToast, showInfoToast, toastIdRef, toast, warningLinkColor } = useToast();
   const [notify, setNotify] = React.useState<API | undefined>();
   const [isInitialized, setIsInitialized] = React.useState(false);
+  const [withdrawalClaimMsg, setWithdrawalClaimMsg] = React.useState<string | undefined>();
   const [walletProvider, setWalletProvider] = React.useState<Web3Provider | undefined>(undefined);
   const [userAddress, setUserAddress] = React.useState<string | undefined>();
   const [connectedChainId, setConnectedChainId] = React.useState<number | undefined>(undefined);
@@ -31,7 +32,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [txPending, setTxPending] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
-  const history = useHistory();
 
   const handleAccountChanged = React.useCallback(
     async ([newAddress]) => {
@@ -48,16 +48,12 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   );
 
   const handleChainInitializedOrChanged = React.useCallback(async () => {
-    console.log('handleChainInit...');
     closeModal();
     let provider = walletProvider;
     let chainId = connectedChainId;
 
     if (!provider || !chainId) {
       provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      // const userAddress = (await provider.listAccounts())[0];
-
-      // if (!userAddress) return;
       chainId = (await provider.getNetwork()).chainId;
     }
 
@@ -311,7 +307,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   };
 
   const handleClaimWithdrawal = () => {
-    console.log('handleClaimWithdrawal');
+    console.log('claim msg:', withdrawalClaimMsg);
   };
 
   /**
@@ -443,6 +439,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     setInputValue,
     handleDisconnect,
     handleClaimWithdrawal,
+    setWithdrawalClaimMsg,
   };
 }
 

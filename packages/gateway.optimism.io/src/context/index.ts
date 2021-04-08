@@ -27,6 +27,7 @@ type ContextProps = {
   swapLayers?: () => void;
   handleDisconnect?: () => void;
   handleClaimWithdrawal?: () => void;
+  setWithdrawalClaimMsg?: (msg?: string) => void;
 };
 
 const AppContext = React.createContext<ContextProps>({ openModal: () => {} });

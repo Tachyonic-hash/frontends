@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: OVM_CrossDomainMessenger
-    network: optimism
+    network: optimism-kovan
     source:
       address: "0x4200000000000000000000000000000000000007"
       abi: OVM_CrossDomainMessenger

@@ -59,7 +59,9 @@ function TxHistoryTable({
   isFetchingMore,
   totalTxCount,
 }: TxHistoryProps) {
-  const { connectedChainId, prices, userAddress, openModal } = React.useContext(AppContext);
+  const { connectedChainId, prices, userAddress, openModal, setInputValue, setWithdrawalClaimMsg } = React.useContext(
+    AppContext
+  );
   const history = useHistory();
   const [lastBtnClicked, setLastBtnClicked] = React.useState('');
   const [dateFormat, setDateFormat] = React.useState('MOMENT');
@@ -106,9 +108,17 @@ function TxHistoryTable({
   const network =
     connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
 
+  const handleClaimClick = (tx: Transaction) => {
+    if (setInputValue && setWithdrawalClaimMsg) {
+      setWithdrawalClaimMsg(tx.message);
+      setInputValue(ethers.utils.formatEther(tx.amount as BigIntIsh)); // coerce to string
+      openModal(modalTypes.CLAIM);
+    }
+  };
+
   return (
     <Box>
-      <Box variant="soft-rounded" mt={8} mb={16} overflow="hidden">
+      <Box variant="soft-rounded" mt={8} mb={16}>
         <Box d="flex" justifyContent="space-between">
           <HStack mb={4} spacing={10}>
             <Button
@@ -268,7 +278,7 @@ function TxHistoryTable({
                                   background="transparent"
                                   borderWidth="1px"
                                   size="xs"
-                                  onClick={() => openModal(modalTypes.CLAIM)}
+                                  onClick={() => handleClaimClick(tx)}
                                 >
                                   Claim
                                 </Button>
