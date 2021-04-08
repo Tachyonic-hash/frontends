@@ -17,7 +17,7 @@ function ConnectCards({ connectToLayer }) {
 
   const Card = ({ type, onClick }) => (
     <Box>
-      <Text size="xs" mx="auto" mb={2}>
+      <Text size="xs" mx="auto" mb={4}>
         {type === 'DEPOSIT' ? 'Layer 1' : 'Layer 2'}
       </Text>
       <Box

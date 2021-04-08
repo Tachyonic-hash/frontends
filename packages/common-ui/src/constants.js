@@ -1,7 +1,7 @@
 export const navItems = [
   {
     name: 'Demos',
-    url: '/demos',
+    url: 'https://optimism.io/demos',
     internal: true,
     categories: ['about'],
     headerNav: true,

@@ -71,6 +71,10 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     l2MessageStats,
   } = useGraphQueries(currentNetwork);
 
+  // TODO: remove
+  const [gettingAllTxs, setGettingAllTxs] = React.useState(false);
+  const [allTxs, setAllTxs] = React.useState<Transaction[] | null>(null);
+
   const setTransactions = (transactions: Transaction[]) => {
     _setTransactions(transactions);
     setTxsLoading(false);
@@ -241,6 +245,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       indexTo: number;
       direction?: keyof TxDirectionType;
     }) => {
+      console.log('here!', !l1MessageStats.data, !l2MessageStats.data, !queryParams);
       if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
       const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
       let txs: Transaction[] = [];
@@ -364,6 +369,29 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     calculateTotals(pendingIn, pendingOut);
   }, [calculateTotals, fetchTransactions]);
 
+  // TODO: remove
+  const getAllTransactions = React.useCallback(async () => {
+    const _allTxs: Transaction[] = [];
+    for (const direction of [txDirection.INCOMING, txDirection.OUTGOING]) {
+      let more = true;
+      let indexTo = THE_GRAPH_MAX_INTEGER;
+      while (more) {
+        console.log('getting more...');
+        const txsBatch = (await fetchTransactions({ indexTo, direction })) || [];
+        if (!txsBatch.length) {
+          more = false;
+        }
+        for (const tx of txsBatch) {
+          _allTxs.push(tx);
+        }
+        indexTo = txsBatch.length ? txsBatch[txsBatch.length - 1].index : THE_GRAPH_MAX_INTEGER;
+      }
+    }
+    setGettingAllTxs(false);
+    setAllTxs(_allTxs);
+    console.log(_allTxs);
+  }, [fetchTransactions]);
+
   /**
    * Change network initiated by user so they can see the history of kovan even if not connected via their wallet
    */
@@ -461,6 +489,14 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         ? 'Optimism'
         : 'Mainnet'
       : '';
+
+  // TODO: remove
+  React.useEffect(() => {
+    if (!gettingAllTxs && !allTxs) {
+      setGettingAllTxs(true);
+      getAllTransactions();
+    }
+  }, [allTxs, getAllTransactions, gettingAllTxs]);
 
   return (
     <Box mt={24}>
