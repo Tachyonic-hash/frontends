@@ -13,7 +13,7 @@ import SearchInput from '../components/SearchInput';
 import StatsTable from '../components/StatsTable';
 import AppContext from '../context';
 import DateTime from 'luxon/src/datetime.js';
-import { tokens as tokenList } from '../tokenLists/optimismTokenList.json';
+import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
 import useGraphQueries from '../hooks/useGraphQueries';
 import { abis } from '../contracts';
 import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
@@ -495,7 +495,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     const watcher = new Watcher({
       l1: {
         provider: new JsonRpcProvider('INFURA_L1_URL'),
-        messengerAddress: '0xb89065D5eB05Cac554FDB11fC764C679b4202322',
+        messengerAddress: '0x48062eD9b6488EC41c4CfbF2f568D7773819d8C9',
       },
       l2: {
         provider: new JsonRpcProvider('OPTIMISM_L2_URL'),

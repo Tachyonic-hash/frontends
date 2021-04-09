@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { abis } from './contracts';
-import { chainIdLayerMap, chainIds } from './constants';
-import { tokens as tokenList } from './tokenLists/optimismTokenList.json';
+import { chainIds } from './constants';
+import { tokens as tokenList } from './tokenLists/optimism.tokenlist.json';
 
 const xDomainInterface = new ethers.utils.Interface(abis.xDomainMessenger);
 
