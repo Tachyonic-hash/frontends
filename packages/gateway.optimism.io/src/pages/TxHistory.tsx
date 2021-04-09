@@ -27,7 +27,6 @@ import {
   THE_GRAPH_MAX_INTEGER,
 } from '../constants';
 import { shortenAddress, decodeSentMessage } from '../helpers';
-import Watcher from '@eth-optimism/watcher';
 
 type TxHistoryProps = { isAdmin?: boolean };
 
@@ -483,7 +482,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     currentNetwork === 'kovan'
       ? currentTableView === txDirection.INCOMING
         ? 'Kovan'
-        : 'Optimism Kovan'
+        : 'Kovan Optimism'
       : currentNetwork === 'mainnet'
       ? currentTableView === txDirection.OUTGOING
         ? 'Optimism'

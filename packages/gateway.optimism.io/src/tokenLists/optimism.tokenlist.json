@@ -51,52 +51,8 @@
       "extensions": {
         "optimismBridgeAddress": "0xC2E4aB21D4d68B82bA71C2Fb449EC8aACc86133A"
       }
-    },
-    {
-      "chainId": 1,
-      "address": null,
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18,
-      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
-      "extensions": {
-        "optimismBridgeAddress": "TODO"
-      }
-    },
-    {
-      "chainId": 10,
-      "address": null,
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18,
-      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
-      "extensions": {
-        "optimismBridgeAddress": "0x4200000000000000000000000000000000000006"
-      }
-    },
-    {
-      "chainId": 42,
-      "address": null,
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18,
-      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
-      "extensions": {
-        "optimismBridgeAddress": "0x6647D5BD9EB9425838Bb89f76a166228b95671a3"
-      }
-    },
-    {
-      "chainId": 69,
-      "address": null,
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18,
-      "logoURI": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010",
-      "extensions": {
-        "optimismBridgeAddress": "0x4200000000000000000000000000000000000006"
-      }
     }
-  ],
+],
   "version": {
     "major": 0,
     "minor": 0,
