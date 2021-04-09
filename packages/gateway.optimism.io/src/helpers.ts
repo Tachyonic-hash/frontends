@@ -64,22 +64,27 @@ export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0
 
   if (!network) console.error('unsupported network!');
 
-  const l1Data = tokenList.find(
-    tokenData =>
-      tokenData.symbol === token &&
-      ((tokenData.chainId === chainIds.KOVAN_L1 && network === 'kovan') ||
-        (tokenData.chainId === chainIds.MAINNET_L1 && network === 'mainnet'))
-  );
-  const l2Data = tokenList.find(
-    tokenData =>
-      tokenData.symbol === token &&
-      ((tokenData.chainId === chainIds.KOVAN_L2 && network === 'kovan') ||
-        (tokenData.chainId === chainIds.MAINNET_L2 && network === 'mainnet'))
-  );
-  const l1Address =
-    ethers.utils.isAddress(l1Data?.extensions.optimismBridgeAddress || '') && l1Data?.extensions.optimismBridgeAddress;
-  const l2Address =
-    ethers.utils.isAddress(l2Data?.extensions.optimismBridgeAddress || '') && l2Data?.extensions.optimismBridgeAddress;
+  if (token !== 'ETH') {
+    const l1Data = tokenList.find(
+      tokenData =>
+        tokenData.symbol === token &&
+        ((tokenData.chainId === chainIds.KOVAN_L1 && network === 'kovan') ||
+          (tokenData.chainId === chainIds.MAINNET_L1 && network === 'mainnet'))
+    );
+    const l2Data = tokenList.find(
+      tokenData =>
+        tokenData.symbol === token &&
+        ((tokenData.chainId === chainIds.KOVAN_L2 && network === 'kovan') ||
+          (tokenData.chainId === chainIds.MAINNET_L2 && network === 'mainnet'))
+    );
+    const l1Address =
+      ethers.utils.isAddress(l1Data?.extensions.optimismBridgeAddress || '') &&
+      l1Data?.extensions.optimismBridgeAddress;
+    const l2Address =
+      ethers.utils.isAddress(l2Data?.extensions.optimismBridgeAddress || '') &&
+      l2Data?.extensions.optimismBridgeAddress;
 
-  return [l1Address || '', l2Address || ''];
+    return [l1Address || '', l2Address || ''];
+  }
+  return ['0xf3902e50dA095bD2e954AB320E8eafDA6152dFDa', '0x4200000000000000000000000000000000000006'];
 };
