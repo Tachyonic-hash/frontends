@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Homepage';
 import NotFound from './pages/NotFound';
 import Demos from './pages/Demos';
+import SNXHistory from './pages/SNXHistory';
 import NetworkStatus from './pages/NetworkStatus';
 import { images } from './constants';
 
@@ -48,6 +49,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/demos" component={Demos} />
         <Route path="/status" component={NetworkStatus} />
+        <Route path="/snx-history" component={SNXHistory} />
         <Route component={NotFound} />
       </Switch>
       <Footer />
