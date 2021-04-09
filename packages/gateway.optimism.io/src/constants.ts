@@ -141,3 +141,8 @@ export const navCategories = [
 ];
 
 export const THE_GRAPH_MAX_INTEGER = 2147483647;
+
+export const l1ETHGatewayAddress = {
+  kovan: '0xf3902e50dA095bD2e954AB320E8eafDA6152dFDa',
+  mainnet: '0xF20C38fCdDF0C790319Fd7431d17ea0c2bC9959c',
+};

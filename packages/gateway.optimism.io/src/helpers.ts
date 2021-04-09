@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { abis } from './contracts';
-import { chainIdLayerMap, chainIds } from './constants';
-import { tokens as tokenList } from './tokenLists/optimismTokenList.json';
+import { chainIds, l1ETHGatewayAddress } from './constants';
+import { tokens as tokenList } from './tokenLists/optimism.tokenlist.json';
 
 const xDomainInterface = new ethers.utils.Interface(abis.xDomainMessenger);
 
@@ -66,13 +66,13 @@ export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0
 
   if (token !== 'ETH') {
     const l1Data = tokenList.find(
-      tokenData =>
+      (tokenData: any) =>
         tokenData.symbol === token &&
         ((tokenData.chainId === chainIds.KOVAN_L1 && network === 'kovan') ||
           (tokenData.chainId === chainIds.MAINNET_L1 && network === 'mainnet'))
     );
     const l2Data = tokenList.find(
-      tokenData =>
+      (tokenData: any) =>
         tokenData.symbol === token &&
         ((tokenData.chainId === chainIds.KOVAN_L2 && network === 'kovan') ||
           (tokenData.chainId === chainIds.MAINNET_L2 && network === 'mainnet'))
@@ -86,5 +86,5 @@ export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0
 
     return [l1Address || '', l2Address || ''];
   }
-  return ['0xf3902e50dA095bD2e954AB320E8eafDA6152dFDa', '0x4200000000000000000000000000000000000006'];
+  return [l1ETHGatewayAddress.kovan, '0x4200000000000000000000000000000000000006'];
 };
