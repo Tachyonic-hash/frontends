@@ -9,8 +9,8 @@ import {
   Th,
   Td,
   Link,
-  Center
-  // Text
+  Center,
+  Text
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
@@ -45,28 +45,28 @@ const columns = [
       return DateTime.fromMillis(value).toLocaleString(DateTime.DATETIME_SHORT);
     }
   },
+  // {
+  //   Header: 'Completed',
+  //   accessor: 'completedTime'
+  // },
+  // {
+  //   Header: 'l2 Info',
+  //   accessor: 'l2TransactionHash',
+  //   Cell: ({ value }) => {
+  //     return (
+  //       <Center>
+  //         <Link
+  //           href={`http://mainnet-l2-explorer.surge.sh/tx/${value}`}
+  //           isExternal
+  //         >
+  //           <ExternalLinkIcon />
+  //         </Link>
+  //       </Center>
+  //     );
+  //   }
+  // },
   {
-    Header: 'Completed',
-    accessor: 'completedTime'
-  },
-  {
-    Header: 'l2 Info',
-    accessor: 'l2TransactionHash',
-    Cell: ({ value }) => {
-      return (
-        <Center>
-          <Link
-            href={`http://mainnet-l2-explorer.surge.sh/tx/${value}`}
-            isExternal
-          >
-            <ExternalLinkIcon />
-          </Link>
-        </Center>
-      );
-    }
-  },
-  {
-    Header: 'l1 Info',
+    Header: 'Explorer',
     accessor: 'l1TransactionHash',
     Cell: ({ value }) => {
       return value ? (
@@ -95,15 +95,11 @@ function SNXHistory() {
   return (
     <Container maxW="1200px">
       <PageHeader>Synthetix withdrawals</PageHeader>
-      {/* <Text mb={8} fontSize="1.2rem">
-        This table contains all completed SNX mainnet withdrawals up until{' '}
-        {'TODO'}. If you're looking for a more recent withdrawal, please check{' '}
-        <Link href="TODO" isExternal>
-          here
-        </Link>
-        .
-      </Text> */}
-      <Table {...getTableProps()} variant="striped" size="sm" minW="1000px">
+      <Text mb={8} fontSize="1.2rem">
+        This table contains all completed SNX mainnet withdrawals up until a
+        regenesis that occured on April 9, 2021.
+      </Text>
+      <Table {...getTableProps()} variant="striped" size="sm" minW="800px">
         <Thead>
           {headerGroups.map(headerGroup => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -112,7 +108,7 @@ function SNXHistory() {
                   <Th
                     {...column.getHeaderProps()}
                     textAlign={
-                      column.Header.includes('Info') ? 'center' : 'left'
+                      column.Header.includes('Explorer') ? 'center' : 'left'
                     }
                   >
                     {column.render('Header')}
