@@ -90,7 +90,7 @@ function HeaderNav({
       : connectedChainId === chainIds.MAINNET_L2
       ? 'Optimism'
       : connectedChainId === chainIds.KOVAN_L2
-      ? 'Optimism Kovan'
+      ? 'Kovan Optimism'
       : '';
 
   return (

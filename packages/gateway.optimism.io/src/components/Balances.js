@@ -106,13 +106,10 @@ const AccentText = () => (
 
 function Balances({ openModal }) {
   const {
-    userAddress,
-    contracts,
     connectedChainId,
     l1Balance,
     l2Balance,
     balancesLoading,
-    txPending,
     inputValue,
     setInputValue,
     handleDeposit,
@@ -208,7 +205,7 @@ function Balances({ openModal }) {
           {balancesLoading ? <Spinner size="xs" /> : connectedLayer === 2 ? l1Balance : l2Balance} ETH
         </Box>
       </Box>
-      <HStack spacing={8} pt="2rem">
+      <HStack spacing={8} pt={12}>
         {connectedLayer === 1 ? (
           <OptimismButton size="huge" onClick={handleDeposit} textTransform="uppercase">
             Deposit

@@ -1,7 +1,7 @@
 import React from 'react';
 import JSBI from 'jsbi';
 import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
-import { SimpleGrid, Box, Flex, useToast } from '@chakra-ui/react';
+import { SimpleGrid, Box, Flex, useToast, Select, FormLabel } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { QueryResult, OperationVariables } from '@apollo/client';
 import { JsonRpcProvider } from '@ethersproject/providers';
@@ -13,7 +13,7 @@ import SearchInput from '../components/SearchInput';
 import StatsTable from '../components/StatsTable';
 import AppContext from '../context';
 import DateTime from 'luxon/src/datetime.js';
-import { tokens as tokenList } from '../tokenLists/optimismTokenList.json';
+import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
 import useGraphQueries from '../hooks/useGraphQueries';
 import { abis } from '../contracts';
 import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
@@ -25,19 +25,21 @@ import {
   TxDirectionType,
   tokens,
   THE_GRAPH_MAX_INTEGER,
-  FETCH_LIMIT,
 } from '../constants';
 import { shortenAddress, decodeSentMessage } from '../helpers';
 
 type TxHistoryProps = { isAdmin?: boolean };
 
-const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
-const l2Provider = new JsonRpcProvider(`https://mainnet.optimism.io`);
-
 function TxHistory({ isAdmin }: TxHistoryProps) {
-  const { screenLg, screenSm, setTokenSelection, tokenSelection, connectedChainId, userAddress } = React.useContext(
-    AppContext
-  );
+  const {
+    screenLg,
+    screenSm,
+    setTokenSelection,
+    tokenSelection,
+    connectedChainId,
+    userAddress,
+    isConnecting,
+  } = React.useContext(AppContext);
   const [queryParams, setQueryParams] = React.useState<URLSearchParams | undefined>(undefined);
   const { params }: GenericObject = useRouteMatch();
   const toast = useToast();
@@ -52,8 +54,11 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const [l2TotalAmt, setl2TotalAmt] = React.useState('');
   const [l1VsL2lDiff, setl1VsL2lDiff] = React.useState<string>('');
   const [totalTxCount, setTotalTxCount] = React.useState(Number.MAX_SAFE_INTEGER); // used for pagination
-  const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>();
+  const [currentTableView, setCurrentTableView] = React.useState<keyof TxDirectionType>(txDirection.INCOMING);
   const [filterAddress, setFilterAddress] = React.useState(params.address || userAddress);
+  const [currentNetwork, setCurrentNetwork] = React.useState(
+    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet'
+  );
   const {
     sentMessagesFromL1,
     sentMessagesFromL2,
@@ -61,9 +66,11 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     relayedMessagesOnL2,
     l1MessageStats,
     l2MessageStats,
-  } = useGraphQueries(filterAddress, connectedChainId);
-  const network =
-    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
+  } = useGraphQueries(currentNetwork);
+
+  // TODO: remove
+  const [gettingAllTxs, setGettingAllTxs] = React.useState(false);
+  const [allTxs, setAllTxs] = React.useState<Transaction[] | null>(null);
 
   const setTransactions = (transactions: Transaction[]) => {
     _setTransactions(transactions);
@@ -228,35 +235,22 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const fetchTransactions = React.useCallback(
     async ({
       page,
-      indexTo: _indexTo,
-      direction = currentTableView,
+      indexTo,
+      direction: _dir,
     }: {
       page?: string;
-      indexTo?: number;
+      indexTo: number;
       direction?: keyof TxDirectionType;
     }) => {
-      if (!l1MessageStats.data || !l2MessageStats.data) return;
+      if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
+      const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
       let txs: Transaction[] = [];
-      let indexTo = _indexTo;
 
       if (!page) {
         // If no page specified, this is the first fetch
         setTxsLoading(true);
       } else {
         setIsFetchingMore(true);
-      }
-
-      if (!indexTo) {
-        const firstTxIndex = (transactions?.length && transactions[0].index) || THE_GRAPH_MAX_INTEGER;
-        const lastTxIndex = (transactions?.length && transactions[transactions.length - 1].index) || 0;
-
-        // If page isn't specified, start from the start of the list
-        indexTo =
-          !page || !transactions
-            ? THE_GRAPH_MAX_INTEGER
-            : page === 'prev'
-            ? firstTxIndex + FETCH_LIMIT + 1
-            : lastTxIndex;
       }
 
       if (direction === txDirection.INCOMING) {
@@ -280,11 +274,10 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       return txs;
     },
     [
-      transactions,
-      currentTableView,
       l1MessageStats.data,
       l2MessageStats.data,
       processPageOfxDomainTxs,
+      queryParams,
       sentMessagesFromL1,
       sentMessagesFromL2,
     ]
@@ -320,6 +313,9 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       });
 
       if (l1TokenData && l2TokenData) {
+        const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
+        const l2Provider = new JsonRpcProvider(process.env.REACT_APP_L2_PROVIDER_URL || `https://mainnet.optimism.io`);
+
         const l1TokenContract = new Contract(l1TokenData.address as string, abis.erc20, l1Provider);
         const l2TokenContract = new Contract(l2TokenData.address as string, abis.erc20, l2Provider);
 
@@ -373,6 +369,21 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   }, [calculateTotals, fetchTransactions]);
 
   /**
+   * Change network initiated by user so they can see the history of kovan even if not connected via their wallet
+   */
+  const handleChangeNetwork = (e: React.FormEvent<HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
+    setCurrentNetwork(target.value);
+    fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+  };
+  /**
+   * Sets filter address
+   */
+  React.useEffect(() => {
+    setFilterAddress(userAddress);
+  }, [userAddress]);
+
+  /**
    * Fetches on initial page load
    */
   React.useEffect(() => {
@@ -381,7 +392,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         if (isAdmin && tokenSelection) {
           calculateStats();
         } else {
-          fetchTransactions({});
+          fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
         }
       }
     })();
@@ -401,6 +412,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     isAdmin,
     calculateStats,
     fetchTransactions,
+    currentTableView,
   ]);
 
   /**
@@ -428,17 +440,27 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       const newFilterAddress = params.address || userAddress;
       if (newFilterAddress !== filterAddress) {
         setFilterAddress(newFilterAddress);
-        fetchTransactions({});
+        fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
       }
     }
-  }, [fetchTransactions, filterAddress, params.address, userAddress]);
+  }, [currentTableView, fetchTransactions, filterAddress, params.address, userAddress]);
+
+  /**
+   * Fetch if changing view from incoming <> outgoing txs
+   */
+  React.useEffect(() => {
+    (async () => {
+      const txs = await fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+      setTransactions(txs as Transaction[]);
+    })();
+  }, [currentTableView, fetchTransactions]);
 
   const currentNetworkLayer =
-    network === 'kovan'
+    currentNetwork === 'kovan'
       ? currentTableView === txDirection.INCOMING
         ? 'Kovan'
-        : 'Optimism Kovan'
-      : network === 'mainnet'
+        : 'Kovan Optimism'
+      : currentNetwork === 'mainnet'
       ? currentTableView === txDirection.OUTGOING
         ? 'Optimism'
         : 'Mainnet'
@@ -463,8 +485,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
           </Flex>
         </>
       )}
-      <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column'}>
+      <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column-reverse'}>
         <SearchInput handleAddressSearch={handleAddressSearch} />
+        {!filterAddress && !isConnecting && (
+          <Box mb="4" ml={screenLg ? 8 : 0}>
+            <FormLabel opacity="0.7">Network</FormLabel>
+            <Select onChange={handleChangeNetwork} value={currentNetwork}>
+              <option value="mainnet">Mainnet</option>
+              <option value="kovan">Kovan</option>
+            </Select>
+          </Box>
+        )}
         {filterAddress && filterAddress !== userAddress && (
           <SimpleGrid
             ml={screenLg ? 8 : 0}
@@ -473,12 +504,13 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
             spacingX={4}
             d="inline-grid"
             gridTemplateColumns="repeat(2, minmax(0, min-content))"
-            pb={4}
+            mb={5}
+            fontSize="1.2rem"
           >
-            <Box mr={1} fontWeight="400">
+            {/* <Box mr={1} fontWeight="400">
               NETWORK:
             </Box>
-            <Box>{currentNetworkLayer}</Box>
+            <Box>{currentNetworkLayer}</Box> */}
             <Box as="span" mr={1} fontWeight="400">
               ADDRESS:
             </Box>

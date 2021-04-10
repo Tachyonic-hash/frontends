@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Center, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Grid, Box, Center, Text, useColorModeValue } from '@chakra-ui/react';
 
 const fakeButtonStyles = {
   borderWidth: '1px',
@@ -16,28 +16,42 @@ function ConnectCards({ connectToLayer }) {
   const containerBg = useColorModeValue('transparent', '#1A202C');
 
   const Card = ({ type, onClick }) => (
-    <Box
-      bg={containerBg}
-      onClick={onClick}
-      as="button"
-      d="flex"
-      flexDir="column"
-      justifyContent="space-between"
-      outline="none"
-      boxShadow="none"
-      borderWidth="1px"
-      padding={4}
-      borderRadius="20px"
-      transition="all 500ms"
-      _hover={{
-        boxShadow: '0px 0px 8px 8px rgb(240, 26, 55, 0.2)',
-        borderColor: 'brand.primary',
-      }}
-    >
-      <Text textAlign="center" mb={8} w="80%" mx="auto" fontSize="1.4rem" fontWeight="400 !important" whiteSpace="pre">
-        {type === 'DEPOSIT' ? `Kovan` : 'Optimism'}
+    <Box>
+      <Text size="xs" mx="auto" mb={4}>
+        {type === 'DEPOSIT' ? 'Layer 1' : 'Layer 2'}
       </Text>
-      <Box {...fakeButtonStyles}>{type === 'DEPOSIT' ? `Deposit` : `Withdraw`}</Box>
+      <Box
+        w="100%"
+        bg={containerBg}
+        onClick={onClick}
+        as="button"
+        d="flex"
+        flexDir="column"
+        justifyContent="space-between"
+        outline="none"
+        boxShadow="none"
+        borderWidth="1px"
+        padding={4}
+        borderRadius="20px"
+        transition="all 500ms"
+        _hover={{
+          boxShadow: '0px 0px 8px 8px rgb(240, 26, 55, 0.2)',
+          borderColor: 'brand.primary',
+        }}
+      >
+        <Text
+          textAlign="center"
+          mb={8}
+          w="80%"
+          mx="auto"
+          fontSize="1.4rem"
+          fontWeight="400 !important"
+          whiteSpace="pre"
+        >
+          {type === 'DEPOSIT' ? 'Ethereum' : 'Optimism'}
+        </Text>
+        <Box {...fakeButtonStyles}>{type === 'DEPOSIT' ? `Deposit` : `Withdraw`}</Box>
+      </Box>
     </Box>
   );
 

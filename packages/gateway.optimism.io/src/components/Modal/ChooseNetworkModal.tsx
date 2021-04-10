@@ -1,8 +1,8 @@
 import React from 'react';
 import ConnectCards from '../ConnectCards';
-import { Grid, Box, Center, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Heading, Text } from '@chakra-ui/react';
 
-function Connect({ connectToLayer }) {
+function Connect({ connectToLayer }: any) {
   return (
     <>
       <Heading textAlign="center" size="xl" mb={0} mt={6}>

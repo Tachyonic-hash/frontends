@@ -18,14 +18,15 @@ import {
   useToast,
   Tooltip,
 } from '@chakra-ui/react';
+import { useHistory, Link, useRouteMatch } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import DateTime from 'luxon/src/datetime.js';
 import Interval from 'luxon/src/interval.js';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { formatNumber, formatUSD, shortenAddress } from '../helpers';
-import { txDirection, chainIds, TxDirectionType } from '../constants';
-import { useHistory, Link, useRouteMatch } from 'react-router-dom';
+import { txDirection, chainIds, TxDirectionType, THE_GRAPH_MAX_INTEGER, FETCH_LIMIT } from '../constants';
+import { modalTypes } from './Modal';
 import AppContext from '../context';
 
 const Dot = ({ color }: { color: string }) => (
@@ -41,7 +42,7 @@ type TxHistoryProps = {
   setl1TotalAmt: (amount: string) => void;
   setl2TotalAmt: (amount: string) => void;
   queryParams?: URLSearchParams;
-  fetchTransactions: (props: GenericObject) => Promise<Transaction[] | undefined>;
+  fetchTransactions: (props: any) => Promise<Transaction[] | undefined>;
   transactions?: Transaction[];
   txsLoading: boolean;
   isFetchingMore: boolean;
@@ -58,7 +59,7 @@ function TxHistoryTable({
   isFetchingMore,
   totalTxCount,
 }: TxHistoryProps) {
-  const { connectedChainId, prices, userAddress, screenSm } = React.useContext(AppContext);
+  const { connectedChainId, prices, userAddress } = React.useContext(AppContext);
   const history = useHistory();
   const [lastBtnClicked, setLastBtnClicked] = React.useState('');
   const [dateFormat, setDateFormat] = React.useState('MOMENT');
@@ -261,7 +262,16 @@ function TxHistoryTable({
                             ) : tx.awaitingRelay ? (
                               <>
                                 <Dot color="#efefa2" />
-                                Awaiting relay
+                                Ready to claim
+                                {/* <Button
+                                  ml={4}
+                                  background="transparent"
+                                  borderWidth="1px"
+                                  size="xs"
+                                  onClick={() => openModal(modalTypes.CLAIM)}
+                                >
+                                  Claim
+                                </Button> */}
                               </>
                             ) : (
                               <Tooltip
@@ -331,7 +341,10 @@ function TxHistoryTable({
                     w="130px"
                     onClick={() => {
                       setLastBtnClicked('prev');
-                      fetchTransactions({ page: 'prev' });
+                      fetchTransactions({
+                        page: 'prev',
+                        indexTo: (transactions[0].index + FETCH_LIMIT || THE_GRAPH_MAX_INTEGER) + 1,
+                      });
                     }}
                     // descending order, so we're at the start of the list if the index === totalTxCount
                     disabled={firstTxIndex + 1 === totalTxCount}
@@ -345,7 +358,7 @@ function TxHistoryTable({
                     w="130px"
                     onClick={() => {
                       setLastBtnClicked('next');
-                      fetchTransactions({ page: 'next' });
+                      fetchTransactions({ page: 'next', indexTo: transactions[transactions.length - 1].index || 0 });
                     }}
                     // descending order, so we're at the end of the list if the index === 0
                     disabled={transactions?.length !== 0 && transactions[transactions.length - 1].index === 0}

@@ -10,8 +10,8 @@ function DisclaimerContent() {
       <UnorderedList textAlign="left" pl={8}>
         <ListItem>Withdrawing requires a wait time of one week.</ListItem>
         <ListItem>
-          Optimism is supported by the on-chain security of the Ethereum network, however code vulnerabilities are
-          always a risk.
+          Optimism is supported by the base-layer security of the Ethereum network, however code vulnerabilities are
+          always a risk (use at your own risk)
         </ListItem>
       </UnorderedList>
       <Text mt={4}>
