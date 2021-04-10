@@ -9,8 +9,8 @@ import {
   Th,
   Td,
   Link,
-  Center,
-  Text
+  Center
+  // Text
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
