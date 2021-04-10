@@ -15,6 +15,7 @@ function useQueries(network: string = 'mainnet') {
     client: l2Client,
     skip: true,
   });
+
   const relayedMessagesOnL1 = useQuery(GET_ALL_RELAYED_MSGS, { client: l1Client, skip: true });
   const relayedMessagesOnL2 = useQuery(GET_ALL_RELAYED_MSGS, { client: l2Client, skip: true });
   const l1MessageStats = useQuery(GET_MSG_STATS, { client: l1Client });

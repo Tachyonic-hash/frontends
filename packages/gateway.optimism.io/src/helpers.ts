@@ -46,24 +46,39 @@ export const capitalize = (s: string) => {
 export const shortenAddress = (address: string = '', charLength: number = 12) =>
   address.slice(0, charLength + 2) + '...' + address.slice(address.length - charLength, address.length);
 
-export const getRpcProviders = (chainId: number) => {
+export const getRpcProviders = async (chainId: number) => {
   // TODO: show error if node endpoints are not repsonsive
   const network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
-  const rpcL1 = new JsonRpcProvider(`https://${network}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
-  const rpcL2 = new JsonRpcProvider(`https://${network}.optimism.io`);
-  return [rpcL1, rpcL2];
+  const l1ProviderUrl = `https://${network}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
+  const l2ProviderUrl = process.env.REACT_APP_L2_PROVIDER_URL || `https://${network}.optimism.io`;
+
+  const l1Response = await fetch(l2ProviderUrl);
+  const l2Response = await fetch(l2ProviderUrl);
+  if (l1Response.status === 200 && l2Response.status === 200) {
+    const rpcL1 = new JsonRpcProvider(l1ProviderUrl);
+    const rpcL2 = new JsonRpcProvider(l2ProviderUrl);
+    return [rpcL1, rpcL2];
+  } else {
+    if (!l1Response.status) {
+      throw Error(`${l1ProviderUrl} not responsive`);
+    } else if (l1Response.status !== 200) {
+      throw Error(`${l1ProviderUrl} returned ${l1Response.status} error.`);
+    } else if (!l2Response.status) {
+      throw Error(`${l2ProviderUrl} not responsive`);
+    } else if (l2Response.status !== 200) {
+      throw Error(`${l2ProviderUrl} returned ${l2Response.status} error.`);
+    }
+    return [];
+  }
 };
 
 export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0) => {
   const network =
-    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2
-      ? 'kovan'
-      : connectedChainId === chainIds.MAINNET_L1 || connectedChainId === chainIds.MAINNET_L2
-      ? 'mainnet'
-      : '';
+    connectedChainId === chainIds.MAINNET_L1 || connectedChainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
 
   if (!network) console.error('unsupported network!');
 
+  // Gets token bridge addressses from token list json (ETH only exists as a token on L2 so its addresses are hardcoded)
   if (token !== 'ETH') {
     const l1Data = tokenList.find(
       (tokenData: any) =>
@@ -86,5 +101,5 @@ export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0
 
     return [l1Address || '', l2Address || ''];
   }
-  return [l1ETHGatewayAddress.kovan, '0x4200000000000000000000000000000000000006'];
+  return [l1ETHGatewayAddress[network], '0x4200000000000000000000000000000000000006'];
 };

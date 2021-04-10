@@ -20,16 +20,20 @@ function ConfirmTxModal({ type }: { type: string }) {
   React.useEffect(() => {
     if (!getRpcProviders) return;
     (async () => {
-      const [rpcL1, rpcL2] = getRpcProviders(connectedChainId || 0);
+      try {
+        const [rpcL1, rpcL2] = await getRpcProviders(connectedChainId || 0);
 
-      const l1GasPrice = await rpcL1.getGasPrice();
+        const l1GasPrice = await rpcL1.getGasPrice();
 
-      const l1GasFee = ethers.utils.formatEther(l1GasPrice.mul(RELAY_WITHDRAWAL_GAS_COST));
-      setL1GasFee(l1GasFee);
+        const l1GasFee = ethers.utils.formatEther(l1GasPrice.mul(RELAY_WITHDRAWAL_GAS_COST));
+        setL1GasFee(l1GasFee);
 
-      const l2GasPrice = await rpcL2.getGasPrice();
-      const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18));
-      setL2GasFee(l2GasPrice.mul(l2GasAmount).toString());
+        const l2GasPrice = await rpcL2.getGasPrice();
+        const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18));
+        setL2GasFee(l2GasPrice.mul(l2GasAmount).toString());
+      } catch (err) {
+        console.error(err);
+      }
     })();
   }, [connectedChainId, contracts, inputValue]);
 

@@ -54,11 +54,10 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
 
     if (!provider || !chainId) {
       provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      // const userAddress = (await provider.listAccounts())[0];
-
-      // if (!userAddress) return;
       chainId = (await provider.getNetwork()).chainId;
     }
+
+    console.log('chainId', chainId);
 
     // Bail out if this is an unsupported network
     if (!chainIdLayerMap[chainId]) {
@@ -76,19 +75,23 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     //   return;
     // }
 
-    const [rpcL1, rpcL2] = getRpcProviders(chainId);
-    const [l1Address, l2Address] = getAddresses('ETH', chainId);
+    try {
+      const [rpcL1, rpcL2] = await getRpcProviders(chainId);
+      const [l1Address, l2Address] = getAddresses('ETH', chainId);
 
-    if (l1Address && l2Address) {
-      const contracts = {
-        l1: new Contract(l1Address, abis.l1.standardBridge, rpcL1),
-        l2: new Contract(l2Address, abis.l2.standardBridge, rpcL2),
-      };
+      if (l1Address && l2Address) {
+        const contracts = {
+          l1: new Contract(l1Address, abis.l1.standardBridge, rpcL1),
+          l2: new Contract(l2Address, abis.l2.standardBridge, rpcL2),
+        };
 
-      setContracts(contracts);
-      setConnectedChainId(chainId);
-      setWalletProvider(provider);
-      localStorage.setItem('previouslyConnected', 'true');
+        setContracts(contracts);
+        setConnectedChainId(chainId);
+        setWalletProvider(provider);
+        localStorage.setItem('previouslyConnected', 'true');
+      }
+    } catch (err) {
+      console.error(err);
     }
   }, [closeModal, connectedChainId, showErrorToast, walletProvider]);
 
@@ -355,7 +358,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     (async () => {
       if (contracts && userAddress && connectedChainId) {
         try {
-          const [rpcL1] = getRpcProviders(connectedChainId);
+          const [rpcL1] = await getRpcProviders(connectedChainId);
           // set balances
           const ethBalance = await rpcL1.getBalance(userAddress);
           setL1Balance(formatNumber(ethers.utils.formatEther(ethBalance)));

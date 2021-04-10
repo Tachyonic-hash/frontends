@@ -30,9 +30,6 @@ import { shortenAddress, decodeSentMessage } from '../helpers';
 
 type TxHistoryProps = { isAdmin?: boolean };
 
-const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
-const l2Provider = new JsonRpcProvider(`https://mainnet.optimism.io`);
-
 function TxHistory({ isAdmin }: TxHistoryProps) {
   const {
     screenLg,
@@ -316,6 +313,9 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       });
 
       if (l1TokenData && l2TokenData) {
+        const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
+        const l2Provider = new JsonRpcProvider(process.env.REACT_APP_L2_PROVIDER_URL || `https://mainnet.optimism.io`);
+
         const l1TokenContract = new Contract(l1TokenData.address as string, abis.erc20, l1Provider);
         const l2TokenContract = new Contract(l2TokenData.address as string, abis.erc20, l2Provider);
 
@@ -367,29 +367,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     }
     calculateTotals(pendingIn, pendingOut);
   }, [calculateTotals, fetchTransactions]);
-
-  // TODO: remove
-  const getAllTransactions = React.useCallback(async () => {
-    const _allTxs: Transaction[] = [];
-    for (const direction of [txDirection.INCOMING, txDirection.OUTGOING]) {
-      let more = true;
-      let indexTo = THE_GRAPH_MAX_INTEGER;
-      while (more) {
-        console.log('getting more...');
-        const txsBatch = (await fetchTransactions({ indexTo, direction })) || [];
-        if (!txsBatch.length) {
-          more = false;
-        }
-        for (const tx of txsBatch) {
-          _allTxs.push(tx);
-        }
-        indexTo = txsBatch.length ? txsBatch[txsBatch.length - 1].index : THE_GRAPH_MAX_INTEGER;
-      }
-    }
-    setGettingAllTxs(false);
-    setAllTxs(_allTxs);
-    console.log(_allTxs);
-  }, [fetchTransactions]);
 
   /**
    * Change network initiated by user so they can see the history of kovan even if not connected via their wallet
@@ -489,25 +466,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         : 'Mainnet'
       : '';
 
-  // TODO: remove
-  React.useEffect(() => {
-    const watcher = new Watcher({
-      l1: {
-        provider: new JsonRpcProvider('INFURA_L1_URL'),
-        messengerAddress: '0x48062eD9b6488EC41c4CfbF2f568D7773819d8C9',
-      },
-      l2: {
-        provider: new JsonRpcProvider('OPTIMISM_L2_URL'),
-        messengerAddress: '0x4200000000000000000000000000000000000007',
-      },
-    });
-
-    if (!gettingAllTxs && !allTxs) {
-      setGettingAllTxs(true);
-      getAllTransactions();
-    }
-  }, [allTxs, getAllTransactions, gettingAllTxs]);
-
   return (
     <Box mt={24}>
       {isAdmin && (
@@ -527,10 +485,10 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
           </Flex>
         </>
       )}
-      <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column'}>
+      <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column-reverse'}>
         <SearchInput handleAddressSearch={handleAddressSearch} />
         {!filterAddress && !isConnecting && (
-          <Box mb="4" ml={8}>
+          <Box mb="4" ml={screenLg ? 8 : 0}>
             <FormLabel opacity="0.7">Network</FormLabel>
             <Select onChange={handleChangeNetwork} value={currentNetwork}>
               <option value="mainnet">Mainnet</option>

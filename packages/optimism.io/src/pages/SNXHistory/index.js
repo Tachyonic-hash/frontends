@@ -1,4 +1,5 @@
 import React from 'react';
+import { ethers } from 'ethers';
 import { useTable, usePagination } from 'react-table';
 import {
   Table,
@@ -8,27 +9,35 @@ import {
   Th,
   Td,
   Link,
-  Center
+  Center,
+  Text
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
 import Container from '../../components/Container';
+import { PageHeader } from '../../components/Headers';
 import history from './history.json';
 
-export const shortenAddress = (address: string = '', charLength: number = 12) =>
+export const shortenAddress = (address: string = '', charLength: number = 8) =>
   address.slice(0, charLength + 2) +
   '...' +
   address.slice(address.length - charLength, address.length);
 
+history.sort((a, b) => b.completedTime - a.completedTime);
+
 const columns = [
   {
     Header: 'Address',
-    accessor: 'account'
+    accessor: 'account',
+    Cell: ({ value }) => shortenAddress(value)
   },
-  // {
-  //   Header: 'Amount',
-  //   accessor: 'amount'
-  // },
+  {
+    Header: 'Amount',
+    accessor: 'amount',
+    Cell: ({ value }) => {
+      return (+ethers.utils.formatEther(value)).toFixed(6);
+    }
+  },
   {
     Header: 'Initiated',
     accessor: 'initiatedTime',
@@ -84,8 +93,17 @@ function SNXHistory() {
   } = tableInstance;
 
   return (
-    <Container pt={8} maxW="1200px" px={0}>
-      <Table {...getTableProps()} variant="striped" size="sm">
+    <Container maxW="1200px">
+      <PageHeader>Synthetix withdrawals</PageHeader>
+      {/* <Text mb={8} fontSize="1.2rem">
+        This table contains all completed SNX mainnet withdrawals up until{' '}
+        {'TODO'}. If you're looking for a more recent withdrawal, please check{' '}
+        <Link href="TODO" isExternal>
+          here
+        </Link>
+        .
+      </Text> */}
+      <Table {...getTableProps()} variant="striped" size="sm" minW="1000px">
         <Thead>
           {headerGroups.map(headerGroup => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
