@@ -376,6 +376,13 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     setCurrentNetwork(target.value);
     fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
   };
+
+  /** Sets network (needed for fresh page load) */
+  React.useEffect(() => {
+    const network =
+      connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
+    setCurrentNetwork(network);
+  }, [connectedChainId]);
   /**
    * Sets filter address
    */

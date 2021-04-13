@@ -52,7 +52,21 @@ function useCustomToast() {
     [toast]
   );
 
-  return { showErrorToast, showInfoToast, toast, toastIdRef, warningLinkColor };
+  const showSuccessToast = React.useCallback(
+    (message: string | ReactNode, duration: number) => {
+      toastIdRef.current = toast({
+        title: 'Success!',
+        description: message,
+        status: 'success',
+        duration: duration || 5000,
+        isClosable: true,
+        position: 'bottom-left',
+      });
+    },
+    [toast]
+  );
+
+  return { showErrorToast, showInfoToast, showSuccessToast, toast, toastIdRef, warningLinkColor };
 }
 
 export default useCustomToast;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Web3Provider } from '@ethersproject/providers';
-import { useHistory } from 'react-router-dom';
 import { Link, useColorMode, Text } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import Notify, { API } from 'bnc-notify';
@@ -19,7 +18,7 @@ type UseWalletProps = {
 
 function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [isConnecting, setIsConnecting] = React.useState(false);
-  const { showErrorToast, showInfoToast, toastIdRef, toast, warningLinkColor } = useToast();
+  const { showErrorToast, showInfoToast, showSuccessToast, toastIdRef, toast, warningLinkColor } = useToast();
   const [notify, setNotify] = React.useState<API | undefined>();
   const [isInitialized, setIsInitialized] = React.useState(false);
   const [walletProvider, setWalletProvider] = React.useState<Web3Provider | undefined>(undefined);
@@ -57,8 +56,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       chainId = (await provider.getNetwork()).chainId;
     }
 
-    console.log('chainId', chainId);
-
     // Bail out if this is an unsupported network
     if (!chainIdLayerMap[chainId]) {
       showErrorToast(`Network not supported. Please change to Kovan or Mainnet`);
@@ -84,7 +81,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           l1: new Contract(l1Address, abis.l1.standardBridge, rpcL1),
           l2: new Contract(l2Address, abis.l2.standardBridge, rpcL2),
         };
-
         setContracts(contracts);
         setConnectedChainId(chainId);
         setWalletProvider(provider);
@@ -147,8 +143,13 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           chainId === chainIds.MAINNET_L2 ||
           chainId === chainIds.KOVAN_L2
         ) {
-          const network = connectedChainId === chainIds.MAINNET_L2 ? 'Mainnet' : 'Kovan';
-          showInfoToast(`Please change your network to ${network} in MetaMask and try again.`);
+          const network =
+            connectedChainId === chainIds.MAINNET_L2
+              ? 'Mainnet'
+              : connectedChainId === chainIds.KOVAN_L2
+              ? 'Kovan'
+              : '';
+          showInfoToast(`Please change your network ${network ? 'to ' + network : ''} in MetaMask and try again.`);
           return;
         }
       } else {
@@ -193,20 +194,11 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
       }
-      handleChainInitializedOrChanged();
       setConnectedChainId(chainId);
       setWalletProvider(provider);
       closeModal();
     },
-    [
-      closeModal,
-      connectedChainId,
-      handleChainInitializedOrChanged,
-      showErrorToast,
-      showInfoToast,
-      walletProvider,
-      warningLinkColor,
-    ]
+    [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
   );
 
   const handleDeposit = async () => {
@@ -226,7 +218,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         emitter.on('all', (tx: GenericObject) => {
           closeModal();
           if (tx.status === 'confirmed') {
-            setTxPending(false);
             notify.unsubscribe(receipt.hash);
           }
           return {
@@ -319,6 +310,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   React.useEffect(() => {
     (async () => {
       if (!isInitialized) {
+        setIsInitialized(true);
         if ((window as any).ethereum) {
           (window as any).ethereum.on('chainChanged', handleChainInitializedOrChanged);
           (window as any).ethereum.on('accountsChanged', handleAccountChanged);
@@ -339,7 +331,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           console.error('No injected web3 found');
         }
       }
-      setIsInitialized(true);
     })();
   }, [
     connectToLayer,
@@ -385,6 +376,39 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     })();
   }, [userAddress, walletProvider]);
 
+  React.useEffect(() => {
+    if (contracts && userAddress) {
+      const depositFilter = contracts.l2.filters.DepositFinalized(userAddress);
+      const withdrawalFilter = contracts.l1.filters.WithdrawalFinalized(userAddress);
+      contracts.l2.on(depositFilter, async (target: string, amount: ethers.BigNumber, tx: GenericObject) => {
+        const ethL2Balance = await contracts.l2.balanceOf(userAddress);
+        setL2Balance(formatNumber(ethers.utils.formatEther(ethL2Balance)));
+        setTxPending(false);
+        const network = connectedChainId === chainIds.MAINNET_L1 ? 'mainnet' : 'kovan';
+
+        // // TODO: figure out how to prevent this from rendering multiple times
+        // showSuccessToast(
+        //   <>
+        //     Deposit finalized on Optimism. Click{' '}
+        //     <Link
+        //       href={`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/tx/${tx.transactionHash}`}
+        //       isExternal={true}
+        //       color={'text'}
+        //       textDecoration="underline"
+        //     >
+        //       here
+        //     </Link>{' '}
+        //     to see the details.
+        //   </>,
+        //   999999999 // arbitrarily long duration
+        // );
+      });
+      contracts.l1.on(withdrawalFilter, (target: string, amount: ethers.BigNumber, tx: GenericObject) => {
+        // TODO: this will only be triggered if the user recently did a self-withdrawal on the txs page
+      });
+    }
+  }, [connectedChainId, contracts, showSuccessToast, userAddress]);
+
   /**
    * Initializes Blocknative Notify widget
    */
@@ -398,7 +422,8 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         notifyMessages: {
           en: {
             transaction: {
-              txConfirmed: 'Deposit confirmed! It may take a minute or so before it appears on the Transactions page.',
+              txConfirmed:
+                'Deposit sent to Optimism! It may take a few minutes before your balance is updated and the transaction appears on the Transactions page.',
             },
             watched: {},
             time: {},

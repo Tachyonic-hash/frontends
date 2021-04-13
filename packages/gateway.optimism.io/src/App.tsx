@@ -37,7 +37,8 @@ function App() {
   const { isOpen: isMobileDrawerOpen, onOpen: openMobileDrawer, onClose: closeMobileDrawer } = useDisclosure();
   const [tokenSelection, setTokenSelection] = React.useState<TokenSelection | undefined>(undefined);
   const [prices, setPrices] = React.useState({});
-  const [screenSm, screenMd, screenLg] = useMediaQuery([
+  const [isShortScreen, screenSm, screenMd, screenLg] = useMediaQuery([
+    '(max-height: 800px)',
     '(min-width: 600px)',
     '(min-width: 1024px)',
     '(min-width: 1200px)',
@@ -88,6 +89,7 @@ function App() {
         userAddress,
         inputValue,
         setInputValue,
+        isShortScreen,
         screenSm,
         screenMd,
         screenLg,

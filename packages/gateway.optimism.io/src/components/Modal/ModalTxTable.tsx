@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Table, Tbody, Tr, Td, Thead, Th, Box } from '@chakra-ui/react';
+import { Text, Box, Spinner } from '@chakra-ui/react';
 import AppContext from '../../context';
 import { formatUSD, formatNumber } from '../../helpers';
 
@@ -12,7 +12,7 @@ function ModalTxTable({ l2GasFee, type }: { l2GasFee?: string; type?: string }) 
         Amount
       </Text>
       <Box d="flex" justifyContent="space-between" mb={4}>
-        <Box d="flex">
+        <Box d="flex" maxWidth="65%">
           <Text textAlign="left" textOverflow="ellipsis" overflow="hidden" whiteSpace="pre">
             {formatNumber(inputValue || 0)}
           </Text>
@@ -20,21 +20,21 @@ function ModalTxTable({ l2GasFee, type }: { l2GasFee?: string; type?: string }) 
         </Box>
         {prices && <Text textAlign="right">{formatUSD(Number(inputValue) * prices.ethereum)}</Text>}
       </Box>
-      {type === 'withdrawal' && l2GasFee && (
+      {type === 'withdrawal' && (
         <>
           <Text mb={2} textAlign="left" fontSize={'1rem'}>
             Gas fee
           </Text>
           <Box d="flex" justifyContent="space-between">
-            <Box d="flex">
+            <Box d="flex" maxWidth="65%">
               <Text textOverflow="ellipsis" overflow="hidden" whiteSpace="pre">
-                {formatNumber(l2GasFee)}
+                {l2GasFee ? formatNumber(l2GasFee) : <Spinner size="sm" mr={2} />}
               </Text>
-              <Text ml={2}>ETH</Text>
+              <Text ml={1}>ETH</Text>
             </Box>
             {prices && (
               <Text textAlign="right" pos="relative">
-                {formatUSD(+l2GasFee * prices?.ethereum)}{' '}
+                {l2GasFee ? formatUSD(+l2GasFee * prices?.ethereum) : <Spinner size="sm" mr={2} />}{' '}
                 <Box as="span" top="5px" position="absolute" fontSize="1rem">
                   *
                 </Box>

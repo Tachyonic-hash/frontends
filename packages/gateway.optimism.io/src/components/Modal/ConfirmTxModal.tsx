@@ -1,7 +1,7 @@
 import React from 'react';
 import { ethers } from 'ethers';
 import DateTime from 'luxon/src/datetime.js';
-import { Heading, Text, Table, Tbody, Tr, Td, Thead, Th, Link, Divider, Box } from '@chakra-ui/react';
+import { Heading, Text, Link, Divider, Box } from '@chakra-ui/react';
 import DisclaimerContent from '../DisclaimerContent';
 import ModalTxTable from './ModalTxTable';
 import AppContext from '../../context';
@@ -15,10 +15,10 @@ function ConfirmTxModal({ type }: { type: string }) {
     AppContext
   );
   const [l1GasFee, setL1GasFee] = React.useState('0');
-  const [l2GasFee, setL2GasFee] = React.useState('0');
+  const [l2GasFee, setL2GasFee] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    if (!getRpcProviders) return;
+    if (!getRpcProviders || type === 'deposit') return;
     (async () => {
       try {
         const [rpcL1, rpcL2] = await getRpcProviders(connectedChainId || 0);
@@ -30,12 +30,13 @@ function ConfirmTxModal({ type }: { type: string }) {
 
         const l2GasPrice = await rpcL2.getGasPrice();
         const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18));
-        setL2GasFee(l2GasPrice.mul(l2GasAmount).toString());
+        const fee = ethers.utils.formatEther(l2GasPrice.mul(l2GasAmount).toString());
+        setL2GasFee(fee);
       } catch (err) {
         console.error(err);
       }
     })();
-  }, [connectedChainId, contracts, inputValue]);
+  }, [connectedChainId, contracts, inputValue, type]);
 
   const timeDelay = DateTime.fromMillis(Date.now() + 6.048e8).toLocaleString(DateTime.DATETIME_MED);
 

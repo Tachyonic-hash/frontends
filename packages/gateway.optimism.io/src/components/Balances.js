@@ -43,7 +43,7 @@ const TopRow = ({
   };
   return (
     <>
-      <Heading size="sm" mt={0} mb={4} px={2}>
+      <Heading size="sm" mt={0} mb={2} px={2} fontWeight="400 !important">
         {heading}
       </Heading>
       <Box borderRadius="20px" padding="1rem 1rem 1.5rem" bg={bg}>
@@ -123,19 +123,23 @@ function Balances({ openModal }) {
 
   return (
     <>
-      <Box pb={8} d="flex" justifyContent="space-between">
-        <IconButton
-          top="-12px"
-          left="-20px"
-          variant="outline"
-          borderWidth={0}
-          colorScheme="teal"
-          aria-label="Call Sage"
-          fontSize="20px"
-          borderRadius="100%"
-          onClick={() => openModal(modalTypes.INFO)}
-          icon={<InfoOutlineIcon color="brand.secondary" />}
-        />
+      <Box pb={12} d="flex" justifyContent="space-between">
+        <Box d="flex" top="-10px" left="-10px" pos="relative" alignItems="center">
+          <IconButton
+            variant="outline"
+            borderWidth={0}
+            colorScheme="teal"
+            aria-label="Call Sage"
+            fontSize="20px"
+            borderRadius="100%"
+            opacity="0.6"
+            onClick={() => openModal(modalTypes.INFO)}
+            icon={<InfoOutlineIcon color="brand.secondary" />}
+          />
+          <Box fontSize="1.2rem" opacity="0.8" ml={2}>
+            {connectedLayer === 1 ? 'Deposit ETH' : connectedLayer === 2 ? 'Withdraw ETH' : ''}
+          </Box>
+        </Box>
         {connectedLayer ? (
           <OptimismButton
             alignItems="flex-start"
@@ -184,7 +188,7 @@ function Balances({ openModal }) {
         boxShadow="none !important"
         color={connectedLayer ? 'brand.primary' : 'inherit'}
       />
-      <Heading size="sm" mt={0} mb={4} px={2}>
+      <Heading size="sm" mt={0} mb={2} px={2} fontWeight="400 !important">
         {connectedLayer === 2
           ? network.toUpperCase()
           : connectedLayer === 1

@@ -50,7 +50,7 @@ export const getRpcProviders = async (chainId: number) => {
   // TODO: show error if node endpoints are not repsonsive
   const network = chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2 ? 'mainnet' : 'kovan';
   const l1ProviderUrl = `https://${network}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
-  const l2ProviderUrl = process.env.REACT_APP_L2_PROVIDER_URL || `https://${network}.optimism.io`;
+  const l2ProviderUrl = `https://${network}.optimism.io`;
 
   const l1Response = await fetch(l2ProviderUrl);
   const l2Response = await fetch(l2ProviderUrl);

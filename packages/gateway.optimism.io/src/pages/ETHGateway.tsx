@@ -7,9 +7,8 @@ import { modalTypes } from '../components/Modal';
 import AppContext from '../context';
 
 function ETHGateway() {
-  const { openModal, txPending } = React.useContext(AppContext);
+  const { openModal, txPending, screenSm, isShortScreen } = React.useContext(AppContext);
   const containerBg = useColorModeValue('#f0f9ff', '#1c2a3e');
-  const [isMobile] = useMediaQuery('(max-width: 600px)');
 
   React.useEffect(() => {
     if (!openModal) return;
@@ -23,7 +22,15 @@ function ETHGateway() {
   return (
     <>
       <Container maxW={'1400px'} pt={4} pb={8} px={0}>
-        <Box maxW="500px" mx="auto" mt="5vh">
+        <Box
+          maxW="500px"
+          pos={isShortScreen ? 'relative' : 'absolute'}
+          top={isShortScreen ? 0 : '50vh'}
+          left={isShortScreen ? 0 : '50%'}
+          transform={isShortScreen ? 'translate(0)' : 'translate(-50%, -55%)'}
+          margin={isShortScreen ? 'auto' : '0 !important'}
+          w="100%"
+        >
           <Link
             visibility={txPending ? 'visible' : 'hidden'}
             aria-hidden={!!txPending}
@@ -44,7 +51,7 @@ function ETHGateway() {
             borderWidth="1px"
             borderRadius="20px"
             bg={containerBg}
-            padding={`1rem ${isMobile ? '1rem' : '1.5rem'} 3rem`}
+            padding={`1rem ${screenSm ? '1rem' : '1.5rem'} 2rem`}
           >
             <Balances openModal={openModal} />
           </Box>

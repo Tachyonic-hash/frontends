@@ -7,6 +7,7 @@ type ContextProps = {
   screenSm?: boolean;
   screenMd?: boolean;
   screenLg?: boolean;
+  isShortScreen?: boolean;
   handleWithdraw?: () => void;
   handleDeposit?: () => void;
   inputValue?: string;

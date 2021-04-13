@@ -3,7 +3,7 @@ import clients from '../graphql/clients';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_SENT_MSGS, GET_MSG_STATS, GET_ALL_RELAYED_MSGS } from '../graphql/subgraph';
 
-function useQueries(network: string = 'mainnet') {
+function useGraphQueries(network: string = 'mainnet') {
   const l1Client = network === 'mainnet' ? clients.mainnet.l1 : clients.kovan.l1;
   const l2Client = network === 'mainnet' ? clients.mainnet.l2 : clients.kovan.l2;
 
@@ -31,4 +31,4 @@ function useQueries(network: string = 'mainnet') {
   };
 }
 
-export default useQueries;
+export default useGraphQueries;

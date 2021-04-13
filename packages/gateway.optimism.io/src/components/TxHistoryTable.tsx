@@ -298,9 +298,7 @@ function TxHistoryTable({
                               <ExternalLink
                                 color="default !important"
                                 boxShadow="none !important"
-                                href={`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/tx/${
-                                  tx.layer1Hash
-                                }`}
+                                href={`https://${network === 'kovan' ? 'kovan' : ''}.etherscan.io/tx/${tx.layer1Hash}`}
                                 isExternal={true}
                               >
                                 <ExternalLinkIcon />
