@@ -45,10 +45,15 @@ const columns = [
       return DateTime.fromMillis(value).toLocaleString(DateTime.DATETIME_SHORT);
     }
   },
-  // {
-  //   Header: 'Completed',
-  //   accessor: 'completedTime'
-  // },
+  {
+    Header: 'Completed',
+    accessor: 'completedTime',
+    Cell: ({ value }) => {
+      return DateTime.fromMillis(value * 1000).toLocaleString(
+        DateTime.DATETIME_SHORT
+      );
+    }
+  },
   // {
   //   Header: 'l2 Info',
   //   accessor: 'l2TransactionHash',
