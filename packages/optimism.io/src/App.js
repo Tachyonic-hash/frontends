@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import Demos from './pages/Demos';
 import SNXHistory from './pages/SNXHistory';
 import NetworkStatus from './pages/NetworkStatus';
+import GasComparison from './pages/GasComparison';
 import { images } from './constants';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
         <Route path="/demos" component={Demos} />
         <Route path="/status" component={NetworkStatus} />
         <Route path="/snx-history" component={SNXHistory} />
+        <Route path="/gas-comparison" component={GasComparison} />
         <Route component={NotFound} />
       </Switch>
       <Footer />

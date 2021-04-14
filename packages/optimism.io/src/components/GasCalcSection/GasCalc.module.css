@@ -1,0 +1,166 @@
+.container {
+  box-shadow: -8px 8px 20px 0px #ededed;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.heading h1 {
+  font-family: 'Roboto';
+  font-size: 24px;
+  letter-spacing: -0.7;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.heading p {
+  font-family: 'Roboto';
+  font-size: 14px;
+  letter-spacing: -0.7;
+  margin: 20px;
+}
+
+.heading img {
+  position: absolute;
+  margin-left: -480px;
+  margin-top: -100px;
+  height: 200px;
+}
+
+.flexContainer {
+  padding: 0;
+  margin: 0;
+  background: white;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.flexColumn {
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+}
+
+.flexItem {
+  display: flex;
+}
+
+.flexOutputGas {
+  flex-flow: column nowrap;
+  display: flex;
+  background: #eff0f8;
+  width: 150px;
+  margin: auto;
+  font-size: 14px;
+  padding: 8px 14px 8px;
+}
+
+.flexOutputGas .result {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.flexOutputGas .description {
+  font-family: 'Roboto Mono';
+  font-size: 12px;
+  font-weight: thin;
+}
+
+.flexOutputDelta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  flex-flow: column nowrap;
+  display: flex;
+  background: pink;
+  width: 155px;
+}
+
+.flexOutputDelta .result {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.flexOutputDelta .description {
+  font-family: 'Roboto Mono';
+  font-size: 12px;
+  font-weight: thin;
+}
+
+@media screen and (min-width: 768px) {
+  .flexOutputGas {
+    width: 200px;
+  }
+
+  .flexOutputGas .description {
+    font-size: 14px;
+  }
+
+  .flexOutputDelta {
+    width: 328px;
+  }
+
+  .flexOutputDelta .result {
+    font-size: 58px;
+  }
+
+  .flexOutputDelta .description {
+    font-size: 14px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-flow: column;
+}
+
+.input {
+  font-family: 'Roboto Mono';
+  font-size: 14px;
+  padding-left: 24px;
+  background: #dfe1f1;
+  height: 50px;
+  margin-top: 4px;
+  border: hidden;
+}
+
+.presets button {
+  border: none;
+}
+
+.presets input {
+  height: 50px;
+  box-shadow: 0px 3px 10px 0px #ccc;
+  transition: box-shadow 400ms;
+  margin: 10px;
+  border-radius: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  .input {
+    border-bottom: 1px solid #334659;
+  }
+}
