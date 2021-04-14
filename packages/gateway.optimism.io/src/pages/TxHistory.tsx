@@ -1,9 +1,9 @@
 import React from 'react';
 import JSBI from 'jsbi';
+import { Watcher } from '@eth-optimism/watcher';
 import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
-import { SimpleGrid, Box, Flex, useToast, Select, FormLabel } from '@chakra-ui/react';
+import { SimpleGrid, Box, Flex, Select, FormLabel } from '@chakra-ui/react';
 import { ethers } from 'ethers';
-import { QueryResult, OperationVariables } from '@apollo/client';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Contract } from '@ethersproject/contracts';
 import TxHistoryTable from '../components/TxHistoryTable';
@@ -12,11 +12,10 @@ import { Fraction } from '@uniswap/sdk';
 import SearchInput from '../components/SearchInput';
 import StatsTable from '../components/StatsTable';
 import AppContext from '../context';
+import useToast from '../hooks/useToast';
 import DateTime from 'luxon/src/datetime.js';
 import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
-import useGraphQueries from '../hooks/useGraphQueries';
 import { abis } from '../contracts';
-import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
 import {
   chainIds,
   chainIdLayerMap,
@@ -24,9 +23,9 @@ import {
   txDirection,
   TxDirectionType,
   tokens,
-  THE_GRAPH_MAX_INTEGER,
+  l1ETHGatewayAddress,
 } from '../constants';
-import { shortenAddress, decodeSentMessage } from '../helpers';
+import { shortenAddress, getNetwork } from '../helpers';
 
 type TxHistoryProps = { isAdmin?: boolean };
 
@@ -42,9 +41,9 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   } = React.useContext(AppContext);
   const [queryParams, setQueryParams] = React.useState<URLSearchParams | undefined>(undefined);
   const { params }: GenericObject = useRouteMatch();
-  const toast = useToast();
   const location = useLocation();
   const history = useHistory();
+  const { showErrorToast, toast } = useToast();
   const [transactions, _setTransactions] = React.useState<Transaction[] | undefined>(undefined);
   const [isFetchingMore, setIsFetchingMore] = React.useState(false);
   const [txsLoading, setTxsLoading] = React.useState(false);
@@ -84,84 +83,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     }
   };
 
-  const processSentMessage = (
-    sentTx: Transaction,
-    layer: number,
-    relayedTxs: { msgHash: string; txHash: string; timestamp: number }[]
-  ) => {
-    const tx = { ...sentTx };
-    const xDomainInterface = new ethers.utils.Interface(abis.xDomainMessenger);
-    const sentMsgHash = ethers.utils.solidityKeccak256(['bytes'], [tx.message]);
-    const relayedTx = relayedTxs.find(msg => msg.msgHash === sentMsgHash);
-
-    const [_, toAddress, message] = xDomainInterface.decodeFunctionData('relayMessage', tx.message as ethers.BytesLike);
-    const tokenData = tokenList.find(token => token.extensions?.optimismBridgeAddress === toAddress);
-
-    if (tokenData) {
-      // TODO: remove these checks when Synthetix updates their bridge to the standard interface
-      const bridgeAbiKey = tokenData.symbol === 'SNX' ? 'snxBridge' : 'standardBridge';
-      const bridgeInterface = new ethers.utils.Interface(abis[layer === 1 ? 'l2' : 'l1'][bridgeAbiKey]);
-      const functionName =
-        layer === 2
-          ? tokenData.symbol === 'SNX'
-            ? 'completeWithdrawal'
-            : 'finalizeWithdrawal'
-          : tokenData.symbol === 'SNX'
-          ? 'completeDeposit'
-          : 'finalizeDeposit';
-      try {
-        const [fromAddress, amount] = bridgeInterface.decodeFunctionData(functionName, message as ethers.BytesLike);
-        tx.symbol = tokenData.symbol;
-        tx.tokenId = tokens[tokenData.symbol].id;
-        tx.iconURL = tokens[tokenData.symbol].iconURL;
-        tx.amount = amount;
-      } catch (err) {
-        if (err.message.includes('does not match function')) {
-          console.error(`Unknown function called on ${tokenData.name} contract. ${toAddress}`);
-        }
-      }
-    }
-
-    tx.from = sentTx.from;
-    tx.to = decodeSentMessage(tx.message as string)[1];
-    tx.timestamp = tx.timestamp * 1000;
-    if (layer === 1) {
-      tx.layer1Hash = tx.txHash;
-      tx.layer2Hash = relayedTx?.txHash;
-    } else {
-      tx.layer1Hash = relayedTx?.txHash;
-      tx.layer2Hash = tx.txHash;
-      tx.awaitingRelay =
-        !tx.layer1Hash &&
-        DateTime.fromMillis(tx.timestamp)
-          .plus({ days: 7 })
-          .toMillis() < Date.now();
-    }
-    tx.relayedTxTimestamp = relayedTx && relayedTx.timestamp * 1000;
-    return tx;
-  };
-
-  const getFilteredRelayedTxs = async ({
-    sentMsgTxs,
-    relayedMsgTxs,
-  }: {
-    sentMsgTxs: Transaction[];
-    relayedMsgTxs: QueryResult<any, Record<string, any>>;
-  }) => {
-    const sentMsgHashes = sentMsgTxs.map((msgTx: Transaction) => {
-      return ethers.utils.solidityKeccak256(['bytes'], [msgTx.message]);
-    });
-
-    const relayedTxs = (
-      await relayedMsgTxs.fetchMore({
-        query: GET_RELAYED_MSGS_BY_HASH_LIST,
-        variables: { searchHashes: sentMsgHashes },
-      })
-    ).data.relayedMessages;
-
-    return relayedTxs;
-  };
-
   const handleTokenSelection = async (e: React.FormEvent<HTMLSelectElement>) => {
     if (!setTokenSelection) return;
 
@@ -184,22 +105,135 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
 
   const processPageOfxDomainTxs = React.useCallback(
     async ({ layer }: { layer: number }) => {
+      if (!connectedChainId) {
+        console.error('Wallet not connected');
+        return;
+      }
       setIsFetchingMore(true);
       const address = filterAddress;
 
-      //TODO: get txs using getLogs
+      const FETCH_SIZE = 1000;
+      const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/063d984ab22c4deb9984c46335a848c0`);
+      const l2Provider = new JsonRpcProvider(`http://3.142.35.15:8545`);
+
+      const watcher = new Watcher({
+        l1: {
+          provider: l1Provider,
+          messengerAddress: '0xfBE93ba0a2Df92A8e8D40cE00acCF9248a6Fc812',
+        },
+        l2: {
+          provider: l2Provider,
+          messengerAddress: '0x4200000000000000000000000000000000000007',
+        },
+      });
+
+      (async () => {
+        const network = getNetwork(connectedChainId);
+        // ETH bridge addresses
+        const l1BridgeAddress = l1ETHGatewayAddress[network];
+        if (!l1BridgeAddress) {
+          showErrorToast('Unkown network. Please connect to Mainnet, Optimism, Kovan, or Kovan Optimism.');
+          return;
+        }
+        const l2BridgeAddress = '0x4D7186818daBFe88bD80421656BbD07Dffc979Cc';
+        const l1BridgeContract = new Contract(l1BridgeAddress, abis.l1.standardBridge, l1Provider);
+        const l2BridgeContract = new Contract(l2BridgeAddress, abis.l2.standardBridge, l2Provider);
+
+        try {
+          const withdrawals = await getTxHistory({
+            provider: l2Provider,
+            bridgeAddress: l2BridgeAddress,
+            eventFilter: l2BridgeContract.filters.WithdrawalInitiated,
+            eventSignature: 'WithdrawalInitiated(address,uint256)',
+          });
+          console.log(withdrawals);
+        } catch (err) {
+          console.error(err);
+        }
+
+        async function getTxHistory({ type, provider, eventFilter }: any) {
+          const history = [];
+
+          try {
+            const currentBlock = await provider.getBlockNumber();
+            // const currentBlock = 21634;
+            let toBlock = currentBlock;
+            let fromBlock = toBlock - FETCH_SIZE;
+            while (fromBlock > 0) {
+              try {
+                const logs = await provider.getLogs({
+                  ...eventFilter(),
+                  fromBlock,
+                  toBlock,
+                });
+                const events = await processLogs({ logs, provider, type });
+                history.push(events);
+                toBlock = fromBlock - 1;
+                fromBlock = fromBlock - FETCH_SIZE;
+                console.log('waiting 1 second\n');
+              } catch (err) {
+                console.error(err);
+              }
+              await new Promise(res => setTimeout(res, 1000));
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        async function processLogs({ logs, provider, type }: any) {
+          try {
+            const events = await Promise.all(
+              logs.map(async (l: any) => {
+                const block = await provider.getBlock(l.blockNumber);
+                const { args } = l2BridgeContract.interface.parseLog(l);
+                const initiatedTime = Number(block.timestamp * 1000);
+                return {
+                  initiatedTime,
+                  account: args.account,
+                  amount: args.amount.toString(),
+                  l2TransactionHash: l.transactionHash,
+                };
+              })
+            );
+            return await Promise.all(
+              events.map(async (event: any) => {
+                try {
+                  const msgHashes = await watcher.getMessageHashesFromL2Tx(event.l2TransactionHash);
+                  const receipt = await watcher.getL1TransactionReceipt(msgHashes[0], false);
+                  const eventObj = {
+                    ...event,
+                    type,
+                    status: receipt?.transactionHash ? 'COMPLETE' : 'PENDING',
+                    l1TransactionHash: receipt?.transactionHash,
+                    completedTime: receipt?.timestamp,
+                  };
+
+                  return eventObj;
+                } catch (err) {
+                  console.error(err);
+                }
+              })
+            );
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      })();
+
+      // TODO: get txs using getLogs
       const txs: Transaction[] = [];
       setTransactions(txs);
       return txs;
     },
-    [filterAddress]
+    [connectedChainId, filterAddress, showErrorToast]
   );
 
   const fetchTransactions = React.useCallback(
     async ({ page, direction: _dir }: { page?: string; direction?: keyof TxDirectionType }) => {
       if (!queryParams) return;
       const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
-      let txs: Transaction[] = [];
+      let txs: Transaction[] | undefined = [];
 
       if (!page) {
         // If no page specified, this is the first fetch

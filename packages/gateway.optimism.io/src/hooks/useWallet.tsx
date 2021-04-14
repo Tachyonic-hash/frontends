@@ -32,8 +32,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
 
-  console.log('process.env', process.env);
-
   const handleAccountChanged = React.useCallback(
     async ([newAddress]) => {
       if (newAddress && closeModal) {

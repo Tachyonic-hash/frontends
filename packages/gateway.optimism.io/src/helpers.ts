@@ -103,3 +103,11 @@ export const getAddresses = (token: string = 'ETH', connectedChainId: number = 0
   }
   return [l1ETHGatewayAddress[network], '0x4200000000000000000000000000000000000006'];
 };
+
+export const getNetwork = (chainId: number) => {
+  return chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2
+    ? 'mainnet'
+    : chainId === chainIds.KOVAN_L1 || chainId === chainIds.KOVAN_L2
+    ? 'kovan'
+    : 'UNKNOWN';
+};

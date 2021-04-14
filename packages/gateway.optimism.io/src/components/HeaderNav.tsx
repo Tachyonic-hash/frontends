@@ -92,10 +92,9 @@ function HeaderNav({
       : connectedChainId === chainIds.KOVAN_L2
       ? 'Kovan Optimism'
       : '';
-
   return (
     <Box>
-      {/* <Drawer placement={'right'} onClose={closeMobileDrawer} isOpen={isMobileDrawerOpen}>
+      <Drawer placement={'right'} onClose={closeMobileDrawer} isOpen={isMobileDrawerOpen}>
         <DrawerOverlay>
           <DrawerContent pt={2} bg={bg}>
             <DrawerHeader>
@@ -106,11 +105,11 @@ function HeaderNav({
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
-      </Drawer> */}
+      </Drawer>
       <Box d="flex" alignItems="center" justifyContent="space-between" mb={8} w="100%">
         <HStack spacing={6} as="nav">
           <Title />
-          {/* {screenSm && <NavItems screenSm={screenSm} />} */}
+          {screenSm && <NavItems screenSm={screenSm} />}
         </HStack>
         <Box d="flex" alignItems="center">
           <Box>
@@ -148,7 +147,7 @@ function HeaderNav({
           <Button borderRadius="100%" ml={2} p={0} onClick={toggleColorMode} bg="transparent">
             {colorMode === 'light' ? '🌜' : '🌞'}
           </Button>
-          {/* {!screenSm && (
+          {!screenSm && (
             <Box ml={2}>
               <HamburgerSpin
                 buttonWidth={30}
@@ -158,7 +157,7 @@ function HeaderNav({
                 barColor={colorMode === 'light' ? '#333' : '#ddd'}
               />
             </Box>
-          )} */}
+          )}
         </Box>
       </Box>
     </Box>
