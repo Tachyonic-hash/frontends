@@ -314,7 +314,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
 
       if (l1TokenData && l2TokenData) {
         const l1Provider = new JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`);
-        const l2Provider = new JsonRpcProvider(process.env.REACT_APP_L2_PROVIDER_URL || `https://mainnet.optimism.io`);
+        const l2Provider = new JsonRpcProvider(`https://mainnet.optimism.io`);
 
         const l1TokenContract = new Contract(l1TokenData.address as string, abis.erc20, l1Provider);
         const l2TokenContract = new Contract(l2TokenData.address as string, abis.erc20, l2Provider);

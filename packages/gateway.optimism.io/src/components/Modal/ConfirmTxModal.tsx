@@ -11,9 +11,15 @@ import { formatUSD, formatNumber, getRpcProviders } from '../../helpers';
 const RELAY_WITHDRAWAL_GAS_COST = 600_000;
 
 function ConfirmTxModal({ type }: { type: string }) {
-  const { handleWithdraw, handleDeposit, inputValue, prices, connectedChainId, contracts } = React.useContext(
-    AppContext
-  );
+  const {
+    handleWithdraw,
+    handleDeposit,
+    inputValue,
+    prices,
+    connectedChainId,
+    contracts,
+    userAddress,
+  } = React.useContext(AppContext);
   const [l1GasFee, setL1GasFee] = React.useState('0');
   const [l2GasFee, setL2GasFee] = React.useState<string | undefined>();
 
@@ -29,14 +35,16 @@ function ConfirmTxModal({ type }: { type: string }) {
         setL1GasFee(l1GasFee);
 
         const l2GasPrice = await rpcL2.getGasPrice();
-        const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18));
+        const l2GasAmount = await contracts?.l2.estimateGas.withdraw(ethers.utils.parseUnits(inputValue || '0', 18), {
+          from: userAddress,
+        });
         const fee = ethers.utils.formatEther(l2GasPrice.mul(l2GasAmount).toString());
         setL2GasFee(fee);
       } catch (err) {
         console.error(err);
       }
     })();
-  }, [connectedChainId, contracts, inputValue, type]);
+  }, [connectedChainId, contracts, inputValue, type, userAddress]);
 
   const timeDelay = DateTime.fromMillis(Date.now() + 6.048e8).toLocaleString(DateTime.DATETIME_MED);
 

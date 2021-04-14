@@ -32,6 +32,8 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
 
+  console.log('process.env', process.env);
+
   const handleAccountChanged = React.useCallback(
     async ([newAddress]) => {
       if (newAddress && closeModal) {
@@ -194,11 +196,23 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
       }
+      if (!isInitialized) {
+        handleChainInitializedOrChanged();
+      }
       setConnectedChainId(chainId);
       setWalletProvider(provider);
       closeModal();
     },
-    [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
+    [
+      closeModal,
+      connectedChainId,
+      handleChainInitializedOrChanged,
+      isInitialized,
+      showErrorToast,
+      showInfoToast,
+      walletProvider,
+      warningLinkColor,
+    ]
   );
 
   const handleDeposit = async () => {
