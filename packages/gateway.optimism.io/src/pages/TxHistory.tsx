@@ -59,18 +59,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const [currentNetwork, setCurrentNetwork] = React.useState(
     connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet'
   );
-  const {
-    sentMessagesFromL1,
-    sentMessagesFromL2,
-    relayedMessagesOnL1,
-    relayedMessagesOnL2,
-    l1MessageStats,
-    l2MessageStats,
-  } = useGraphQueries(currentNetwork);
-
-  // TODO: remove
-  const [gettingAllTxs, setGettingAllTxs] = React.useState(false);
-  const [allTxs, setAllTxs] = React.useState<Transaction[] | null>(null);
 
   const setTransactions = (transactions: Transaction[]) => {
     _setTransactions(transactions);
@@ -195,54 +183,21 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   };
 
   const processPageOfxDomainTxs = React.useCallback(
-    async ({
-      layer,
-      sentMessages,
-      totalMessageCount,
-      indexTo = THE_GRAPH_MAX_INTEGER,
-    }: {
-      layer: number;
-      sentMessages: QueryResult<any, OperationVariables>;
-      totalMessageCount: number;
-      indexTo?: number;
-    }) => {
+    async ({ layer }: { layer: number }) => {
       setIsFetchingMore(true);
-      setTotalTxCount(totalMessageCount);
       const address = filterAddress;
 
-      const sentMsgTxs = (
-        await sentMessages.fetchMore({
-          query: address ? GET_SENT_MSGS_BY_ADDRESS : GET_ALL_SENT_MSGS,
-          variables: {
-            indexTo,
-            address,
-          },
-        })
-      ).data.sentMessages;
-
-      const relayedTxs = await getFilteredRelayedTxs({
-        sentMsgTxs,
-        relayedMsgTxs: layer === 1 ? relayedMessagesOnL2 : relayedMessagesOnL1,
-      });
-
-      const txs = sentMsgTxs.map((tx: Transaction) => processSentMessage(tx, layer, relayedTxs));
+      //TODO: get txs using getLogs
+      const txs: Transaction[] = [];
       setTransactions(txs);
       return txs;
     },
-    [relayedMessagesOnL1, relayedMessagesOnL2, filterAddress]
+    [filterAddress]
   );
 
   const fetchTransactions = React.useCallback(
-    async ({
-      page,
-      indexTo,
-      direction: _dir,
-    }: {
-      page?: string;
-      indexTo: number;
-      direction?: keyof TxDirectionType;
-    }) => {
-      if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
+    async ({ page, direction: _dir }: { page?: string; direction?: keyof TxDirectionType }) => {
+      if (!queryParams) return;
       const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
       let txs: Transaction[] = [];
 
@@ -257,30 +212,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         // fetch all INCOMING txs (not just deposits)
         txs = await processPageOfxDomainTxs({
           layer: 1,
-          sentMessages: sentMessagesFromL1,
-          totalMessageCount: l1MessageStats.data.messageStats.sentMessageCount,
-          indexTo,
         });
       } else if (direction === txDirection.OUTGOING) {
         // fetch all OUTGOING txs (not just withdrawals)
         txs = await processPageOfxDomainTxs({
           layer: 2,
-          sentMessages: sentMessagesFromL2,
-          totalMessageCount: l2MessageStats.data.messageStats.sentMessageCount,
-          indexTo,
         });
       }
       setIsFetchingMore(false);
       return txs;
     },
-    [
-      l1MessageStats.data,
-      l2MessageStats.data,
-      processPageOfxDomainTxs,
-      queryParams,
-      sentMessagesFromL1,
-      sentMessagesFromL2,
-    ]
+    [processPageOfxDomainTxs, queryParams]
   );
 
   const setPendingAmount = (type: keyof TxDirectionType, transactions: Transaction[]) => {
@@ -341,9 +283,8 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     const allUncompletedTxs: Transaction[] = [];
     for (const direction of [txDirection.INCOMING, txDirection.OUTGOING]) {
       let more = true;
-      let indexTo = THE_GRAPH_MAX_INTEGER;
       while (more) {
-        const txsBatch = (await fetchTransactions({ indexTo, direction })) || [];
+        const txsBatch = (await fetchTransactions({ direction })) || [];
         if (!txsBatch.length) {
           more = false;
         }
@@ -356,7 +297,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
             allUncompletedTxs.push(tx);
           }
         }
-        indexTo = txsBatch.length ? txsBatch[txsBatch.length - 1].index : THE_GRAPH_MAX_INTEGER;
       }
       const value = setPendingAmount(direction, allUncompletedTxs);
       if (direction === txDirection.INCOMING) {
@@ -374,7 +314,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const handleChangeNetwork = (e: React.FormEvent<HTMLSelectElement>) => {
     const target = e.target as HTMLSelectElement;
     setCurrentNetwork(target.value);
-    fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+    fetchTransactions({});
   };
 
   /** Sets network (needed for fresh page load) */
@@ -395,23 +335,17 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
    */
   React.useEffect(() => {
     (async () => {
-      if (queryParams && l1MessageStats.data && l2MessageStats.data && !transactions && !txsLoading) {
+      if (queryParams && !transactions && !txsLoading) {
         if (isAdmin && tokenSelection) {
           calculateStats();
         } else {
-          fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+          fetchTransactions({});
         }
       }
     })();
   }, [
     queryParams,
-    sentMessagesFromL1,
-    relayedMessagesOnL2,
-    relayedMessagesOnL1,
-    sentMessagesFromL2,
     processPageOfxDomainTxs,
-    l1MessageStats.data,
-    l2MessageStats.data,
     tokenSelection,
     connectedChainId,
     txsLoading,
@@ -447,7 +381,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       const newFilterAddress = params.address || userAddress;
       if (newFilterAddress !== filterAddress) {
         setFilterAddress(newFilterAddress);
-        fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+        fetchTransactions({});
       }
     }
   }, [currentTableView, fetchTransactions, filterAddress, params.address, userAddress]);
@@ -457,7 +391,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
    */
   React.useEffect(() => {
     (async () => {
-      const txs = await fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+      const txs = await fetchTransactions({});
       setTransactions(txs as Transaction[]);
     })();
   }, [currentTableView, fetchTransactions]);

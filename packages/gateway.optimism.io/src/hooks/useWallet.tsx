@@ -49,6 +49,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   );
 
   const handleChainInitializedOrChanged = React.useCallback(async () => {
+    console.log('handleChainInitializedOrChanged');
     closeModal();
     let provider = walletProvider;
     let chainId = connectedChainId;
@@ -77,6 +78,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     try {
       const [rpcL1, rpcL2] = await getRpcProviders(chainId);
       const [l1Address, l2Address] = getAddresses('ETH', chainId);
+      console.log(rpcL1, rpcL2, l1Address, l2Address);
 
       if (l1Address && l2Address) {
         const contracts = {
@@ -366,6 +368,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           const [rpcL1] = await getRpcProviders(connectedChainId);
           // set balances
           const ethBalance = await rpcL1.getBalance(userAddress);
+          console.log(ethBalance);
           setL1Balance(formatNumber(ethers.utils.formatEther(ethBalance)));
           const ethL2Balance = await contracts.l2.balanceOf(userAddress);
           setL2Balance(formatNumber(ethers.utils.formatEther(ethL2Balance)));
