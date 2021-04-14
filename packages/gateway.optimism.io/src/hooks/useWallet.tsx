@@ -194,11 +194,23 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
       }
+      if (!isInitialized) {
+        handleChainInitializedOrChanged();
+      }
       setConnectedChainId(chainId);
       setWalletProvider(provider);
       closeModal();
     },
-    [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
+    [
+      closeModal,
+      connectedChainId,
+      handleChainInitializedOrChanged,
+      isInitialized,
+      showErrorToast,
+      showInfoToast,
+      walletProvider,
+      warningLinkColor,
+    ]
   );
 
   const handleDeposit = async () => {
