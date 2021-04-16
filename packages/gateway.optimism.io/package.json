@@ -134,7 +134,6 @@
     ]
   },
   "devDependencies": {
-    "@simbathesailor/use-what-changed": "^2.0.0",
     "tslint-react": "^5.0.0"
   },
   "jest": {
