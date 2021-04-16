@@ -8,7 +8,9 @@ import {
   Button,
   Spinner,
   Center,
-  Divider
+  Divider,
+  useToast,
+  useMediaQuery
 } from '@chakra-ui/react';
 import styles from './GasCalc.module.css';
 import { ethers } from 'ethers';
@@ -56,30 +58,52 @@ const options = {
 };
 
 const GasCalcSection = () => {
+  const [isInitialized, setIsInitialized] = React.useState(false);
   const [containsLink, setContainsLink] = React.useState(true);
   const [txId, setTxId] = React.useState('chainlink');
-  const [etherscanLink, setEtherscanLink] = React.useState(options[txId].link);
+  const [etherscanLink, setEtherscanLink] = React.useState(
+    txId ? options[txId].link : null
+  );
   const [isCalculating, setIsCalculating] = React.useState(true);
   const [l1Gas, setL1Gas] = React.useState(0);
   const [l2Gas, setL2Gas] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
+  const [screenSm, screenMd, screenLg] = useMediaQuery([
+    '(min-width: 600px)',
+    '(min-width: 1024px)',
+    '(min-width: 1200px)'
+  ]);
+  const toast = useToast();
 
   const handleInputOverride = id => {
     setTxId(id);
     setEtherscanLink(options[id].link);
     setContainsLink(true);
+    handleFormSubmit(null, options[id].link);
   };
 
   const handleFormSubmit = React.useCallback(
-    async e => {
+    async (e, link) => {
+      const txLink = link || etherscanLink;
       setIsCalculating(true);
       if (e) e.preventDefault();
-      if (!containsLink) return;
-      const provider = ethers.getDefaultProvider();
-      const txHash = etherscanLink.substr(etherscanLink.indexOf('0x'));
+      if (!containsLink) {
+        toast({
+          title: 'Invalid link',
+          description: 'Please check the link and try again',
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        });
+        return;
+      }
+      const provider = ethers.getDefaultProvider(
+        `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
+      );
+      const txHash = txLink.substr(txLink.indexOf('0x'));
       const txReceipt = await provider.getTransactionReceipt(txHash);
       const txData = await provider.getTransaction(txHash);
-      const no0x = txData.raw.substr(2);
+      const no0x = txData.data.substr(2);
       let zeroBytes = 0;
       let dataBytes = 0;
       for (let j = 0; j < no0x.length; j += 2) {
@@ -107,7 +131,7 @@ const GasCalcSection = () => {
       setL2Gas(l2Gas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
       setGasSaved(gasSaved);
     },
-    [containsLink, etherscanLink]
+    [containsLink, etherscanLink, toast]
   );
 
   const feeInUSD = async (gasPrice, gasUsed) => {
@@ -123,20 +147,25 @@ const GasCalcSection = () => {
   const handleChange = event => {
     let containsLink = false;
     const etherscanLink = event.target.value;
+    const hashTester = new window.RegExp(/^0x([A-Fa-f0-9]{64})$/, 'gm');
     if (
       etherscanLink.indexOf('etherscan') > 0 &&
-      etherscanLink.indexOf('tx/0x') > 0
+      etherscanLink.indexOf('tx/0x') > 0 &&
+      hashTester.test(etherscanLink.slice(24))
     ) {
+      console.log('here');
       containsLink = true;
+      setEtherscanLink(etherscanLink);
     }
-    setEtherscanLink(etherscanLink);
-    setTxId('');
     setContainsLink(containsLink);
   };
 
   React.useEffect(() => {
-    handleFormSubmit();
-  }, [handleFormSubmit]);
+    if (!isInitialized) {
+      setIsInitialized(true);
+      handleFormSubmit();
+    }
+  }, [handleFormSubmit, isInitialized]);
 
   return (
     <Box m="0 auto">
@@ -173,6 +202,7 @@ const GasCalcSection = () => {
           >
             {Object.entries(options).map(([id, option]) => (
               <input
+                key={option.name}
                 type="image"
                 alt={option.name}
                 src={option.iconURL}
@@ -182,37 +212,6 @@ const GasCalcSection = () => {
                 }
               ></input>
             ))}
-            {/* <input
-              type="image"
-              alt="Chainlink"
-              src="https://pbs.twimg.com/profile_images/1030475757892579334/qvSHhRyC_400x400.jpg"
-              onClick={() => handleInputOverride('chainlink')}
-              className={
-                styles.button +
-                ' ' +
-                ('chainlink' === txId ? styles.active : '')
-              }
-            ></input>
-            <input
-              type="image"
-              alt="Uniswap"
-              src="https://pbs.twimg.com/profile_images/1242184851152928769/wG2eTAfD_400x400.jpg"
-              onClick={() => handleInputOverride('uniswap')}
-              className={
-                styles.button + ' ' + ('uniswap' === txId ? styles.active : '')
-              }
-            ></input>
-            <input
-              type="image"
-              alt="Synthetix"
-              src="/images/snx-logo.png"
-              onClick={() => handleInputOverride('synthetix')}
-              className={
-                styles.button +
-                ' ' +
-                ('synthetix' === txId ? styles.active : '')
-              }
-            ></input> */}
           </Box>
           <Box>
             <Input
@@ -247,9 +246,9 @@ const GasCalcSection = () => {
         </Box>
         <Box w="60%" ml={16}>
           <Divider display={'none'} />
-          <Text my={0}>Transaction type:</Text>
+          <Text my={0}>Example transaction:</Text>
           <Heading mt={0} fontWeight="400">
-            {options[txId].desc}
+            {txId ? options[txId].desc : 'User transaction'}
           </Heading>
           {isCalculating ? (
             <Center p={8}>
