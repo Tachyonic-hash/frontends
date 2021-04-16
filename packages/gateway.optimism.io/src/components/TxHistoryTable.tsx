@@ -42,22 +42,24 @@ type TxHistoryProps = {
   setl1TotalAmt: (amount: string) => void;
   setl2TotalAmt: (amount: string) => void;
   queryParams?: URLSearchParams;
-  fetchTransactions: (props: any) => Promise<Transaction[] | undefined>;
   transactions?: Transaction[];
   txsLoading: boolean;
   isFetchingMore: boolean;
   totalTxCount: number;
+  currentNetwork: string;
+  setIndexTo: (indexTo: number) => void;
 };
 
 function TxHistoryTable({
   currentTableView,
   setCurrentTableView,
   queryParams,
-  fetchTransactions,
   transactions,
   txsLoading,
   isFetchingMore,
   totalTxCount,
+  currentNetwork,
+  setIndexTo,
 }: TxHistoryProps) {
   const { connectedChainId, prices, userAddress } = React.useContext(AppContext);
   const history = useHistory();
@@ -104,7 +106,8 @@ function TxHistoryTable({
   const daysOrMinutes = currentTableView === txDirection.OUTGOING ? 'days' : 'minutes';
   const firstTxIndex = transactions?.length ? transactions[0].index : Number.MAX_SAFE_INTEGER;
   const network =
-    connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
+    currentNetwork ||
+    (connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet');
 
   return (
     <Box>
@@ -298,7 +301,7 @@ function TxHistoryTable({
                               <ExternalLink
                                 color="default !important"
                                 boxShadow="none !important"
-                                href={`https://${network === 'kovan' ? 'kovan' : ''}.etherscan.io/tx/${tx.layer1Hash}`}
+                                href={`https://${network === 'kovan' ? 'kovan.' : ''}etherscan.io/tx/${tx.layer1Hash}`}
                                 isExternal={true}
                               >
                                 <ExternalLinkIcon />
@@ -339,10 +342,7 @@ function TxHistoryTable({
                     w="130px"
                     onClick={() => {
                       setLastBtnClicked('prev');
-                      fetchTransactions({
-                        page: 'prev',
-                        indexTo: (transactions[0].index + FETCH_LIMIT || THE_GRAPH_MAX_INTEGER) + 1,
-                      });
+                      setIndexTo((transactions[0].index + FETCH_LIMIT || THE_GRAPH_MAX_INTEGER) + 1);
                     }}
                     // descending order, so we're at the start of the list if the index === totalTxCount
                     disabled={firstTxIndex + 1 === totalTxCount}
@@ -356,7 +356,7 @@ function TxHistoryTable({
                     w="130px"
                     onClick={() => {
                       setLastBtnClicked('next');
-                      fetchTransactions({ page: 'next', indexTo: transactions[transactions.length - 1].index || 0 });
+                      setIndexTo(transactions[transactions.length - 1].index || 0);
                     }}
                     // descending order, so we're at the end of the list if the index === 0
                     disabled={transactions?.length !== 0 && transactions[transactions.length - 1].index === 0}

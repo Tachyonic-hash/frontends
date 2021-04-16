@@ -1,5 +1,4 @@
 import React from 'react';
-import JSBI from 'jsbi';
 import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
 import { SimpleGrid, Box, Flex, useToast, Select, FormLabel } from '@chakra-ui/react';
 import { ethers } from 'ethers';
@@ -15,6 +14,7 @@ import AppContext from '../context';
 import DateTime from 'luxon/src/datetime.js';
 import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
 import useGraphQueries from '../hooks/useGraphQueries';
+import usePrevious from '../hooks/usePrevious';
 import { abis } from '../contracts';
 import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
 import {
@@ -47,7 +47,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   const history = useHistory();
   const [transactions, _setTransactions] = React.useState<Transaction[] | undefined>(undefined);
   const [isFetchingMore, setIsFetchingMore] = React.useState(false);
-  const [txsLoading, setTxsLoading] = React.useState(false);
+  const txsLoading = React.useRef(false);
   const [depositAmountPending, setDepositAmountPending] = React.useState('');
   const [withdrawalAmountPending, setWithdrawalAmountPending] = React.useState('');
   const [l1TotalAmt, setl1TotalAmt] = React.useState('');
@@ -67,14 +67,12 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     l1MessageStats,
     l2MessageStats,
   } = useGraphQueries(currentNetwork);
-
-  // TODO: remove
-  const [gettingAllTxs, setGettingAllTxs] = React.useState(false);
-  const [allTxs, setAllTxs] = React.useState<Transaction[] | null>(null);
+  const [indexTo, setIndexTo] = React.useState(THE_GRAPH_MAX_INTEGER);
+  const previousIndexTo = usePrevious(indexTo);
 
   const setTransactions = (transactions: Transaction[]) => {
     _setTransactions(transactions);
-    setTxsLoading(false);
+    txsLoading.current = false;
     setIsFetchingMore(false);
   };
 
@@ -174,115 +172,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     return relayedTxs;
   };
 
-  const handleTokenSelection = async (e: React.FormEvent<HTMLSelectElement>) => {
-    if (!setTokenSelection) return;
-
-    const target = e.target as HTMLSelectElement;
-    if (!queryParams) return;
-    const tokenSymbol = target.value;
-    if (tokenSymbol) {
-      queryParams.set('token', tokenSymbol);
-    } else {
-      queryParams.delete('token');
-      setTokenSelection(undefined);
-    }
-    history.push({
-      search: queryParams.toString(),
-    });
-    const token = tokens[tokenSymbol];
-    setTokenSelection(token);
-    calculateStats();
-  };
-
-  const processPageOfxDomainTxs = React.useCallback(
-    async ({
-      layer,
-      sentMessages,
-      totalMessageCount,
-      indexTo = THE_GRAPH_MAX_INTEGER,
-    }: {
-      layer: number;
-      sentMessages: QueryResult<any, OperationVariables>;
-      totalMessageCount: number;
-      indexTo?: number;
-    }) => {
-      setIsFetchingMore(true);
-      setTotalTxCount(totalMessageCount);
-      const address = filterAddress;
-
-      const sentMsgTxs = (
-        await sentMessages.fetchMore({
-          query: address ? GET_SENT_MSGS_BY_ADDRESS : GET_ALL_SENT_MSGS,
-          variables: {
-            indexTo,
-            address,
-          },
-        })
-      ).data.sentMessages;
-
-      const relayedTxs = await getFilteredRelayedTxs({
-        sentMsgTxs,
-        relayedMsgTxs: layer === 1 ? relayedMessagesOnL2 : relayedMessagesOnL1,
-      });
-
-      const txs = sentMsgTxs.map((tx: Transaction) => processSentMessage(tx, layer, relayedTxs));
-      setTransactions(txs);
-      return txs;
-    },
-    [relayedMessagesOnL1, relayedMessagesOnL2, filterAddress]
-  );
-
-  const fetchTransactions = React.useCallback(
-    async ({
-      page,
-      indexTo,
-      direction: _dir,
-    }: {
-      page?: string;
-      indexTo: number;
-      direction?: keyof TxDirectionType;
-    }) => {
-      if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
-      const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
-      let txs: Transaction[] = [];
-
-      if (!page) {
-        // If no page specified, this is the first fetch
-        setTxsLoading(true);
-      } else {
-        setIsFetchingMore(true);
-      }
-
-      if (direction === txDirection.INCOMING) {
-        // fetch all INCOMING txs (not just deposits)
-        txs = await processPageOfxDomainTxs({
-          layer: 1,
-          sentMessages: sentMessagesFromL1,
-          totalMessageCount: l1MessageStats.data.messageStats.sentMessageCount,
-          indexTo,
-        });
-      } else if (direction === txDirection.OUTGOING) {
-        // fetch all OUTGOING txs (not just withdrawals)
-        txs = await processPageOfxDomainTxs({
-          layer: 2,
-          sentMessages: sentMessagesFromL2,
-          totalMessageCount: l2MessageStats.data.messageStats.sentMessageCount,
-          indexTo,
-        });
-      }
-      setIsFetchingMore(false);
-      return txs;
-    },
-    [
-      l1MessageStats.data,
-      l2MessageStats.data,
-      processPageOfxDomainTxs,
-      queryParams,
-      sentMessagesFromL1,
-      sentMessagesFromL2,
-    ]
-  );
-
   const setPendingAmount = (type: keyof TxDirectionType, transactions: Transaction[]) => {
     const setter = type === txDirection.OUTGOING ? setWithdrawalAmountPending : setDepositAmountPending;
     const amountPending = transactions.reduce((total, tx) => {
@@ -334,47 +223,12 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
     [connectedChainId, tokenSelection]
   );
 
-  // fetches batches of 100 txs each in descending timestamp order until we reach the completed txs
-  const calculateStats = React.useCallback(async () => {
-    let pendingIn: Fraction = new Fraction(JSBI.BigInt(0));
-    let pendingOut: Fraction = new Fraction(JSBI.BigInt(0));
-    const allUncompletedTxs: Transaction[] = [];
-    for (const direction of [txDirection.INCOMING, txDirection.OUTGOING]) {
-      let more = true;
-      let indexTo = THE_GRAPH_MAX_INTEGER;
-      while (more) {
-        const txsBatch = (await fetchTransactions({ indexTo, direction })) || [];
-        if (!txsBatch.length) {
-          more = false;
-        }
-        for (const tx of txsBatch) {
-          // if both hashes are present, this is a completed tx
-          if (tx.layer1Hash && tx.layer2Hash) {
-            more = false;
-            break;
-          } else if (tx.amount) {
-            allUncompletedTxs.push(tx);
-          }
-        }
-        indexTo = txsBatch.length ? txsBatch[txsBatch.length - 1].index : THE_GRAPH_MAX_INTEGER;
-      }
-      const value = setPendingAmount(direction, allUncompletedTxs);
-      if (direction === txDirection.INCOMING) {
-        pendingIn = value;
-      } else {
-        pendingOut = value;
-      }
-    }
-    calculateTotals(pendingIn, pendingOut);
-  }, [calculateTotals, fetchTransactions]);
-
   /**
    * Change network initiated by user so they can see the history of kovan even if not connected via their wallet
    */
   const handleChangeNetwork = (e: React.FormEvent<HTMLSelectElement>) => {
     const target = e.target as HTMLSelectElement;
     setCurrentNetwork(target.value);
-    fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
   };
 
   /** Sets network (needed for fresh page load) */
@@ -383,43 +237,99 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
       connectedChainId === chainIds.KOVAN_L1 || connectedChainId === chainIds.KOVAN_L2 ? 'kovan' : 'mainnet';
     setCurrentNetwork(network);
   }, [connectedChainId]);
-  /**
-   * Sets filter address
-   */
-  React.useEffect(() => {
-    setFilterAddress(userAddress);
-  }, [userAddress]);
 
   /**
-   * Fetches on initial page load
+   * Fetches transactions
    */
   React.useEffect(() => {
     (async () => {
-      if (queryParams && l1MessageStats.data && l2MessageStats.data && !transactions && !txsLoading) {
+      if (queryParams && l1MessageStats.data && l2MessageStats.data && !txsLoading.current) {
         if (isAdmin && tokenSelection) {
-          calculateStats();
+          // TODO: get this working again
+          // calculateStats();
         } else {
-          fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+          // only fetch if both the chainId & address exist, or both are null
+          if ((connectedChainId && filterAddress) || (!connectedChainId && !filterAddress)) {
+            if (previousIndexTo !== indexTo) {
+              setIsFetchingMore(true);
+            } else {
+              txsLoading.current = true;
+            }
+            await fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
+          }
         }
+      }
+
+      async function fetchTransactions({ direction: _dir }: { indexTo: number; direction?: keyof TxDirectionType }) {
+        if (!l1MessageStats.data || !l2MessageStats.data || !queryParams) return;
+        const direction = _dir || queryParams.get('dir') || txDirection.INCOMING;
+        let txs: Transaction[] = [];
+
+        if (direction === txDirection.INCOMING) {
+          // fetch all INCOMING txs (not just deposits)
+          txs = await processPageOfxDomainTxs({
+            layer: 1,
+            sentMessages: sentMessagesFromL1,
+            totalMessageCount: l1MessageStats.data.messageStats.sentMessageCount,
+          });
+        } else if (direction === txDirection.OUTGOING) {
+          // fetch all OUTGOING txs (not just withdrawals)
+          txs = await processPageOfxDomainTxs({
+            layer: 2,
+            sentMessages: sentMessagesFromL2,
+            totalMessageCount: l2MessageStats.data.messageStats.sentMessageCount,
+          });
+        }
+        setTransactions(txs);
+      }
+
+      async function processPageOfxDomainTxs({
+        layer,
+        sentMessages,
+        totalMessageCount,
+      }: {
+        layer: number;
+        sentMessages: QueryResult<any, OperationVariables>;
+        totalMessageCount: number;
+      }) {
+        setIsFetchingMore(true);
+        setTotalTxCount(totalMessageCount);
+
+        const sentMsgTxs = (
+          await sentMessages.fetchMore({
+            query: filterAddress ? GET_SENT_MSGS_BY_ADDRESS : GET_ALL_SENT_MSGS,
+            variables: {
+              indexTo,
+              address: filterAddress,
+            },
+          })
+        ).data.sentMessages;
+
+        const relayedTxs = await getFilteredRelayedTxs({
+          sentMsgTxs,
+          relayedMsgTxs: layer === 1 ? relayedMessagesOnL2 : relayedMessagesOnL1,
+        });
+
+        const txs = sentMsgTxs.map((tx: Transaction) => processSentMessage(tx, layer, relayedTxs));
+        return txs;
       }
     })();
   }, [
+    indexTo,
     queryParams,
     sentMessagesFromL1,
     relayedMessagesOnL2,
     relayedMessagesOnL1,
     sentMessagesFromL2,
-    processPageOfxDomainTxs,
     l1MessageStats.data,
     l2MessageStats.data,
     tokenSelection,
     connectedChainId,
-    txsLoading,
-    transactions,
     isAdmin,
-    calculateStats,
-    fetchTransactions,
     currentTableView,
+    filterAddress,
+    currentNetwork,
+    previousIndexTo,
   ]);
 
   /**
@@ -440,42 +350,18 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
   }, [location, queryParams, setTokenSelection]);
 
   /**
-   * Fetch if currently filtering by an address
+   * Update filterAddress
    */
   React.useEffect(() => {
-    if (params.address || userAddress) {
-      const newFilterAddress = params.address || userAddress;
-      if (newFilterAddress !== filterAddress) {
-        setFilterAddress(newFilterAddress);
-        fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
-      }
+    const newFilterAddress = params.address || userAddress;
+    if (newFilterAddress !== filterAddress) {
+      setFilterAddress(newFilterAddress);
     }
-  }, [currentTableView, fetchTransactions, filterAddress, params.address, userAddress]);
-
-  /**
-   * Fetch if changing view from incoming <> outgoing txs
-   */
-  React.useEffect(() => {
-    (async () => {
-      const txs = await fetchTransactions({ indexTo: THE_GRAPH_MAX_INTEGER });
-      setTransactions(txs as Transaction[]);
-    })();
-  }, [currentTableView, fetchTransactions]);
-
-  const currentNetworkLayer =
-    currentNetwork === 'kovan'
-      ? currentTableView === txDirection.INCOMING
-        ? 'Kovan'
-        : 'Kovan Optimism'
-      : currentNetwork === 'mainnet'
-      ? currentTableView === txDirection.OUTGOING
-        ? 'Optimism'
-        : 'Mainnet'
-      : '';
+  }, [filterAddress, params.address, userAddress]);
 
   return (
     <Box mt={24}>
-      {isAdmin && (
+      {/* {isAdmin && (
         <>
           <Flex justifyContent="space-between">
             <TokenSelector handleTokenSelection={handleTokenSelection} tokenSymbol={tokenSelection?.symbol || ''} />
@@ -491,7 +377,7 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
             )}
           </Flex>
         </>
-      )}
+      )} */}
       <Box d="flex" alignItems={screenLg ? 'flex-end' : 'flex-start'} flexDir={screenLg ? 'row' : 'column-reverse'}>
         <SearchInput handleAddressSearch={handleAddressSearch} />
         {!filterAddress && !isConnecting && (
@@ -514,10 +400,6 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
             mb={5}
             fontSize="1.2rem"
           >
-            {/* <Box mr={1} fontWeight="400">
-              NETWORK:
-            </Box>
-            <Box>{currentNetworkLayer}</Box> */}
             <Box as="span" mr={1} fontWeight="400">
               ADDRESS:
             </Box>
@@ -535,11 +417,12 @@ function TxHistory({ isAdmin }: TxHistoryProps) {
         setl1TotalAmt={setl1TotalAmt}
         setl2TotalAmt={setl2TotalAmt}
         queryParams={queryParams}
-        fetchTransactions={fetchTransactions}
         transactions={transactions}
-        txsLoading={txsLoading}
+        txsLoading={txsLoading.current}
         isFetchingMore={isFetchingMore}
         totalTxCount={totalTxCount}
+        currentNetwork={currentNetwork}
+        setIndexTo={setIndexTo}
       />
     </Box>
   );

@@ -32,8 +32,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
 
-  console.log('process.env', process.env);
-
   const handleAccountChanged = React.useCallback(
     async ([newAddress]) => {
       if (newAddress && closeModal) {
@@ -47,51 +45,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     },
     [closeModal, toast, toastIdRef]
   );
-
-  const handleChainInitializedOrChanged = React.useCallback(async () => {
-    closeModal();
-    let provider = walletProvider;
-    let chainId = connectedChainId;
-
-    if (!provider || !chainId) {
-      provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      chainId = (await provider.getNetwork()).chainId;
-    }
-
-    // Bail out if this is an unsupported network
-    if (!chainIdLayerMap[chainId]) {
-      showErrorToast(`Network not supported. Please change to Kovan or Mainnet`);
-      setBalancesLoading(false);
-      return;
-    }
-
-    // // TODO: remove this when mainnet support is added https://github.com/ethereum-optimism/roadmap/issues/847
-    // if (chainId === chainIds.MAINNET_L1 || chainId === chainIds.MAINNET_L2) {
-    //   const message = 'Please switch Metamask to Kovan or Optimistic Kovan (Mainnet not supported yet)';
-    //   showErrorToast(message);
-    //   console.error(message);
-    //   setBalancesLoading(false);
-    //   return;
-    // }
-
-    try {
-      const [rpcL1, rpcL2] = await getRpcProviders(chainId);
-      const [l1Address, l2Address] = getAddresses('ETH', chainId);
-
-      if (l1Address && l2Address) {
-        const contracts = {
-          l1: new Contract(l1Address, abis.l1.standardBridge, rpcL1),
-          l2: new Contract(l2Address, abis.l2.standardBridge, rpcL2),
-        };
-        setContracts(contracts);
-        setConnectedChainId(chainId);
-        setWalletProvider(provider);
-        localStorage.setItem('previouslyConnected', 'true');
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [closeModal, connectedChainId, showErrorToast, walletProvider]);
 
   /** Connect to wallet provider */
   const connectToLayer = React.useCallback(
@@ -127,6 +80,13 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       if (!provider) return;
 
       const chainId = (await provider.getNetwork()).chainId;
+
+      // Bail out if this is an unsupported network
+      if (!chainIdLayerMap[chainId]) {
+        showErrorToast(`Network not supported. Please change to Kovan or Mainnet`);
+        setBalancesLoading(false);
+        return;
+      }
 
       // If layer isn't provided, it means we're connecting programatically (ex: after browser refresh)
       if (!layer) {
@@ -196,23 +156,27 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
       }
-      if (!isInitialized) {
-        handleChainInitializedOrChanged();
+      try {
+        const [rpcL1, rpcL2] = await getRpcProviders(chainId);
+        const [l1Address, l2Address] = getAddresses('ETH', chainId);
+        if (l1Address && l2Address) {
+          const contracts = {
+            l1: new Contract(l1Address, abis.l1.standardBridge, rpcL1),
+            l2: new Contract(l2Address, abis.l2.standardBridge, rpcL2),
+          };
+          setContracts(contracts);
+        }
+      } catch (err) {
+        console.error(err);
       }
       setConnectedChainId(chainId);
       setWalletProvider(provider);
+      const userAddress = (await provider.listAccounts())[0];
+      setUserAddress(userAddress);
       closeModal();
+      localStorage.setItem('previouslyConnected', 'true');
     },
-    [
-      closeModal,
-      connectedChainId,
-      handleChainInitializedOrChanged,
-      isInitialized,
-      showErrorToast,
-      showInfoToast,
-      walletProvider,
-      warningLinkColor,
-    ]
+    [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
   );
 
   const handleDeposit = async () => {
@@ -247,15 +211,17 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   };
 
   const handleWithdraw = async () => {
-    if (!walletProvider || !contracts || !notify || !openModal || !closeModal) return;
+    if (!walletProvider || !contracts || !openModal || !closeModal) return;
     if (!isModalOpen) {
       // show confirmation modal if user hasn't seen it yet
       openModal(modalTypes.CONFIRM_WITHDRAWAL);
     } else {
       try {
         const signer = walletProvider.getSigner();
+        const receipt = await contracts.l2
+          .connect(signer)
+          .withdraw(ethers.utils.parseUnits(inputValue.toString(), 18), { gasLimit: 21000 });
         setTxPending(true);
-        const receipt = await contracts.l2.connect(signer).withdraw(ethers.utils.parseUnits(inputValue.toString(), 18));
         if (receipt) {
           setTxPending(false);
         }
@@ -292,26 +258,8 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   };
 
   const handleDisconnect = () => {
-    console.log('hanldeDisconnect');
-    setWalletProvider(undefined);
-    setUserAddress(undefined);
-    setConnectedChainId(undefined);
-    setL1Balance('0');
-    setL2Balance('0');
-    setInputValue('0');
-    setBalancesLoading(false);
-    setTxPending(false);
-    setIsInitialized(false);
-    closeModal();
     localStorage.removeItem('previouslyConnected');
-    toast({
-      title: 'Disconnected',
-      description: '',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-      position: 'bottom-left',
-    });
+    window.location.reload();
   };
 
   const handleClaimWithdrawal = () => {
@@ -324,37 +272,32 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   React.useEffect(() => {
     (async () => {
       if (!isInitialized) {
-        setIsInitialized(true);
         if ((window as any).ethereum) {
-          (window as any).ethereum.on('chainChanged', handleChainInitializedOrChanged);
+          (window as any).ethereum.on('chainChanged', async () => {
+            setIsConnecting(true);
+            await connectToLayer();
+            setIsConnecting(false);
+          });
           (window as any).ethereum.on('accountsChanged', handleAccountChanged);
 
           // automatically connect wallet if the user has previously connected
           if (localStorage.getItem('previouslyConnected')) {
             try {
               setIsConnecting(true);
-              await handleChainInitializedOrChanged();
               await connectToLayer();
               setIsConnecting(false);
             } catch (error) {
               console.error(error);
             }
           }
+          setIsInitialized(true);
         } else {
           showErrorToast('Metamask not found.');
           console.error('No injected web3 found');
         }
       }
     })();
-  }, [
-    connectToLayer,
-    connectedChainId,
-    handleAccountChanged,
-    handleChainInitializedOrChanged,
-    isInitialized,
-    showErrorToast,
-    toast,
-  ]);
+  }, [connectToLayer, handleAccountChanged, isInitialized, showErrorToast]);
 
   /**
    * Set balances when dependencies change
@@ -377,18 +320,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       }
     })();
   }, [contracts, connectedChainId, showErrorToast, userAddress]);
-
-  /**
-   * Sets user address when wallet connects
-   */
-  React.useEffect(() => {
-    (async () => {
-      if (walletProvider && !userAddress) {
-        const userAddress = (await walletProvider.listAccounts())[0];
-        setUserAddress(userAddress);
-      }
-    })();
-  }, [userAddress, walletProvider]);
 
   React.useEffect(() => {
     if (contracts && userAddress) {
@@ -427,7 +358,11 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
    * Initializes Blocknative Notify widget
    */
   React.useEffect(() => {
-    if (walletProvider && connectedChainId) {
+    if (
+      walletProvider &&
+      connectedChainId &&
+      (connectedChainId === chainIds.MAINNET_L1 || connectedChainId === chainIds.KOVAN_L1)
+    ) {
       // Init tx notifications
       const notify = Notify({
         dappId: process.env.REACT_APP_BLOCKNATIVE_KEY, // [String] The API key created by step one above

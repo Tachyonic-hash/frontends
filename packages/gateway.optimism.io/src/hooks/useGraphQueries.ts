@@ -22,8 +22,8 @@ function useGraphQueries(network: string = 'mainnet') {
   const l2MessageStats = useQuery(GET_MSG_STATS, { client: l2Client });
 
   return {
-    sentMessagesFromL2,
     sentMessagesFromL1,
+    sentMessagesFromL2,
     relayedMessagesOnL1,
     relayedMessagesOnL2,
     l1MessageStats,

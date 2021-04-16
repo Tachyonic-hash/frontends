@@ -8,7 +8,7 @@ dataSources:
     name: OVM_CrossDomainMessenger
     network: {{networkName}}
     source:
-      address: "{{contracts.ovmCrossDomainMessenger.address}}"
+      address: "{{contracts.l2Messenger.address}}"
       abi: OVM_CrossDomainMessenger
       startBlock: {{startBlock}}      
     mapping:

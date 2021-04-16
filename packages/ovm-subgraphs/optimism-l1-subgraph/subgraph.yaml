@@ -8,7 +8,7 @@ dataSources:
     name: OVM_CrossDomainMessenger
     network: mainnet
     source:
-      address: "0xfBE93ba0a2Df92A8e8D40cE00acCF9248a6Fc812"
+      address: "0xD1EC7d40CCd01EB7A305b94cBa8AB6D17f6a9eFE"
       abi: OVM_CrossDomainMessenger
       startBlock: 11657097
     mapping:

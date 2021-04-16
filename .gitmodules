@@ -1,3 +1,0 @@
-[submodule "packages/ovm-subgraphs"]
-	path = packages/ovm-subgraphs
-	url = https://github.com/ethereum-optimism/ovm-subgraphs.git
