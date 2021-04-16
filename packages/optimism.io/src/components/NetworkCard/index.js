@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Box, Text } from '@chakra-ui/react';
+import { Heading, Box, Text, Spinner } from '@chakra-ui/react';
 
 function NetworkCard({ network, isDown, smallScreen }) {
   return (
@@ -8,20 +8,30 @@ function NetworkCard({ network, isDown, smallScreen }) {
       p={4}
       borderRadius={10}
       textAlign="center"
-      borderColor={isDown ? '#f01a37' : '#75cc74'}
+      borderColor={
+        isDown === true ? '#f01a37' : isDown === false ? '#75cc74' : '#ccc'
+      }
       borderStyle="solid"
       w="1fr"
     >
       <Heading as="h2" size="lg" fontWeight="300">
         {network}
       </Heading>
-      <Text fontSize={'150px'} m={0}>
-        {isDown ? '😭' : '😄'}
-      </Text>
+      <Box fontSize={'150px'} m={0}>
+        {isDown === true ? (
+          '😭'
+        ) : isDown === false ? (
+          '😄'
+        ) : (
+          <Spinner w="90px" h="90px" />
+        )}
+      </Box>
       <Text fontWeight="300" fontSize="1.2rem">
-        {isDown
+        {isDown === true
           ? 'Currently experiencing problems'
-          : 'All systems operational!'}
+          : isDown === false
+          ? 'All systems operational!'
+          : ''}
       </Text>
     </Box>
   );

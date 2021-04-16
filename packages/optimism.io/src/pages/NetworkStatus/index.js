@@ -1,21 +1,30 @@
 import React from 'react';
 import { Box, SimpleGrid, useMediaQuery } from '@chakra-ui/react';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import Container from '../../components/Container';
 import { PageHeader } from '../../components/Headers';
 import NetworkCard from '../../components/NetworkCard';
 
 function NetworkStatus() {
   const [smallScreen] = useMediaQuery('(max-width: 900px)');
+  const [isMainnetDown, setIsMainnetDown] = React.useState(null);
+  const [isKovanDown, setIsKovanDown] = React.useState(null);
 
   React.useEffect(() => {
-    // TODO
-    // axios
-    //   .get("https://api.pingdom.com/api/3.1/checks", {
-    //     headers: new Headers({
-    //       Authorization: "Bearer " + process.env.REACT_APP_PINGDOM,
-    //     }),
-    //   })
-    //   .then(console.log);
+    const mainnet = new JsonRpcProvider(`https://mainnet.optimism.io`);
+    const kovan = new JsonRpcProvider(`https://kovan.optimism.io`);
+
+    mainnet.getBlock().then(() => {
+      setIsMainnetDown(isDown => isDown === null && false);
+    });
+    kovan.getBlock().then(() => {
+      setIsKovanDown(isDown => isDown === null && false);
+    });
+
+    setTimeout(() => {
+      setIsKovanDown(isDown => isDown === null);
+      setIsMainnetDown(isDown => isDown === null);
+    }, 5000);
   }, []);
 
   return (
@@ -27,8 +36,8 @@ function NetworkStatus() {
           columns={smallScreen ? 1 : 2}
         >
           {[
-            { network: 'Mainnet Optimism', isDown: false },
-            { network: 'Kovan Optimism', isDown: true }
+            { network: 'Mainnet Optimism', isDown: isMainnetDown },
+            { network: 'Kovan Optimism', isDown: isKovanDown }
           ].map(data => (
             <NetworkCard
               key={data.network}

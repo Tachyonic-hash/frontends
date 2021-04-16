@@ -14,9 +14,7 @@
     "build:gateway": "yarn workspace gateway.optimism.io build",
     "start:gateway": "yarn workspace gateway.optimism.io start",
     "build:home": "yarn workspace optimism.io build",
-    "start:home": "yarn workspace optimism.io start",
-    "build:status": "yarn workspace status.optimism.io build",
-    "start:status": "yarn workspace status.optimism.io start"
+    "start:home": "yarn workspace optimism.io start"
   },
   "workspaces": {
     "packages": [
