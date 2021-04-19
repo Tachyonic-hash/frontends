@@ -51,7 +51,7 @@ function ETHGateway() {
             borderWidth="1px"
             borderRadius="20px"
             bg={containerBg}
-            padding={`1rem ${screenSm ? '1rem' : '1.5rem'} 2rem`}
+            padding={`1rem ${screenSm ? '1.5rem' : '1rem'} 2rem`}
           >
             <Balances openModal={openModal} />
           </Box>
