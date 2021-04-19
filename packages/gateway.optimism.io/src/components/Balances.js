@@ -46,7 +46,7 @@ const TopRow = ({
       <Heading size="sm" mt={0} mb={2} px={2} fontWeight="400 !important">
         {heading}
       </Heading>
-      <Box borderRadius="20px" padding="1rem 1rem 1.5rem" bg={bg}>
+      <Box borderRadius="20px" pt={2} padding="1rem 1rem 1.5rem" bg={bg}>
         <Box>
           <AccentText />
           <Box d="flex" alignItems="center" mb={4} justifyContent="space-between">

@@ -35,6 +35,8 @@ const Title = () => (
       fontWeight={'500'}
       fontStyle="italic"
       color="brand.primary"
+      minW="30px"
+      minH="30px"
     >
       <Image src="/logos/_optimism.svg" w="30px" h="30px" />
     </Heading>
@@ -59,7 +61,7 @@ function HeaderNav({
   openModal,
 }: HeaderNavProps) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { screenSm } = React.useContext(AppContext);
+  const { screenSm, isConnecting } = React.useContext(AppContext);
   const bg = useColorModeValue('white', 'darkBackground');
   const toast = useToast();
 
@@ -109,7 +111,7 @@ function HeaderNav({
       </Drawer>
       <Box d="flex" alignItems="center" justifyContent="space-between" mb={8} w="100%">
         <HStack spacing={6} as="nav">
-          <Title />
+          {(screenSm || (!connectedChainId && !isConnecting)) && <Title />}
           {screenSm && <NavItems screenSm={screenSm} />}
         </HStack>
         <Box d="flex" alignItems="center">
