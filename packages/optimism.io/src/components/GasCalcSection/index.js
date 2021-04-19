@@ -70,6 +70,7 @@ const GasCalcSection = () => {
   const [l1Gas, setL1Gas] = React.useState(0);
   const [l2Gas, setL2Gas] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
+  const [l2UsdPrice, setL2UsdPrice] = React.useState(0);
   const [showHeading, setShowHeading] = React.useState(true);
   const [screenSm, screenLg] = useMediaQuery([
     '(min-width: 768px)',
@@ -88,7 +89,6 @@ const GasCalcSection = () => {
   const handleFormSubmit = React.useCallback(
     async (e, link) => {
       const txLink = link || etherscanLink;
-      setIsCalculating(true);
       if (e) e.preventDefault();
       if (!containsLink) {
         toast({
@@ -101,6 +101,7 @@ const GasCalcSection = () => {
         return;
       }
 
+      setIsCalculating(true);
       setShowHeading(optionLinks.includes(link));
 
       const provider = ethers.getDefaultProvider(
@@ -127,7 +128,8 @@ const GasCalcSection = () => {
         2000 + //20k SSTORE for a batch of 10 transctions
         2000; //20k SSTORE for a batch of 10 state roots
       const gasSaved = (txReceipt.gasUsed.toNumber() / l2Gas).toFixed(1);
-
+      const l1Fee = await feeInUSD(txData.gasPrice, txReceipt.gasUsed);
+      setL2UsdPrice((l1Fee / gasSaved).toFixed(2));
       setIsCalculating(false);
       setL1Gas(
         txReceipt.gasUsed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -167,19 +169,19 @@ const GasCalcSection = () => {
   React.useEffect(() => {
     if (!isInitialized) {
       setIsInitialized(true);
-      handleFormSubmit();
+      handleFormSubmit(null, options.chainlink.link);
     }
   }, [handleFormSubmit, isInitialized]);
 
   return (
-    <Box m="0 auto" maxW={screenLg ? 'none' : '600px'}>
-      <Box mb={8} pr={16}>
+    <Box m="0 auto" maxW={screenLg ? 'none' : '700px'}>
+      <Box mb={8}>
         <Heading fontSize="1.4rem" fontWeight={400}>
-          See how much Optimistic Ethereum can reduce your gas pain
+          How much can Optimistic Ethereum reduce your gas pain?
         </Heading>
         <Text fontSize="1rem">
           Paste an Etherscan link to a transaction or select a preset
-          transaction below
+          transaction
         </Text>
       </Box>
       <Box
@@ -202,7 +204,6 @@ const GasCalcSection = () => {
         ></Image>
         <Box
           w={screenLg ? '40%' : '100%'}
-          minW="400px"
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
@@ -212,18 +213,20 @@ const GasCalcSection = () => {
             d="flex"
             justifyContent="space-around"
           >
-            {Object.entries(options).map(([id, option]) => (
-              <input
-                key={option.name}
-                type="image"
-                alt={option.name}
-                src={option.iconURL}
-                onClick={() => handleInputOverride(id)}
-                className={
-                  styles.button + ' ' + (id === txId ? styles.active : '')
-                }
-              ></input>
-            ))}
+            {Object.entries(options).map(([id, option]) => {
+              return (
+                <input
+                  key={option.name}
+                  type="image"
+                  alt={option.name}
+                  src={option.iconURL}
+                  onClick={() => handleInputOverride(id)}
+                  className={
+                    styles.button + ' ' + (id === txId ? styles.active : '')
+                  }
+                ></input>
+              );
+            })}
           </Box>
           <Box>
             <Input
@@ -267,17 +270,22 @@ const GasCalcSection = () => {
           {showHeading && (
             <>
               <Text my={0}>Example transaction:</Text>
-              <Heading mt={0} fontWeight="400">
+              <Heading mt={0} fontWeight="400" fontSize="1.8rem">
                 {txId ? options[txId].desc : 'User transaction'}
               </Heading>
             </>
           )}
           {isCalculating ? (
             <Center p={8}>
-              <Spinner w="80px" h="80px" />
+              <Spinner w="100px" h="100px" />
             </Center>
           ) : (
-            <GasCalcResults l1Gas={l1Gas} l2Gas={l2Gas} gasSaved={gasSaved} />
+            <GasCalcResults
+              l1Gas={l1Gas}
+              l2Gas={l2Gas}
+              gasSaved={gasSaved}
+              l2UsdPrice={l2UsdPrice}
+            />
           )}
         </Box>
       </Box>
@@ -298,6 +306,7 @@ const GasCalcResults = props => (
       </div>
     </div>
     <div className={styles.flexOutputDelta}>
+      <div className={styles.usd}>Fee on Optimism: ${props.l2UsdPrice}</div>
       <div className={styles.result}>{props.gasSaved + 'x'}</div>
       <div className={styles.description}>Savings with Optimism</div>
     </div>

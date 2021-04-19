@@ -41,6 +41,7 @@
   margin: 0;
   flex-flow: column nowrap;
   display: flex;
+  width: 40%;
 }
 
 .flexItem {
@@ -51,10 +52,9 @@
   flex-flow: column nowrap;
   display: flex;
   background: #eff0f8;
-  width: 150px;
-  margin: auto;
   font-size: 14px;
   padding: 8px 14px 8px;
+  width: calc(100% - 15px);
   height: 100%;
 }
 
@@ -65,7 +65,7 @@
 .flexOutputGas .result {
   font-family: 'Roboto';
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 40px;
 }
 
@@ -84,13 +84,13 @@
   flex-flow: column nowrap;
   display: flex;
   background: pink;
-  width: 155px;
+  width: 60%;
 }
 
 .flexOutputDelta .result {
   font-family: 'Roboto';
   font-weight: bold;
-  font-size: 48px;
+  font-size: 38px;
   line-height: 1.2;
 }
 
@@ -101,16 +101,12 @@
 }
 
 @media screen and (min-width: 768px) {
-  .flexOutputGas {
-    width: 200px;
-  }
-
   .flexOutputGas .description {
     font-size: 14px;
   }
 
-  .flexOutputDelta {
-    width: 328px;
+  .flexOutputGas .result {
+    font-size: 20px;
   }
 
   .flexOutputDelta .result {
@@ -145,7 +141,7 @@
   height: 50px;
   box-shadow: 0px 3px 10px 0px #ccc;
   transition: box-shadow 400ms;
-  margin: 10px;
+  margin: 5px;
   border-radius: 50%;
 }
 
@@ -153,4 +149,13 @@
   .input {
     border-bottom: 1px solid #334659;
   }
+}
+
+.active {
+  box-shadow: none !important;
+  border: 1px solid #eee;
+}
+
+.usd {
+  font-size: 18px;
 }
