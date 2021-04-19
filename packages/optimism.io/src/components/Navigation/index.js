@@ -17,7 +17,7 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  Portal,
+  Portal
 } from '@chakra-ui/react';
 import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
@@ -114,7 +114,7 @@ function Navigation() {
             </DrawerHeader>
             <DrawerBody pt={4} h="100%">
               <Box as="nav" d="flex" flexDir="column" alignItems="flex-start">
-                {navCategories.map((category) => (
+                {navCategories.map(category => (
                   <Stack mb={4} key={category.heading}>
                     <Heading
                       mt={0}
@@ -125,7 +125,7 @@ function Navigation() {
                     >
                       {category.heading}
                     </Heading>
-                    {category.items.map((item) => (
+                    {category.items.map(item => (
                       <NavLink key={item.url} item={item} />
                     ))}
                   </Stack>
@@ -145,7 +145,7 @@ function Navigation() {
       <Logo color="brandPrimary" />
       <Box as="nav" d={['none', null, null, 'flex']}>
         {navCategories.map((col, idx) => (
-          <Popover key={idx} trigger="hover">
+          <Popover key={idx} trigger="hover" matchWidth={true}>
             <PopoverTrigger>
               <Heading
                 tabIndex="0"
@@ -165,10 +165,10 @@ function Navigation() {
               </Heading>
             </PopoverTrigger>
             <Portal>
-              <PopoverContent p={2}>
+              <PopoverContent p={2} mx="auto">
                 <PopoverArrow />
                 <PopoverBody d="flex" flexDir="column">
-                  {col.items.map((item) => (
+                  {col.items.map(item => (
                     <NavLink key={item.url} item={item} />
                   ))}
                 </PopoverBody>
