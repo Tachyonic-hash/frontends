@@ -71,9 +71,8 @@ const GasCalcSection = () => {
   const [l2Gas, setL2Gas] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
   const [showHeading, setShowHeading] = React.useState(true);
-  const [screenSm, screenMd, screenLg] = useMediaQuery([
+  const [screenSm, screenLg] = useMediaQuery([
     '(min-width: 768px)',
-    '(min-width: 1024px)',
     '(min-width: 1200px)'
   ]);
   const toast = useToast();
@@ -127,8 +126,6 @@ const GasCalcSection = () => {
         dataBytes * 16 +
         2000 + //20k SSTORE for a batch of 10 transctions
         2000; //20k SSTORE for a batch of 10 state roots
-      const l1TxFee = await feeInUSD(txData.gasPrice, txReceipt.gasUsed);
-      const l2TxFee = await feeInUSD(txData.gasPrice, l2Gas);
       const gasSaved = (txReceipt.gasUsed.toNumber() / l2Gas).toFixed(1);
 
       setIsCalculating(false);
