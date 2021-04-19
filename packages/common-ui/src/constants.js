@@ -1,5 +1,12 @@
 export const navItems = [
   {
+    name: 'Gas comparison',
+    url: 'https://optimism.io/gas-comparison',
+    internal: true,
+    categories: ['about'],
+    headerNav: true,
+  },
+  {
     name: 'Demos',
     url: 'https://optimism.io/demos',
     categories: ['about'],

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Box, Link, SimpleGrid, VStack, Heading } from '@chakra-ui/react';
 import Container from '../Container';
-import { Link as ReactLink } from 'react-router-dom';
 import { navCategories } from '@optimism/common-ui';
 import SocialLinks from '../SocialLinks';
 class Footer extends Component {

@@ -57,6 +57,8 @@ const options = {
   }
 };
 
+const optionLinks = Object.values(options).map(o => o.link);
+
 const GasCalcSection = () => {
   const [isInitialized, setIsInitialized] = React.useState(false);
   const [containsLink, setContainsLink] = React.useState(true);
@@ -68,8 +70,9 @@ const GasCalcSection = () => {
   const [l1Gas, setL1Gas] = React.useState(0);
   const [l2Gas, setL2Gas] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
+  const [showHeading, setShowHeading] = React.useState(true);
   const [screenSm, screenMd, screenLg] = useMediaQuery([
-    '(min-width: 600px)',
+    '(min-width: 768px)',
     '(min-width: 1024px)',
     '(min-width: 1200px)'
   ]);
@@ -79,6 +82,7 @@ const GasCalcSection = () => {
     setTxId(id);
     setEtherscanLink(options[id].link);
     setContainsLink(true);
+    setShowHeading(true);
     handleFormSubmit(null, options[id].link);
   };
 
@@ -97,6 +101,9 @@ const GasCalcSection = () => {
         });
         return;
       }
+
+      setShowHeading(optionLinks.includes(link));
+
       const provider = ethers.getDefaultProvider(
         `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
       );
@@ -168,8 +175,8 @@ const GasCalcSection = () => {
   }, [handleFormSubmit, isInitialized]);
 
   return (
-    <Box m="0 auto">
-      <Box pos="relative" mb={8} pr={16}>
+    <Box m="0 auto" maxW={screenLg ? 'none' : '600px'}>
+      <Box mb={8} pr={16}>
         <Heading fontSize="1.4rem" fontWeight={400}>
           See how much Optimistic Ethereum can reduce your gas pain
         </Heading>
@@ -177,19 +184,27 @@ const GasCalcSection = () => {
           Paste an Etherscan link to a transaction or select a preset
           transaction below
         </Text>
+      </Box>
+      <Box
+        boxShadow="-8px 8px 20px 0px #ededed"
+        paddingTop="2rem"
+        paddingBottom="2rem"
+        px={screenSm ? '2rem' : '1rem'}
+        display="flex"
+        flexDirection={screenLg ? 'row' : 'column'}
+        pos="relative"
+      >
         <Image
           pos="absolute"
           w="80px"
-          top={'-20px'}
-          right={'-50px'}
+          top={'-50px'}
+          right={'-60px'}
           transform="rotate(10deg)"
           src={coloredEthLogo}
           alt="Ethereum logo"
         ></Image>
-      </Box>
-      <Box className={styles.container}>
         <Box
-          w="40%"
+          w={screenLg ? '40%' : '100%'}
           minW="400px"
           display="flex"
           flexDirection="column"
@@ -244,12 +259,22 @@ const GasCalcSection = () => {
             </Button>
           </Box>
         </Box>
-        <Box w="60%" ml={16}>
+        <Box
+          w={screenLg ? '60%' : '100%'}
+          ml={screenLg ? 16 : 0}
+          mt={screenLg ? 0 : 8}
+          d="flex"
+          flexDir="column"
+        >
           <Divider display={'none'} />
-          <Text my={0}>Example transaction:</Text>
-          <Heading mt={0} fontWeight="400">
-            {txId ? options[txId].desc : 'User transaction'}
-          </Heading>
+          {showHeading && (
+            <>
+              <Text my={0}>Example transaction:</Text>
+              <Heading mt={0} fontWeight="400">
+                {txId ? options[txId].desc : 'User transaction'}
+              </Heading>
+            </>
+          )}
           {isCalculating ? (
             <Center p={8}>
               <Spinner w="80px" h="80px" />
@@ -272,7 +297,7 @@ const GasCalcResults = props => (
       </div>
       <div className={styles.flexOutputGas}>
         <div className={styles.result}>{props.l2Gas}</div>
-        <div className={styles.description}>Cost with the OVM</div>
+        <div className={styles.description}>Gas cost on Optimism</div>
       </div>
     </div>
     <div className={styles.flexOutputDelta}>

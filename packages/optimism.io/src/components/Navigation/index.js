@@ -20,7 +20,7 @@ import {
   Portal
 } from '@chakra-ui/react';
 import { HamburgerSpin } from 'react-animated-burgers';
-import { Link as ReactLink } from 'react-router-dom';
+// import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { navCategories } from '@optimism/common-ui';
 import Container from '../Container';
 import SocialLinks from '../SocialLinks';
@@ -69,7 +69,6 @@ function Navigation() {
         <Link
           to="/"
           onClick={onClose}
-          as={ReactLink}
           fontStyle="italic"
           fontWeight="500"
           {...props[0]}
