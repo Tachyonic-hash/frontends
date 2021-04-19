@@ -124,6 +124,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
         try {
+          // add L2 network
           await provider.send('wallet_addEthereumChain', [
             {
               chainId:
@@ -138,6 +139,8 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
               blockExplorerUrls: [`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/`],
             },
           ]);
+          // add Optimism ETH
+          // await addOptiEth();
         } catch (err) {
           showErrorToast(
             <>
@@ -175,6 +178,25 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       setUserAddress(userAddress);
       closeModal();
       localStorage.setItem('previouslyConnected', 'true');
+
+      async function addOptiEth() {
+        try {
+          await (window as any).ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+              type: 'ERC20',
+              options: {
+                address: '0x4200000000000000000000000000000000000006',
+                symbol: 'ETH',
+                decimals: 18,
+                image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010',
+              },
+            },
+          });
+        } catch (e) {
+          console.log(e); // eslint-disable-line no-console
+        }
+      }
     },
     [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
   );
