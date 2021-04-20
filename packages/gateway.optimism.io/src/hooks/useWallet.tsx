@@ -6,6 +6,7 @@ import Notify, { API } from 'bnc-notify';
 import { Contract } from '@ethersproject/contracts';
 import { abis } from '../contracts';
 import useToast from './useToast';
+import usePendingTxHash from '../hooks/usePendingTxHash';
 import { modalTypes } from '../components/Modal';
 import { chainIdLayerMap, chainIds } from '../constants';
 import { formatNumber, getRpcProviders, getAddresses } from '../helpers';
@@ -25,10 +26,10 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const [userAddress, setUserAddress] = React.useState<string | undefined>();
   const [connectedChainId, setConnectedChainId] = React.useState<number | undefined>(undefined);
   const [balancesLoading, setBalancesLoading] = React.useState<boolean>(false);
+  const [pendingTxHash, setPendingTxHash]: any = usePendingTxHash();
   const [l1Balance, setL1Balance] = React.useState('0');
   const [l2Balance, setL2Balance] = React.useState('0');
   const [contracts, setContracts] = React.useState<GenericObject | undefined>(undefined);
-  const [txPending, setTxPending] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('0');
   const { colorMode } = useColorMode();
 
@@ -139,8 +140,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
               blockExplorerUrls: [`https://${network === 'kovan' ? 'kovan-' : ''}explorer.optimism.io/`],
             },
           ]);
-          // add Optimism ETH
-          // await addOptiEth();
         } catch (err) {
           showErrorToast(
             <>
@@ -178,25 +177,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       setUserAddress(userAddress);
       closeModal();
       localStorage.setItem('previouslyConnected', 'true');
-
-      async function addOptiEth() {
-        try {
-          await (window as any).ethereum.request({
-            method: 'wallet_watchAsset',
-            params: {
-              type: 'ERC20',
-              options: {
-                address: '0x4200000000000000000000000000000000000006',
-                symbol: 'ETH',
-                decimals: 18,
-                image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=010',
-              },
-            },
-          });
-        } catch (e) {
-          console.log(e); // eslint-disable-line no-console
-        }
-      }
     },
     [closeModal, connectedChainId, showErrorToast, showInfoToast, walletProvider, warningLinkColor]
   );
@@ -214,11 +194,12 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           .deposit({ value: ethers.utils.parseUnits(inputValue.toString(), 18) });
         const { emitter } = notify.hash(receipt.hash);
         setInputValue('0');
-        setTxPending(true);
+        setPendingTxHash(receipt.hash);
         emitter.on('all', (tx: GenericObject) => {
           closeModal();
           if (tx.status === 'confirmed') {
             notify.unsubscribe(receipt.hash);
+            setBalance(1);
           }
           return {
             autoDismiss: 10000,
@@ -243,15 +224,16 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         const receipt = await contracts.l2
           .connect(signer)
           .withdraw(ethers.utils.parseUnits(inputValue.toString(), 18), { gasLimit: 21000 });
-        setTxPending(true);
+        setPendingTxHash(receipt.hash);
         if (receipt) {
-          setTxPending(false);
+          setPendingTxHash(null);
+          setBalance(2);
         }
         // TODO: test this after Blocknative adds our chain Id
         // const { emitter } = notify.hash(receipt.hash);
         // emitter.on('all', (data: any) => {
         //   if (data.status === 'confirmed') {
-        //     setTxPending(false);
+        //     setPendingTxHash(false);
         //     notify.unsubscribe(receipt.hash);
         //     return {
         //      autoDismiss: 10000
@@ -287,6 +269,22 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
   const handleClaimWithdrawal = () => {
     console.log('handleClaimWithdrawal');
   };
+
+  const setBalance = React.useCallback(
+    async layer => {
+      if (layer === 1) {
+        const [rpcL1] = await getRpcProviders(connectedChainId as number);
+        // set balances
+        const ethBalance = await rpcL1.getBalance(userAddress as string);
+        setL1Balance(formatNumber(ethers.utils.formatEther(ethBalance)));
+      } else if (layer === 2) {
+        const ethL2Balance = await (contracts as GenericObject).l2.balanceOf(userAddress);
+        setL2Balance(formatNumber(ethers.utils.formatEther(ethL2Balance)));
+      }
+      setBalancesLoading(false);
+    },
+    [connectedChainId, contracts, userAddress]
+  );
 
   /**
    * Initializer (runs only once)
@@ -328,29 +326,25 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     (async () => {
       if (contracts && userAddress && connectedChainId) {
         try {
-          const [rpcL1] = await getRpcProviders(connectedChainId);
-          // set balances
-          const ethBalance = await rpcL1.getBalance(userAddress);
-          setL1Balance(formatNumber(ethers.utils.formatEther(ethBalance)));
-          const ethL2Balance = await contracts.l2.balanceOf(userAddress);
-          setL2Balance(formatNumber(ethers.utils.formatEther(ethL2Balance)));
-          setBalancesLoading(false);
+          setBalance(1); // layer 1
+          setBalance(2); // layer 2
         } catch (err) {
           console.error(err);
           showErrorToast();
         }
       }
     })();
-  }, [contracts, connectedChainId, showErrorToast, userAddress]);
+  }, [contracts, connectedChainId, showErrorToast, userAddress, setBalance]);
 
   React.useEffect(() => {
     if (contracts && userAddress) {
       const depositFilter = contracts.l2.filters.DepositFinalized(userAddress);
       const withdrawalFilter = contracts.l1.filters.WithdrawalFinalized(userAddress);
+
       contracts.l2.on(depositFilter, async (target: string, amount: ethers.BigNumber, tx: GenericObject) => {
         const ethL2Balance = await contracts.l2.balanceOf(userAddress);
         setL2Balance(formatNumber(ethers.utils.formatEther(ethL2Balance)));
-        setTxPending(false);
+        setPendingTxHash(null);
         const network = connectedChainId === chainIds.MAINNET_L1 ? 'mainnet' : 'kovan';
 
         // // TODO: figure out how to prevent this from rendering multiple times
@@ -374,7 +368,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         // TODO: this will only be triggered if the user recently did a self-withdrawal on the txs page
       });
     }
-  }, [connectedChainId, contracts, showSuccessToast, userAddress]);
+  }, [connectedChainId, contracts, setPendingTxHash, showSuccessToast, userAddress]);
 
   /**
    * Initializes Blocknative Notify widget
@@ -393,8 +387,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         notifyMessages: {
           en: {
             transaction: {
-              txConfirmed:
-                'Deposit sent to Optimism! It may take a few minutes before your balance is updated and the transaction appears on the Transactions page.',
+              txConfirmed: 'Deposit sent to Optimism! It will take a few minutes before your deposit is confirmed.',
             },
             watched: {},
             time: {},
@@ -405,15 +398,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       setNotify(notify);
     }
   }, [colorMode, connectedChainId, walletProvider]);
-
-  /**
-   * Sets balanacesLoading == true whenever user address or chain id changes
-   */
-  React.useEffect(() => {
-    if (userAddress && connectedChainId) {
-      setBalancesLoading(true);
-    }
-  }, [userAddress, connectedChainId]);
 
   function swapLayers() {
     if (chainIdLayerMap[connectedChainId || 0] === 1) {
@@ -436,7 +420,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     balancesLoading,
     l1Balance,
     l2Balance,
-    txPending,
+    txPending: !!pendingTxHash,
     setInputValue,
     handleDisconnect,
     handleClaimWithdrawal,

@@ -7,7 +7,7 @@ import { modalTypes } from '../components/Modal';
 import AppContext from '../context';
 
 function ETHGateway() {
-  const { openModal, txPending, screenSm, isShortScreen } = React.useContext(AppContext);
+  const { openModal, txPending, screenSm, isShortScreen, connectedChainId } = React.useContext(AppContext);
   const containerBg = useColorModeValue('#f0f9ff', '#1c2a3e');
 
   React.useEffect(() => {
@@ -32,8 +32,8 @@ function ETHGateway() {
           w="100%"
         >
           <Link
-            visibility={txPending ? 'visible' : 'hidden'}
-            aria-hidden={!!txPending}
+            visibility={txPending && connectedChainId ? 'visible' : 'hidden'}
+            aria-hidden={!!(txPending && connectedChainId)}
             as={RouterLink}
             to="/txs"
             d="flex"
