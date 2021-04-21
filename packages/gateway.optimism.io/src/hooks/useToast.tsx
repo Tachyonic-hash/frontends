@@ -44,7 +44,7 @@ function useCustomToast() {
         title: '',
         description: message,
         status: 'info',
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: 'bottom-left',
       });

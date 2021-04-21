@@ -14,6 +14,7 @@ import {
   Button,
   Spinner,
   IconButton,
+  Switch,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import OptimismButton from './OptimismButton';
@@ -37,6 +38,7 @@ const TopRow = ({
   handleTransaction,
   bg,
   isDisabled,
+  screenSm,
 }) => {
   const handleMaxValue = () => {
     setInputValue(balance);
@@ -52,19 +54,23 @@ const TopRow = ({
           <Box d="flex" alignItems="center" mb={4} justifyContent="space-between">
             <Box fontSize="1.125rem" d="flex" alignItems="center">
               <Image d="inline" w={5} h={5} mr={2} src="/logos/ETH.svg" alt="ETH Logo" />
-              <Box whiteSpace="pre" overflow="hidden" textOverflow="ellipsis" mr={2} d="flex" alignItems="center">
-                <Button
-                  fontSize="1.125rem"
-                  bg="transparent !important"
-                  fontWeight="300 !important"
-                  minW={0}
-                  padding={0}
-                  onClick={handleMaxValue}
-                  height="auto"
-                >
-                  {balancesLoading ? <Spinner size="xs" /> : balance}
-                </Button>
-              </Box>{' '}
+              <Button
+                mr={2}
+                fontSize="1.125rem"
+                bg="transparent !important"
+                fontWeight="300 !important"
+                whiteSpace="pre"
+                overflow="hidden"
+                textOverflow="ellipsis"
+                maxW={screenSm ? 'none' : '130px'}
+                minW={0}
+                padding={0}
+                onClick={handleMaxValue}
+                height="auto"
+                d="inline"
+              >
+                {balancesLoading ? <Spinner size="xs" /> : balance}
+              </Button>
               ETH
             </Box>
             <MaxButton onClick={handleMaxValue} />
@@ -99,7 +105,7 @@ const TopRow = ({
 };
 
 const AccentText = () => (
-  <Text fontSize="1.125rem" opacity={0.7} mb={2}>
+  <Text fontSize="1.125rem" opacity={0.7} mb={2} d="flex" alignItems="center">
     Balance
   </Text>
 );
@@ -115,6 +121,8 @@ function Balances({ openModal }) {
     handleDeposit,
     handleWithdraw,
     swapLayers,
+    screenSm,
+    isConnecting,
   } = React.useContext(AppContext);
   const sectionBg = useColorModeValue('white', 'gray.800');
   const connectedLayer = chainIdLayerMap[connectedChainId];
@@ -136,24 +144,23 @@ function Balances({ openModal }) {
             onClick={() => openModal(modalTypes.INFO)}
             icon={<InfoOutlineIcon color="brand.secondary" />}
           />
-          <Box fontSize="1.2rem" opacity="0.8" ml={2}>
+          {/* <Box fontSize="1.2rem" opacity="0.8" ml={2}>
             {connectedLayer === 1 ? 'Deposit ETH' : connectedLayer === 2 ? 'Withdraw ETH' : ''}
-          </Box>
+          </Box> */}
         </Box>
         {connectedLayer ? (
-          <OptimismButton
-            alignItems="flex-start"
-            size="sm"
-            px={0}
-            boxShadow="none !important"
-            onClick={swapLayers}
-            variant="link"
-          >
-            Switch to layer {connectedLayer === 1 ? '2' : '1'}
-          </OptimismButton>
-        ) : (
+          <Box>
+            <Box as="span" mr={3} opacity={connectedLayer === 1 ? 1 : 0.5}>
+              Deposit
+            </Box>
+            <Switch onChange={swapLayers} isChecked={connectedLayer === 2} />
+            <Box as="span" ml={3} opacity={connectedLayer === 2 ? 1 : 0.5}>
+              Withdraw
+            </Box>
+          </Box>
+        ) : !isConnecting ? (
           <Text color="brand.primary">Not connected</Text>
-        )}
+        ) : null}
       </Box>
 
       {!connectedLayer || connectedLayer === 1 ? (
@@ -166,6 +173,7 @@ function Balances({ openModal }) {
           bg={sectionBg}
           isDisabled={connectedLayer === null}
           balancesLoading={balancesLoading}
+          screenSm={screenSm}
         />
       ) : (
         <TopRow
@@ -176,6 +184,7 @@ function Balances({ openModal }) {
           handleTransaction={handleWithdraw}
           bg={sectionBg}
           balancesLoading={balancesLoading}
+          screenSm={screenSm}
         />
       )}
       <ArrowDownIcon
@@ -202,8 +211,7 @@ function Balances({ openModal }) {
           whiteSpace="pre"
           textOverflow="ellipsis"
           overflow="hidden"
-          d="flex"
-          alignItems="center"
+          justifyContent="flex-start"
         >
           <Image d="inline" w={5} h={5} mr={2} src="/logos/ETH.svg" alt="ETH Logo" />
           {balancesLoading ? <Spinner size="xs" /> : connectedLayer === 2 ? l1Balance : l2Balance} ETH

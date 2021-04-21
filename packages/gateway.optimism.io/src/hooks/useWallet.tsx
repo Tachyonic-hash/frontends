@@ -112,7 +112,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
               : connectedChainId === chainIds.KOVAN_L2
               ? 'Kovan'
               : '';
-          showInfoToast(`Please change your network ${network ? 'to ' + network : ''} in MetaMask and try again.`);
+          showInfoToast(`Switching to layer 1 can only be done manually at this time. Please do so via MetaMask.`);
           return;
         }
       } else {
@@ -195,14 +195,14 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         const { emitter } = notify.hash(receipt.hash);
         setInputValue('0');
         setPendingTxHash(receipt.hash);
+        openModal(modalTypes.DEPOSIT_PENDING);
         emitter.on('all', (tx: GenericObject) => {
-          closeModal();
           if (tx.status === 'confirmed') {
             notify.unsubscribe(receipt.hash);
             setBalance(1);
           }
           return {
-            autoDismiss: 10000,
+            autoDismiss: 100000,
             link: `https://${connectedChainId === chainIds.KOVAN_L1 ? 'kovan.' : ''}etherscan.io/tx/${tx.hash}`,
           };
         });
@@ -224,9 +224,8 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         const receipt = await contracts.l2
           .connect(signer)
           .withdraw(ethers.utils.parseUnits(inputValue.toString(), 18), { gasLimit: 21000 });
-        setPendingTxHash(receipt.hash);
         if (receipt) {
-          setPendingTxHash(null);
+          setPendingTxHash(receipt.hash);
           setBalance(2);
         }
         // TODO: test this after Blocknative adds our chain Id
@@ -241,19 +240,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         //   }
         // });
         setInputValue('0');
-        closeModal();
-        toast({
-          title: 'Success!',
-          position: 'bottom-left',
-          description: (
-            <Text>
-              <>Your withdrawal was initiated. Navigate to the the transactions page to track its progress.</>
-            </Text>
-          ),
-          status: 'success',
-          duration: 4000,
-          isClosable: true,
-        });
+        openModal(modalTypes.WITHDRAWAL_PENDING);
       } catch (err) {
         console.error(err);
         showErrorToast(err.message);
@@ -387,7 +374,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         notifyMessages: {
           en: {
             transaction: {
-              txConfirmed: 'Deposit sent to Optimism! It will take a few minutes before your deposit is confirmed.',
+              txConfirmed: 'Deposit sent to Optimism! Click this message to see it on Etherscan.',
             },
             watched: {},
             time: {},
@@ -425,6 +412,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     handleDisconnect,
     handleClaimWithdrawal,
     isConnecting,
+    pendingTxHash,
   };
 }
 

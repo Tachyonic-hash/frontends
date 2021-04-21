@@ -30,6 +30,7 @@ type ContextProps = {
   handleClaimWithdrawal?: () => void;
   setWithdrawalClaimMsg?: (msg?: string) => void;
   isConnecting: boolean;
+  pendingTxHash?: string;
 };
 
 const AppContext = React.createContext<ContextProps>({ openModal: () => {}, isConnecting: false });

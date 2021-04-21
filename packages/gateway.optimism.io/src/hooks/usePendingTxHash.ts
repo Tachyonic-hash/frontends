@@ -1,5 +1,6 @@
 function usePendingTxHash(hash?: string) {
   const setPendingTxHash = (_hash: string) => {
+    console.log('_hash', _hash);
     if (_hash) {
       localStorage.setItem('pendingTxHash', String(_hash));
     } else {
@@ -10,7 +11,7 @@ function usePendingTxHash(hash?: string) {
     setPendingTxHash(hash);
   }
 
-  const pendingTxHash = Boolean(localStorage.getItem('pendingTxHash'));
+  const pendingTxHash = localStorage.getItem('pendingTxHash');
 
   return [pendingTxHash, setPendingTxHash];
 }

@@ -94,3 +94,7 @@ svg:hover .rainbowFill {
   font-size: 1rem;
   font-weight: normal !important;
 }
+
+.chakra-switch__track {
+  background-color: #169fc9 !important;
+}

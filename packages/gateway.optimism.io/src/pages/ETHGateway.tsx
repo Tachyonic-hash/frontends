@@ -27,7 +27,7 @@ function ETHGateway() {
           pos={isShortScreen ? 'relative' : 'absolute'}
           top={isShortScreen ? 0 : '50vh'}
           left={isShortScreen ? 0 : '50%'}
-          transform={isShortScreen ? 'translate(0)' : 'translate(-50%, -55%)'}
+          transform={isShortScreen ? 'translate(0)' : 'translate(-50%, -50%)'}
           margin={isShortScreen ? 'auto' : '0 !important'}
           w="100%"
         >
@@ -51,7 +51,7 @@ function ETHGateway() {
             borderWidth="1px"
             borderRadius="20px"
             bg={containerBg}
-            padding={`1rem ${screenSm ? '1.5rem' : '1rem'} 2rem`}
+            padding={`1rem ${screenSm ? '1rem' : '1rem'} 2rem`}
           >
             <Balances openModal={openModal} />
           </Box>

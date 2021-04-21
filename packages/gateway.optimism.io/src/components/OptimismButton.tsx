@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, useColorModeValue, Button } from '@chakra-ui/react';
+import { Box, useColorModeValue, Button, Link } from '@chakra-ui/react';
 
-const OptimismButton = ({ onClick, children, size, variant, ...rest }: any) => {
+const OptimismButton = ({ onClick, children, size, variant, href, isExternal, ...rest }: any) => {
   const bg = useColorModeValue('white', 'gray.800');
 
-  const hugeStyles =
+  const hugeStyles: GenericObject =
     size === 'huge'
       ? {
           fontSize: '1.2rem',
@@ -34,8 +34,17 @@ const OptimismButton = ({ onClick, children, size, variant, ...rest }: any) => {
           },
         };
 
+  const externalProps = isExternal
+    ? {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+    : {};
+
   return (
     <Button
+      as={href ? 'a' : 'button'}
+      href={href}
       className="rainbowText"
       size={size}
       bg={variant === 'link' ? 'transparent !important' : bg}
@@ -43,6 +52,7 @@ const OptimismButton = ({ onClick, children, size, variant, ...rest }: any) => {
       borderColor="brand.primary"
       borderRadius="5px"
       onClick={onClick}
+      {...externalProps}
       {...hoverAndActiveStyles}
       {...hugeStyles}
       {...rest}
