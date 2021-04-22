@@ -1,6 +1,5 @@
 function usePendingTxHash(hash?: string) {
   const setPendingTxHash = (_hash: string) => {
-    console.log('_hash', _hash);
     if (_hash) {
       localStorage.setItem('pendingTxHash', String(_hash));
     } else {

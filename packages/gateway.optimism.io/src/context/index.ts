@@ -3,7 +3,7 @@ type PriceObjectType = { [key: string]: number };
 
 type ContextProps = {
   connectedChainId?: number;
-  connectToLayer?: (layer: number) => void;
+  connectToLayer: (layer?: number) => void;
   screenSm?: boolean;
   screenMd?: boolean;
   screenLg?: boolean;
@@ -33,6 +33,10 @@ type ContextProps = {
   pendingTxHash?: string;
 };
 
-const AppContext = React.createContext<ContextProps>({ openModal: () => {}, isConnecting: false });
+const AppContext = React.createContext<ContextProps>({
+  openModal: () => {},
+  connectToLayer: () => {},
+  isConnecting: false,
+});
 
 export default AppContext;

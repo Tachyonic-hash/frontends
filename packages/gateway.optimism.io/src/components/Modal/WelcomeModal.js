@@ -6,8 +6,8 @@ import OptimismButton from '../OptimismButton';
 import AppContext from '../../context';
 import { modalTypes } from '../Modal';
 
-function WelcomeModal({ connectToLayer }) {
-  const { connectedChainId, openModal } = React.useContext(AppContext);
+function WelcomeModal() {
+  const { connectedChainId, connectToLayer } = React.useContext(AppContext);
 
   return (
     <div>
@@ -17,12 +17,7 @@ function WelcomeModal({ connectToLayer }) {
       </Heading>
       <DisclaimerContent />
       {!connectedChainId && (
-        <OptimismButton
-          mt={10}
-          size="huge"
-          onClick={() => openModal(modalTypes.CHOOSE_NETWORK)}
-          textTransform="uppercase"
-        >
+        <OptimismButton mt={10} size="huge" onClick={connectToLayer} textTransform="uppercase">
           Connect
         </OptimismButton>
       )}

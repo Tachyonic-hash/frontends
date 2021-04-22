@@ -72,8 +72,12 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         } else {
           try {
             await (window as any).ethereum.enable();
-            provider = new ethers.providers.Web3Provider((window as any).ethereum);
+            // using 'any' for the network as per the instructions here https://github.com/ethers-io/ethers.js/issues/866
+            provider = new ethers.providers.Web3Provider((window as any).ethereum, 'any');
           } catch (error) {
+            if (error.message.includes("Request of type 'wallet_requestPermissions'")) {
+              showErrorToast('Please approve connection in Metamask');
+            }
             console.error(error);
           }
         }
@@ -100,19 +104,14 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           return;
         }
         // If user is trying to connect to L1 from an unconnected state, show message
-        if (
-          connectedChainId === chainIds.MAINNET_L2 ||
-          connectedChainId === chainIds.KOVAN_L2 ||
-          chainId === chainIds.MAINNET_L2 ||
-          chainId === chainIds.KOVAN_L2
-        ) {
+        if (chainId === chainIds.MAINNET_L2 || chainId === chainIds.KOVAN_L2) {
           const network =
             connectedChainId === chainIds.MAINNET_L2
               ? 'Mainnet'
               : connectedChainId === chainIds.KOVAN_L2
               ? 'Kovan'
               : '';
-          showInfoToast(`Switching to layer 1 can only be done manually at this time. Please do so via MetaMask.`);
+          showInfoToast(`Please switch to layer 1 via MetaMask.`);
           return;
         }
       } else {
@@ -183,6 +182,11 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
 
   const handleDeposit = async () => {
     if (!walletProvider || !contracts || !notify || !openModal || !closeModal) return;
+    console.log('inputValue', inputValue);
+    if (Number(inputValue) <= 0) {
+      showInfoToast('Please enter a deposit amount greater than zero. 😉');
+      return;
+    }
     if (!isModalOpen) {
       // show confirmation modal if user hasn't seen it yet
       openModal(modalTypes.CONFIRM_DEPOSIT);
@@ -202,7 +206,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
             setBalance(1);
           }
           return {
-            autoDismiss: 100000,
+            autoDismiss: 10000,
             link: `https://${connectedChainId === chainIds.KOVAN_L1 ? 'kovan.' : ''}etherscan.io/tx/${tx.hash}`,
           };
         });
@@ -215,6 +219,10 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
 
   const handleWithdraw = async () => {
     if (!walletProvider || !contracts || !openModal || !closeModal) return;
+    if (Number(inputValue) <= 0) {
+      showInfoToast('Please enter a withdrawal amount greater than zero. 😉');
+      return;
+    }
     if (!isModalOpen) {
       // show confirmation modal if user hasn't seen it yet
       openModal(modalTypes.CONFIRM_WITHDRAWAL);
@@ -280,10 +288,14 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     (async () => {
       if (!isInitialized) {
         if ((window as any).ethereum) {
-          (window as any).ethereum.on('chainChanged', async () => {
+          (window as any).ethereum.on('chainChanged', async (chainIdHex: any) => {
+            // const newChainId = parseInt(chainIdHex, 10);
+            // if (newChainId !== connectedChainId) {
             setIsConnecting(true);
+            console.log('calling from on.chainChanged');
             await connectToLayer();
             setIsConnecting(false);
+            // }
           });
           (window as any).ethereum.on('accountsChanged', handleAccountChanged);
 
@@ -304,7 +316,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         }
       }
     })();
-  }, [connectToLayer, handleAccountChanged, isInitialized, showErrorToast]);
+  }, [connectToLayer, connectedChainId, handleAccountChanged, isInitialized, showErrorToast]);
 
   /**
    * Set balances when dependencies change

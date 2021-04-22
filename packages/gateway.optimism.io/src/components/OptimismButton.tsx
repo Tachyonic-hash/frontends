@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, useColorModeValue, Button, Link } from '@chakra-ui/react';
 
-const OptimismButton = ({ onClick, children, size, variant, href, isExternal, ...rest }: any) => {
+const OptimismButton = ({ onClick, children, size, variant, href, isExternal, isDisabled, ...rest }: any) => {
   const bg = useColorModeValue('white', 'gray.800');
 
   const hugeStyles: GenericObject =
@@ -51,7 +51,9 @@ const OptimismButton = ({ onClick, children, size, variant, href, isExternal, ..
       borderWidth={variant !== 'link' ? '1px' : 0}
       borderColor="brand.primary"
       borderRadius="5px"
+      cursor={isDisabled ? 'default !important' : 'pointer'}
       onClick={onClick}
+      isDisabled={isDisabled}
       {...externalProps}
       {...hoverAndActiveStyles}
       {...hugeStyles}

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Heading, Text, Link, Divider, Box } from '@chakra-ui/react';
+import { Heading, Text, Box, Link } from '@chakra-ui/react';
 import AppContext from '../../context';
 import { chainIds } from '../../constants';
 import OptimismButton from '../OptimismButton';
 
 function PendingTxModal({ type }: { type: string }) {
-  const { pendingTxHash, connectedChainId } = React.useContext(AppContext);
+  const { pendingTxHash, connectedChainId, connectToLayer } = React.useContext(AppContext);
 
   let subdomain = '';
   switch (connectedChainId) {
@@ -13,10 +13,10 @@ function PendingTxModal({ type }: { type: string }) {
       subdomain = 'kovan.';
       break;
     case chainIds.KOVAN_L2:
-      subdomain = 'kovan-optimism.';
+      subdomain = 'optimistic-kovan.';
       break;
     case chainIds.MAINNET_L2:
-      subdomain = 'optimism.';
+      subdomain = 'optimistic.';
       break;
     default:
       break;
@@ -27,11 +27,19 @@ function PendingTxModal({ type }: { type: string }) {
       <Heading size="xl" mt={0} mb={4}>
         {type === 'deposit' ? 'Deposit initiated!' : 'Withdrawal initiated!'}
       </Heading>
-      <Text mb={4}>
-        {type === 'deposit'
-          ? 'Deposits are considered final on Optimism after 20 confirmations, which is about five minutes.'
-          : 'Your withdrawal will be available to claim in one week. You can track its progress on Etherscan [TODO: insert link].'}
-      </Text>
+      <Box mb={4}>
+        {type === 'deposit' ? (
+          <Text>
+            Deposits require 20 block confirmations on layer 1 before they're considered final on Optimism. This will
+            take about five minutes. Track your transaction by clicking the link below.
+          </Text>
+        ) : (
+          <Text>
+            Your withdrawal will be available to claim in one week. You can track its progress on Etherscan [TODO:
+            insert link].
+          </Text>
+        )}
+      </Box>
       <OptimismButton
         fontSize="1.2rem"
         variant="link"

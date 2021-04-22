@@ -15,6 +15,7 @@ import {
   Spinner,
   IconButton,
   Switch,
+  Tooltip,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import OptimismButton from './OptimismButton';
@@ -123,6 +124,7 @@ function Balances({ openModal }) {
     swapLayers,
     screenSm,
     isConnecting,
+    connectToLayer,
   } = React.useContext(AppContext);
   const sectionBg = useColorModeValue('white', 'gray.800');
   const connectedLayer = chainIdLayerMap[connectedChainId];
@@ -150,11 +152,21 @@ function Balances({ openModal }) {
         </Box>
         {connectedLayer ? (
           <Box>
-            <Box as="span" mr={3} opacity={connectedLayer === 1 ? 1 : 0.5}>
+            <Box
+              as="span"
+              mr={3}
+              opacity={connectedLayer === 1 ? 1 : 0.5}
+              fontWeight={connectedLayer === 1 ? 500 : 300}
+            >
               Deposit
             </Box>
             <Switch onChange={swapLayers} isChecked={connectedLayer === 2} />
-            <Box as="span" ml={3} opacity={connectedLayer === 2 ? 1 : 0.5}>
+            <Box
+              as="span"
+              ml={3}
+              opacity={connectedLayer === 2 ? 1 : 0.5}
+              fontWeight={connectedLayer === 2 ? 500 : 300}
+            >
               Withdraw
             </Box>
           </Box>
@@ -196,6 +208,8 @@ function Balances({ openModal }) {
         background="transparent !important"
         boxShadow="none !important"
         color={connectedLayer ? 'brand.primary' : 'inherit'}
+        cursor="pointer"
+        onClick={swapLayers}
       />
       <Heading size="sm" mt={0} mb={2} px={2} fontWeight="400 !important">
         {connectedLayer === 2
@@ -227,7 +241,7 @@ function Balances({ openModal }) {
             Withdraw
           </OptimismButton>
         ) : (
-          <OptimismButton size="huge" onClick={() => openModal(modalTypes.CHOOSE_NETWORK)} textTransform="uppercase">
+          <OptimismButton size="huge" onClick={connectToLayer} textTransform="uppercase">
             Connect
           </OptimismButton>
         )}

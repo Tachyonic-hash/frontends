@@ -52,16 +52,11 @@ type HeaderNavProps = {
   openModal: (modalType: string) => void;
 };
 
-function HeaderNav({
-  isMobileDrawerOpen,
-  openMobileDrawer,
-  closeMobileDrawer,
-  connectedChainId,
-  userAddress,
-  openModal,
-}: HeaderNavProps) {
+function HeaderNav({ isMobileDrawerOpen, openMobileDrawer, closeMobileDrawer }: HeaderNavProps) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { screenSm, isConnecting } = React.useContext(AppContext);
+  const { screenSm, isConnecting, connectToLayer, openModal, userAddress, connectedChainId } = React.useContext(
+    AppContext
+  );
   const bg = useColorModeValue('white', 'darkBackground');
   const toast = useToast();
 
@@ -141,9 +136,7 @@ function HeaderNav({
               bg: 'brand.primaryLowOpacity',
             }}
             cursor={'pointer'}
-            onClick={
-              connectedNetwork ? () => openModal(modalTypes.DISCONNECT) : () => openModal(modalTypes.CHOOSE_NETWORK)
-            }
+            onClick={connectedNetwork ? () => openModal(modalTypes.DISCONNECT) : () => connectToLayer()}
           >
             {connectedNetwork || 'Connect'}
           </Button>

@@ -11,7 +11,6 @@ import DisclaimerContent from '../DisclaimerContent';
 
 export const modalTypes = {
   WELCOME: 'WELCOME',
-  CHOOSE_NETWORK: 'CHOOSE_NETWORK',
   CONFIRM_WITHDRAWAL: 'CONFIRM_WITHDRAWAL',
   WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
   CONFIRM_DEPOSIT: 'CONFIRM_DEPOSIT',
@@ -28,7 +27,7 @@ type BaseModalProps = {
 };
 
 function BaseModal({ isOpen, onClose, currentModal }: BaseModalProps) {
-  const { connectToLayer, isShortScreen, screenSm } = React.useContext(AppContext);
+  const { isShortScreen, screenSm } = React.useContext(AppContext);
   const contentBg = useColorModeValue('#f0f9ff', '#1c2a3e');
   return (
     <>
@@ -49,8 +48,7 @@ function BaseModal({ isOpen, onClose, currentModal }: BaseModalProps) {
         >
           <ModalCloseButton />
           <ModalBody padding={0} textAlign="center">
-            {currentModal === modalTypes.CHOOSE_NETWORK && <ChooseNetworkModal connectToLayer={connectToLayer} />}
-            {currentModal === modalTypes.WELCOME && <WelcomeModal connectToLayer={connectToLayer} />}
+            {currentModal === modalTypes.WELCOME && <WelcomeModal />}
             {currentModal === modalTypes.INFO && <DisclaimerContent />}
             {currentModal === modalTypes.CONFIRM_DEPOSIT && <ConfirmTxModal type="deposit" />}
             {currentModal === modalTypes.DEPOSIT_PENDING && <PendingTxModal type="deposit" />}
