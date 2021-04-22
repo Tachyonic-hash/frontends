@@ -10,8 +10,14 @@ import {
   Center,
   Divider,
   useToast,
-  useMediaQuery
+  useMediaQuery,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Tooltip
 } from '@chakra-ui/react';
+import { InfoOutlineIcon } from '@chakra-ui/icons';
 import styles from './GasCalc.module.css';
 import { ethers } from 'ethers';
 import axios from 'axios';
@@ -59,6 +65,18 @@ const options = {
 
 const optionLinks = Object.values(options).map(o => o.link);
 
+const Logo = () => (
+  <Box
+    background="url(/images/optimism-logo.svg)"
+    bgSize="contain"
+    bgPos="center"
+    bgRepeat="no-repeat"
+    w="25px"
+    h="25px"
+    pos="relative"
+  />
+);
+
 const GasCalcSection = () => {
   const [isInitialized, setIsInitialized] = React.useState(false);
   const [containsLink, setContainsLink] = React.useState(true);
@@ -72,6 +90,7 @@ const GasCalcSection = () => {
   const [gasSaved, setGasSaved] = React.useState(0);
   const [l2UsdPrice, setL2UsdPrice] = React.useState(0);
   const [showHeading, setShowHeading] = React.useState(true);
+  const [congestionPercentage, setCongestionPercentage] = React.useState(0);
   const [screenSm, screenLg] = useMediaQuery([
     '(min-width: 768px)',
     '(min-width: 1200px)'
@@ -166,6 +185,10 @@ const GasCalcSection = () => {
     setContainsLink(containsLink);
   };
 
+  const handleCongestionChange = value => {
+    setCongestionPercentage(value);
+  };
+
   React.useEffect(() => {
     if (!isInitialized) {
       setIsInitialized(true);
@@ -228,15 +251,54 @@ const GasCalcSection = () => {
               );
             })}
           </Box>
+
           <Box>
             <Input
-              my={8}
+              mt={8}
+              mb={4}
               type="link"
               name="etherscan-link"
               placeholder="https://etherscan.io/tx/0x..."
               value={etherscanLink}
               onChange={handleChange}
             ></Input>
+            <Box>
+              <Text
+                mr={4}
+                id="slider-label"
+                d="flex"
+                justifyContent="space-between"
+              >
+                <Box>
+                  <Tooltip
+                    label="Increased network congestion on Optimism will result in higher gas fees"
+                    placement="top-end"
+                    bg="blue.100"
+                    color="gray.800"
+                  >
+                    <InfoOutlineIcon color="brandSecondary" mr={2} />
+                  </Tooltip>
+                  Congestion estimate:{' '}
+                </Box>
+                <Box fontWeight="bold !important">{congestionPercentage}%</Box>
+              </Text>
+              <Slider
+                aria-label="slider-ex-4"
+                defaultValue={30}
+                mb={8}
+                aria-labelledby="slider-label"
+                aria-valuetext={'Congestion percentage'}
+                onChange={handleCongestionChange}
+                value={congestionPercentage}
+              >
+                <SliderTrack bg="brandPrimary_halfOpacity">
+                  <SliderFilledTrack bg="brandPrimary" />
+                </SliderTrack>
+                <SliderThumb h="25px" w="25px">
+                  <Box as={Logo} />
+                </SliderThumb>
+              </Slider>
+            </Box>
             <Button
               padding="8px"
               color="white"
