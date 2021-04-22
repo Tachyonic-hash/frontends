@@ -121,6 +121,7 @@ const GasCalcSection = () => {
       }
 
       setIsCalculating(true);
+      console.log(optionLinks.includes(link));
       setShowHeading(optionLinks.includes(link));
 
       const provider = ethers.getDefaultProvider(
@@ -212,111 +213,134 @@ const GasCalcSection = () => {
         paddingTop="2rem"
         paddingBottom="2rem"
         px={screenSm ? '2rem' : '1rem'}
-        display="flex"
-        flexDirection={screenLg ? 'row' : 'column'}
-        pos="relative"
       >
-        <Image
-          pos="absolute"
-          w="80px"
-          top={'-50px'}
-          right={'-60px'}
-          transform="rotate(10deg)"
-          src={coloredEthLogo}
-          alt="Ethereum logo"
-        ></Image>
         <Box
-          w={screenLg ? '40%' : '100%'}
           display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
+          flexDirection={screenLg ? 'row' : 'column'}
+          pos="relative"
         >
+          <Image
+            pos="absolute"
+            w="80px"
+            top={'-50px'}
+            right={'-60px'}
+            transform="rotate(10deg)"
+            src={coloredEthLogo}
+            alt="Ethereum logo"
+          ></Image>
           <Box
-            className={styles.presets}
-            d="flex"
-            justifyContent="space-around"
+            w={screenLg ? '40%' : '100%'}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
           >
-            {Object.entries(options).map(([id, option]) => {
-              return (
-                <input
-                  key={option.name}
-                  type="image"
-                  alt={option.name}
-                  src={option.iconURL}
-                  onClick={() => handleInputOverride(id)}
-                  className={
-                    styles.button + ' ' + (id === txId ? styles.active : '')
-                  }
-                ></input>
-              );
-            })}
-          </Box>
-
-          <Box>
-            <Input
-              mt={8}
-              mb={4}
-              type="link"
-              name="etherscan-link"
-              placeholder="https://etherscan.io/tx/0x..."
-              value={etherscanLink}
-              onChange={handleChange}
-            ></Input>
-            <Button
-              padding="8px"
-              color="white"
-              background="#f01a37"
-              fontFamily="'Roboto'"
-              fontWeight="bold"
-              fontSize="17px"
-              letterSpacing="0.7px"
-              width="100%"
-              height="50px"
-              border="none"
-              margin="0 auto"
-              cursor="pointer"
-              _hover={{
-                bg: '#f01a37'
-              }}
-              onClick={handleFormSubmit}
+            <Box
+              className={styles.presets}
+              d="flex"
+              justifyContent="space-around"
+              height="100%"
+              alignItems="center"
             >
-              Calculate
-            </Button>
+              {Object.entries(options).map(([id, option]) => {
+                return (
+                  <input
+                    key={option.name}
+                    type="image"
+                    alt={option.name}
+                    src={option.iconURL}
+                    onClick={() => handleInputOverride(id)}
+                    className={
+                      styles.button + ' ' + (id === txId ? styles.active : '')
+                    }
+                  ></input>
+                );
+              })}
+            </Box>
+
+            <Box>
+              <Input
+                mt={8}
+                mb={4}
+                type="link"
+                name="etherscan-link"
+                placeholder="https://etherscan.io/tx/0x..."
+                value={etherscanLink}
+                onChange={handleChange}
+              ></Input>
+              <Button
+                padding="8px"
+                color="white"
+                background="#f01a37"
+                fontFamily="'Roboto'"
+                fontWeight="bold"
+                fontSize="17px"
+                letterSpacing="0.7px"
+                width="100%"
+                height="50px"
+                border="none"
+                margin="0 auto"
+                cursor="pointer"
+                _hover={{
+                  bg: '#f01a37'
+                }}
+                onClick={e => handleFormSubmit(e, etherscanLink)}
+              >
+                Calculate
+              </Button>
+            </Box>
+          </Box>
+          <Box
+            w={screenLg ? '60%' : '100%'}
+            ml={screenLg ? 16 : 0}
+            mt={screenLg ? 0 : 8}
+            d="flex"
+            flexDir="column"
+          >
+            <Divider display={'none'} />
+            {showHeading && (
+              <>
+                <Text my={0}>Example transaction:</Text>
+                <Heading mt={0} fontWeight="400" fontSize="1.8rem">
+                  {txId ? options[txId].desc : 'User transaction'}
+                </Heading>
+              </>
+            )}
+            {isCalculating ? (
+              <Center p={8}>
+                <Spinner w="100px" h="100px" />
+              </Center>
+            ) : (
+              <GasCalcResults
+                l1Gas={l1Gas}
+                l2Gas={l2Gas}
+                gasSaved={gasSaved}
+                l2UsdPrice={l2UsdPrice}
+              />
+            )}
           </Box>
         </Box>
-        <Box
-          w={screenLg ? '60%' : '100%'}
-          ml={screenLg ? 16 : 0}
-          mt={screenLg ? 0 : 8}
-          d="flex"
-          flexDir="column"
-        >
-          <Divider display={'none'} />
-          {showHeading && (
-            <>
-              <Text my={0}>Example transaction:</Text>
-              <Heading mt={0} fontWeight="400" fontSize="1.8rem">
-                {txId ? options[txId].desc : 'User transaction'}
-              </Heading>
-            </>
-          )}
-          {isCalculating ? (
-            <Center p={8}>
-              <Spinner w="100px" h="100px" />
-            </Center>
-          ) : (
-            <GasCalcResults
-              l1Gas={l1Gas}
-              l2Gas={l2Gas}
-              gasSaved={gasSaved}
-              l2UsdPrice={l2UsdPrice}
-            />
-          )}
+        <Divider mt={12} />
+        <Heading fontWeight="400" textAlign="center">
+          Optimism gas math
+        </Heading>
+        <Box d="flex" justifyContent="center" fontSize="1.2rem">
+          <code>
+            <Box as="span" color="pink.600">
+              const
+            </Box>{' '}
+            <Box as="span" color="purple.600">
+              l2GasFee
+            </Box>{' '}
+            = l1GasPrice * (4 * zeroDataBytes + 16 * nonZeroDataBytes +
+            nonCallDataL1GasOverhead) + (executionPrice * gasUsed)
+          </code>
         </Box>
       </Box>
     </Box>
   );
 };
+
+// l2GasUsed = (4 * zeroDataBytes + 16 * nonZeroDataBytes + nonCallDataL1GasOverhead)
 
 const GasCalcResults = props => (
   <div className={styles.flexContainer}>
@@ -331,18 +355,10 @@ const GasCalcResults = props => (
       </div>
     </div>
     <div className={styles.flexOutputDelta}>
-      <Tooltip
-        label="Increased network congestion on Optimism will also have an impact on the final gas fee, but this value will"
-        placement="top-end"
-        bg="white"
-        color="gray.800"
-        fontSize="1.2rem"
-      >
-        <div className={styles.usd}>
-          Fee on Optimism: ${props.l2UsdPrice}
-          <InfoOutlineIcon color="brandSecondary" ml={2} />
-        </div>
-      </Tooltip>
+      <div className={styles.usd}>
+        Fee on Optimism: ${props.l2UsdPrice}
+        {/* <InfoOutlineIcon color="brandSecondary" ml={2} /> */}
+      </div>
       <div className={styles.result}>{props.gasSaved + 'x'}</div>
       <div className={styles.description}>Savings with Optimism</div>
     </div>
