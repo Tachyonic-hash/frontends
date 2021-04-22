@@ -262,43 +262,6 @@ const GasCalcSection = () => {
               value={etherscanLink}
               onChange={handleChange}
             ></Input>
-            <Box>
-              <Text
-                mr={4}
-                id="slider-label"
-                d="flex"
-                justifyContent="space-between"
-              >
-                <Box>
-                  <Tooltip
-                    label="Increased network congestion on Optimism will result in higher gas fees"
-                    placement="top-end"
-                    bg="blue.100"
-                    color="gray.800"
-                  >
-                    <InfoOutlineIcon color="brandSecondary" mr={2} />
-                  </Tooltip>
-                  Congestion estimate:{' '}
-                </Box>
-                <Box fontWeight="bold !important">{congestionPercentage}%</Box>
-              </Text>
-              <Slider
-                aria-label="slider-ex-4"
-                defaultValue={30}
-                mb={8}
-                aria-labelledby="slider-label"
-                aria-valuetext={'Congestion percentage'}
-                onChange={handleCongestionChange}
-                value={congestionPercentage}
-              >
-                <SliderTrack bg="brandPrimary_halfOpacity">
-                  <SliderFilledTrack bg="brandPrimary" />
-                </SliderTrack>
-                <SliderThumb h="25px" w="25px">
-                  <Box as={Logo} />
-                </SliderThumb>
-              </Slider>
-            </Box>
             <Button
               padding="8px"
               color="white"
@@ -368,7 +331,18 @@ const GasCalcResults = props => (
       </div>
     </div>
     <div className={styles.flexOutputDelta}>
-      <div className={styles.usd}>Fee on Optimism: ${props.l2UsdPrice}</div>
+      <Tooltip
+        label="Increased network congestion on Optimism will also have an impact on the final gas fee, but this value will"
+        placement="top-end"
+        bg="white"
+        color="gray.800"
+        fontSize="1.2rem"
+      >
+        <div className={styles.usd}>
+          Fee on Optimism: ${props.l2UsdPrice}
+          <InfoOutlineIcon color="brandSecondary" ml={2} />
+        </div>
+      </Tooltip>
       <div className={styles.result}>{props.gasSaved + 'x'}</div>
       <div className={styles.description}>Savings with Optimism</div>
     </div>
