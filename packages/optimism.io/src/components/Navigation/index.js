@@ -145,7 +145,7 @@ function Navigation() {
       <Logo color="brandPrimary" />
       <Box as="nav" d={['none', null, null, 'flex']}>
         {navCategories.map((col, idx) => (
-          <Popover key={idx} trigger="hover" matchWidth={true}>
+          <Popover key={idx} trigger="hover" variant="responsive">
             <PopoverTrigger>
               <Heading
                 tabIndex="0"
