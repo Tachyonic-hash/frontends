@@ -117,9 +117,6 @@ function App() {
           openModal={handleOpenModal}
         />
         <Switch>
-          <Route exact={true} path="/">
-            <ETHGateway />
-          </Route>
           <Route path="/txs/:address">
             <TxHistory />
           </Route>
@@ -128,6 +125,9 @@ function App() {
           </Route>
           <Route exact={true} path="/admin">
             <TxHistory isAdmin={true} />
+          </Route>
+          <Route path="/">
+            <ETHGateway />
           </Route>
         </Switch>
       </Container>
