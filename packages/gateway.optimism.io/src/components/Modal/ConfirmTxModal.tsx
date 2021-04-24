@@ -6,7 +6,7 @@ import DisclaimerContent from '../DisclaimerContent';
 import ModalTxTable from './ModalTxTable';
 import AppContext from '../../context';
 import OptimismButton from '../OptimismButton';
-import { formatUSD, formatNumber, getRpcProviders } from '../../helpers';
+import { formatUSD, formatNumber, getRpcProviders, Sentry } from '../../utils/helpers';
 
 const RELAY_WITHDRAWAL_GAS_COST = 600_000;
 
@@ -42,6 +42,7 @@ function ConfirmTxModal({ type }: { type: string }) {
         setL2GasFee(fee);
       } catch (err) {
         console.error(err);
+        Sentry.captureEvent(err);
       }
     })();
   }, [connectedChainId, contracts, inputValue, type, userAddress]);

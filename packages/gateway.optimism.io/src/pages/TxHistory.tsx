@@ -25,8 +25,8 @@ import {
   TxDirectionType,
   tokens,
   THE_GRAPH_MAX_INTEGER,
-} from '../constants';
-import { shortenAddress, decodeSentMessage } from '../helpers';
+} from '../utils/constants';
+import { shortenAddress, decodeSentMessage } from '../utils/helpers';
 
 type TxHistoryProps = { isAdmin?: boolean };
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Center, Heading, Text, Box } from '@chakra-ui/react';
 import Container from '../Container';
-import { images } from '../../constants';
+import { images } from '../../utils/constants';
 class Hero extends Component {
   render() {
     return (

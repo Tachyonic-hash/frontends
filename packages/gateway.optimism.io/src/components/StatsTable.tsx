@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Spinner, Table, Thead, Tbody, Td, Tr, Th, Image, Heading } from '@chakra-ui/react';
-import { formatUSD, formatNumber } from '../helpers';
-import { tokens } from '../constants';
+import { formatUSD, formatNumber } from '../utils/helpers';
+import { tokens } from '../utils/constants';
 import AppContext from '../context';
 
 type Props = {

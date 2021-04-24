@@ -5,7 +5,7 @@ import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
 import clients from './graphql/clients';
 import './index.css';
-import { colors } from './constants';
+import { colors } from './utils/constants';
 import App from './App';
 
 const theme = extendTheme({

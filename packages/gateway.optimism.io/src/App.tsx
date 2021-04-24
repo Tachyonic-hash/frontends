@@ -8,7 +8,8 @@ import Footer from './components/Footer';
 import Modal, { modalTypes } from './components/Modal';
 import useWallet from './hooks/useWallet';
 import AppContext from './context';
-import { tokens } from './constants';
+import { tokens } from './utils/constants';
+import { Sentry } from './utils/helpers';
 
 function App() {
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
@@ -66,7 +67,10 @@ function App() {
           }
           setPrices(priceObject);
         })
-        .catch(console.error);
+        .catch(err => {
+          console.error(err);
+          Sentry.captureException(err);
+        });
     };
     getPrices();
     const intervalId = window.setInterval(getPrices, 10000);

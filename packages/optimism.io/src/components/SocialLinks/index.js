@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, HStack, Box } from '@chakra-ui/react';
-import { navItems } from '../../constants';
+import { navItems } from '../../utils/constants';
 
-const socialLinkItems = navItems.filter((item) =>
+const socialLinkItems = navItems.filter(item =>
   item.categories.includes('social')
 );
 
@@ -99,7 +99,7 @@ function Icon({ name, className, size }) {
 function SocialLinks({ size, spacing, ...rest }) {
   return (
     <HStack spacing={spacing || 4} {...rest}>
-      {socialLinkItems.map((item) => (
+      {socialLinkItems.map(item => (
         <Link
           href={item.url}
           key={item.url}

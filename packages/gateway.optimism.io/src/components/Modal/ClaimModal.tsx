@@ -3,7 +3,7 @@ import { Heading, Box, Text } from '@chakra-ui/react';
 import OptimismButton from '../OptimismButton';
 import ModalTxTable from './ModalTxTable';
 import AppContext from '../../context';
-import { chainIds } from '../../constants';
+import { chainIds } from '../../utils/constants';
 
 function ClaimModal() {
   const { handleClaimWithdrawal, connectedChainId } = React.useContext(AppContext);

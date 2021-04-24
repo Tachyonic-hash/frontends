@@ -8,8 +8,8 @@ import { abis } from '../contracts';
 import useToast from './useToast';
 import usePendingTxHash from '../hooks/usePendingTxHash';
 import { modalTypes } from '../components/Modal';
-import { chainIdLayerMap, chainIds } from '../constants';
-import { formatNumber, getRpcProviders, getAddresses } from '../helpers';
+import { chainIdLayerMap, chainIds } from '../utils/constants';
+import { formatNumber, getRpcProviders, getAddresses, Sentry } from '../utils/helpers';
 
 type UseWalletProps = {
   isModalOpen: boolean;
@@ -61,6 +61,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
       if (!(window as any).ethereum) {
         const message = 'Metamask not found. Please install it before continuing. More wallet support coming soon.';
         showErrorToast(message);
+        Sentry.captureEvent(Error(message));
         console.error(message);
       }
 
@@ -78,6 +79,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
             if (error.message.includes("Request of type 'wallet_requestPermissions'")) {
               showErrorToast('Please approve connection in Metamask');
             }
+            Sentry.captureEvent(error);
             console.error(error);
           }
         }
@@ -154,6 +156,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
               .
             </>
           );
+          Sentry.captureEvent(err);
           return;
         }
       }
@@ -168,6 +171,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           setContracts(contracts);
         }
       } catch (err) {
+        Sentry.captureEvent(err);
         console.error(err);
       }
       setConnectedChainId(chainId);
@@ -182,7 +186,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
 
   const handleDeposit = async () => {
     if (!walletProvider || !contracts || !notify || !openModal || !closeModal) return;
-    console.log('inputValue', inputValue);
     if (Number(inputValue) <= 0) {
       showInfoToast('Please enter a deposit amount greater than zero. 😉');
       return;
@@ -212,6 +215,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
         });
       } catch (err) {
         console.error(err);
+        Sentry.captureEvent(err);
         showErrorToast(err.message);
       }
     }
@@ -236,21 +240,13 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           setPendingTxHash(receipt.hash);
           setBalance(2);
         }
-        // TODO: test this after Blocknative adds our chain Id
-        // const { emitter } = notify.hash(receipt.hash);
-        // emitter.on('all', (data: any) => {
-        //   if (data.status === 'confirmed') {
-        //     setPendingTxHash(false);
-        //     notify.unsubscribe(receipt.hash);
-        //     return {
-        //      autoDismiss: 10000
-        //    }
-        //   }
-        // });
+        // TODO: set up etherscan to poll for pending transactions & update the balance if it changes
+
         setInputValue('0');
         openModal(modalTypes.WITHDRAWAL_PENDING);
       } catch (err) {
         console.error(err);
+        Sentry.captureEvent(err);
         showErrorToast(err.message);
       }
     }
@@ -292,7 +288,6 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
             // const newChainId = parseInt(chainIdHex, 10);
             // if (newChainId !== connectedChainId) {
             setIsConnecting(true);
-            console.log('calling from on.chainChanged');
             await connectToLayer();
             setIsConnecting(false);
             // }
@@ -305,14 +300,17 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
               setIsConnecting(true);
               await connectToLayer();
               setIsConnecting(false);
-            } catch (error) {
-              console.error(error);
+            } catch (err) {
+              Sentry.captureEvent(err);
+              console.error(err);
             }
           }
           setIsInitialized(true);
         } else {
-          showErrorToast('Metamask not found.');
-          console.error('No injected web3 found');
+          const message = 'Metamask not found.';
+          showErrorToast(message);
+          console.error(message);
+          Sentry.captureEvent(Error(message));
         }
       }
     })();
@@ -329,6 +327,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
           setBalance(2); // layer 2
         } catch (err) {
           console.error(err);
+          Sentry.captureEvent(err);
           showErrorToast();
         }
       }
@@ -419,7 +418,7 @@ function useWallet({ isModalOpen, openModal, closeModal }: UseWalletProps) {
     balancesLoading,
     l1Balance,
     l2Balance,
-    txPending: !!pendingTxHash,
+    txPending: false, // TODO: replace pendingTxHash with etherscan api
     setInputValue,
     handleDisconnect,
     handleClaimWithdrawal,

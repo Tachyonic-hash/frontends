@@ -22,7 +22,7 @@ import {
 import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
 // import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { navCategories } from '../../constants';
+import { navCategories } from '../../utils/constants';
 import Container from '../Container';
 import SocialLinks from '../SocialLinks';
 

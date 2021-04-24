@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box, Image } from '@chakra-ui/react';
 import Container from '../../components/Container';
 import { SectionHeader } from '../../components/Headers';
-import { images } from '../../constants';
+import { images } from '../../utils/constants';
 class Philosophy extends Component {
   render() {
     return (

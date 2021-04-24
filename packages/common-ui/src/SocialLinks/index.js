@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, HStack, Box } from '@chakra-ui/react';
-import { navItems } from '../constants';
+import { navItems } from '../utils/constants';
 
 const socialLinkItems = navItems.filter(item => item.categories.includes('social'));
 

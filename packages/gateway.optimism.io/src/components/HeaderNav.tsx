@@ -18,10 +18,10 @@ import {
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { HamburgerSpin } from 'react-animated-burgers';
-import { chainIds } from '../constants';
+import { chainIds } from '../utils/constants';
 import { modalTypes } from './Modal';
 import NavItems from '../components/NavItems';
-import { shortenAddress } from '../helpers';
+import { shortenAddress } from '../utils/helpers';
 import AppContext from '../context';
 
 const Title = () => (

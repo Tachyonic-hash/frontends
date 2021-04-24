@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Box, Spinner } from '@chakra-ui/react';
 import AppContext from '../../context';
-import { formatUSD, formatNumber } from '../../helpers';
+import { formatUSD, formatNumber } from '../../utils/helpers';
 
 function ModalTxTable({ l2GasFee, type }: { l2GasFee?: string; type?: string }) {
   const { inputValue, prices } = React.useContext(AppContext);

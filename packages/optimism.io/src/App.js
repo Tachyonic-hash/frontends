@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound';
 import Demos from './pages/Demos';
 import SNXHistory from './pages/SNXHistory';
 import NetworkStatus from './pages/NetworkStatus';
-import { images } from './constants';
+import { images } from './utils/constants';
 
 function App() {
   React.useEffect(() => {

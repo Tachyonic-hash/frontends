@@ -1,8 +1,23 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { abis } from './contracts';
+import { abis } from '../contracts';
 import { chainIds, l1ETHGatewayAddress } from './constants';
-import { tokens as tokenList } from './tokenLists/optimism.tokenlist.json';
+import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
+import * as SentryInit from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+
+const SENTRY_PUB_KEY =
+  process.env.NODE_ENV !== 'development'
+    ? 'da14b9ab9c224eb09cb6c26f19accb15@o568345'
+    : 'da14b9ab9c224eb09cb6c26f19accb15@o000000'; // dummy api key used locally so errors aren't sent to Sentry during development
+
+SentryInit.init({
+  dsn: `https://${SENTRY_PUB_KEY}.ingest.sentry.io/5733986`,
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
+
+export const Sentry = SentryInit;
 
 const xDomainInterface = new ethers.utils.Interface(abis.xDomainMessenger);
 

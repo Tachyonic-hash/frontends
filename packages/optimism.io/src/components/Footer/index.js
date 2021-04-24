@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box, Link, SimpleGrid, VStack, Heading } from '@chakra-ui/react';
 import Container from '../Container';
 import { Link as ReactLink } from 'react-router-dom';
-import { navCategories } from '../../constants';
+import { navCategories } from '../../utils/constants';
 import SocialLinks from '../SocialLinks';
 class Footer extends Component {
   render() {
@@ -14,7 +14,7 @@ class Footer extends Component {
               'repeat(2, 1fr)',
               'repeat(2, minmax(max-content,100%))',
               null,
-              'repeat(4, minmax(max-content,100%))',
+              'repeat(4, minmax(max-content,100%))'
             ]}
             spacingX={[4, 8, 16]}
             spacingY={8}
@@ -24,7 +24,7 @@ class Footer extends Component {
                 <Heading as="h3" color="white" fontSize="xl">
                   {col.heading}
                 </Heading>
-                {col.items.map((item) =>
+                {col.items.map(item =>
                   item.internal ? (
                     <Link
                       key={item.url}

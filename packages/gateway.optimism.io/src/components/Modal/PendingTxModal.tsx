@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading, Text, Box, Link } from '@chakra-ui/react';
 import AppContext from '../../context';
-import { chainIds } from '../../constants';
+import { chainIds } from '../../utils/constants';
 import OptimismButton from '../OptimismButton';
 
 function PendingTxModal({ type }: { type: string }) {

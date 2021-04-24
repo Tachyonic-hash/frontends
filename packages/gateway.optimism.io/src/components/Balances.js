@@ -20,7 +20,7 @@ import {
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import OptimismButton from './OptimismButton';
 import { ArrowDownIcon } from '@chakra-ui/icons';
-import { chainIdLayerMap, chainIds } from '../constants';
+import { chainIdLayerMap, chainIds } from '../utils/constants';
 import { modalTypes } from './Modal';
 import AppContext from '../context';
 

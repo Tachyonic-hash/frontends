@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import { colors } from '../constants';
+import { colors } from '../utils/constants';
 
 function Pulse(props) {
   return (

@@ -24,8 +24,8 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 import DateTime from 'luxon/src/datetime.js';
 import Interval from 'luxon/src/interval.js';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { formatNumber, formatUSD, shortenAddress } from '../helpers';
-import { txDirection, chainIds, TxDirectionType, THE_GRAPH_MAX_INTEGER, FETCH_LIMIT } from '../constants';
+import { formatNumber, formatUSD, shortenAddress } from '../utils/helpers';
+import { txDirection, chainIds, TxDirectionType, THE_GRAPH_MAX_INTEGER, FETCH_LIMIT } from '../utils/constants';
 import { modalTypes } from './Modal';
 import AppContext from '../context';
 
