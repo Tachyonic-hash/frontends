@@ -11,11 +11,12 @@ import {
   Divider,
   useToast,
   useMediaQuery,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Tooltip
+  Tooltip,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import styles from './GasCalc.module.css';
@@ -124,38 +125,42 @@ const GasCalcSection = () => {
       console.log(optionLinks.includes(link));
       setShowHeading(optionLinks.includes(link));
 
-      const provider = ethers.getDefaultProvider(
-        `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
-      );
-      const txHash = txLink.substr(txLink.indexOf('0x'));
-      const txReceipt = await provider.getTransactionReceipt(txHash);
-      const txData = await provider.getTransaction(txHash);
-      const no0x = txData.data.substr(2);
-      let zeroBytes = 0;
-      let dataBytes = 0;
-      for (let j = 0; j < no0x.length; j += 2) {
-        const curByte = no0x.substr(j, 2);
-        if (curByte === 0) {
-          zeroBytes++;
-        } else {
-          dataBytes++;
+      try {
+        const provider = new ethers.providers.JsonRpcProvider(
+          `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
+        );
+        const txHash = txLink.substr(txLink.indexOf('0x'));
+        const txReceipt = await provider.getTransactionReceipt(txHash);
+        const txData = await provider.getTransaction(txHash);
+        const no0x = txData.data.substr(2);
+        let zeroBytes = 0;
+        let dataBytes = 0;
+        for (let j = 0; j < no0x.length; j += 2) {
+          const curByte = no0x.substr(j, 2);
+          if (curByte === 0) {
+            zeroBytes++;
+          } else {
+            dataBytes++;
+          }
         }
+        dataBytes += 32; // 32 byte state root
+        const l2Gas =
+          zeroBytes * 4 +
+          dataBytes * 16 +
+          2000 + //20k SSTORE for a batch of 10 transctions
+          2000; //20k SSTORE for a batch of 10 state roots
+        const gasSaved = (txReceipt.gasUsed.toNumber() / l2Gas).toFixed(1);
+        const l1Fee = await feeInUSD(txData.gasPrice, txReceipt.gasUsed);
+        setL2UsdPrice((l1Fee / gasSaved).toFixed(2));
+        setIsCalculating(false);
+        setL1Gas(
+          txReceipt.gasUsed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        );
+        setL2Gas(l2Gas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+        setGasSaved(gasSaved);
+      } catch (err) {
+        console.error(err);
       }
-      dataBytes += 32; // 32 byte state root
-      const l2Gas =
-        zeroBytes * 4 +
-        dataBytes * 16 +
-        2000 + //20k SSTORE for a batch of 10 transctions
-        2000; //20k SSTORE for a batch of 10 state roots
-      const gasSaved = (txReceipt.gasUsed.toNumber() / l2Gas).toFixed(1);
-      const l1Fee = await feeInUSD(txData.gasPrice, txReceipt.gasUsed);
-      setL2UsdPrice((l1Fee / gasSaved).toFixed(2));
-      setIsCalculating(false);
-      setL1Gas(
-        txReceipt.gasUsed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      );
-      setL2Gas(l2Gas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-      setGasSaved(gasSaved);
     },
     [containsLink, etherscanLink, toast]
   );
@@ -215,6 +220,7 @@ const GasCalcSection = () => {
         px={screenSm ? '2rem' : '1rem'}
       >
         <Box
+          py={4}
           display="flex"
           flexDirection={screenLg ? 'row' : 'column'}
           pos="relative"
@@ -319,22 +325,65 @@ const GasCalcSection = () => {
             )}
           </Box>
         </Box>
-        <Divider mt={12} />
-        <Heading fontWeight="400" textAlign="center">
-          Optimism gas math
-        </Heading>
-        <Box d="flex" justifyContent="center" fontSize="1.2rem">
-          <code>
-            <Box as="span" color="pink.600">
-              const
-            </Box>{' '}
-            <Box as="span" color="purple.600">
-              l2GasFee
-            </Box>{' '}
-            = l1GasPrice * (4 * zeroDataBytes + 16 * nonZeroDataBytes +
-            nonCallDataL1GasOverhead) + (executionPrice * gasUsed)
-          </code>
-        </Box>
+        <Accordion allowToggle>
+          <AccordionItem>
+            {({ isExpanded }) => (
+              <>
+                {' '}
+                <AccordionButton
+                  background="transparent"
+                  border="none"
+                  mt={2}
+                  w="auto"
+                  cursor="pointer"
+                  _hover={{ background: 'transparent' }}
+                  px={0}
+                >
+                  <Box
+                    d="flex"
+                    alignItems="center"
+                    textAlign="center"
+                    as="span"
+                    mr={2}
+                    color="#f01a37"
+                  >
+                    {isExpanded ? 'Hide' : 'Show'} calculation
+                    <AccordionIcon />
+                  </Box>
+                </AccordionButton>
+                <AccordionPanel p={0}>
+                  <Box
+                    d="flex"
+                    justifyContent="center"
+                    as="code"
+                    bg="#f4f4f4"
+                    borderRadius="10px"
+                  >
+                    <Box p={8} lineHeight="1.7" fontSize="1rem">
+                      <Box as="span" color="pink.600">
+                        const&nbsp;
+                      </Box>
+                      <Box as="span" color="purple.600">
+                        l2GasFee&nbsp;
+                      </Box>
+                      <Box as="span" color="pink.600">
+                        =&nbsp;
+                      </Box>
+                      <Box as="span" color="purple.600">
+                        l1GasPrice
+                      </Box>
+                      <Box ml={8}>
+                        * (4 * zeroDataBytes + 16 * nonZeroDataBytes +
+                        nonCallDataL1GasOverhead)
+                      </Box>
+                      <Box ml={8}>+ (executionPrice * gasUsed)</Box>
+                    </Box>
+                  </Box>
+                </AccordionPanel>
+              </>
+            )}
+          </AccordionItem>
+        </Accordion>
       </Box>
     </Box>
   );
