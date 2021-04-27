@@ -15,7 +15,7 @@ import DateTime from 'luxon/src/datetime.js';
 import { tokens as tokenList } from '../tokenLists/optimism.tokenlist.json';
 import useGraphQueries from '../hooks/useGraphQueries';
 import usePrevious from '../hooks/usePrevious';
-import { abis } from '../contracts';
+import { abis } from '@optimism/common-ui/src/contracts';
 import { GET_ALL_SENT_MSGS, GET_SENT_MSGS_BY_ADDRESS, GET_RELAYED_MSGS_BY_HASH_LIST } from '../graphql/subgraph';
 import {
   chainIds,

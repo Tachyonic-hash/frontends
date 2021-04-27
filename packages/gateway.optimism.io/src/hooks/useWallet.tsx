@@ -4,7 +4,7 @@ import { Link, useColorMode, Text } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import Notify, { API } from 'bnc-notify';
 import { Contract } from '@ethersproject/contracts';
-import { abis } from '../contracts';
+import { abis } from '@optimism/common-ui/src/contracts';
 import useToast from './useToast';
 import { modalTypes } from '../components/Modal';
 import { chainIdLayerMap, chainIds } from '../constants';

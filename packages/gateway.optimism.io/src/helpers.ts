@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { abis } from './contracts';
+import { abis } from '@optimism/common-ui/src/contracts';
 import { chainIds, l1ETHGatewayAddress } from './constants';
 import { tokens as tokenList } from './tokenLists/optimism.tokenlist.json';
 
