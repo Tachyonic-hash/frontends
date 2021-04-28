@@ -95,9 +95,9 @@ svg:hover .rainbowFill {
 }
 
 // Popover component
-.css-n0uled {
-  width: auto !important;
-  max-width: 240px !important;
+.chakra-popover__content {
+  width: unset !important;
+  max-width: unset !important;
 }
 
 // Demos page

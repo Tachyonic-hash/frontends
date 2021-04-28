@@ -21,8 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerSpin } from 'react-animated-burgers';
 import { Link as ReactLink } from 'react-router-dom';
-// import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { navCategories } from '../../constants';
+import { navCategories } from '@optimism/common-ui';
 import Container from '../Container';
 import SocialLinks from '../SocialLinks';
 
@@ -39,10 +38,9 @@ function Navigation() {
   };
 
   const NavLink = ({ item, ...rest }) =>
-    item.internal ? (
+    !item.isExternal ? (
       <Link
-        as={ReactLink}
-        to={item.url}
+        href={item.url}
         fontSize={['xl']}
         mb={2}
         onClick={onClose}
@@ -125,9 +123,12 @@ function Navigation() {
                     >
                       {category.heading}
                     </Heading>
-                    {category.items.map(item => (
-                      <NavLink key={item.url} item={item} />
-                    ))}
+                    {category.items.map(
+                      item =>
+                        !item.footerOnly && (
+                          <NavLink key={item.url} item={item} />
+                        )
+                    )}
                   </Stack>
                 ))}
               </Box>
@@ -168,9 +169,10 @@ function Navigation() {
               <PopoverContent p={2} mx="auto">
                 <PopoverArrow />
                 <PopoverBody d="flex" flexDir="column">
-                  {col.items.map(item => (
-                    <NavLink key={item.url} item={item} />
-                  ))}
+                  {col.items.map(
+                    item =>
+                      !item.footerOnly && <NavLink key={item.url} item={item} />
+                  )}
                 </PopoverBody>
               </PopoverContent>
             </Portal>

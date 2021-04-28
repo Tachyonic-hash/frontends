@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box, Link, SimpleGrid, VStack, Heading } from '@chakra-ui/react';
 import Container from '../Container';
 import { Link as ReactLink } from 'react-router-dom';
-import { navCategories } from '../../constants';
+import { navCategories } from '@optimism/common-ui';
 import SocialLinks from '../SocialLinks';
 class Footer extends Component {
   render() {
@@ -27,14 +27,14 @@ class Footer extends Component {
                   {col.heading}
                 </Heading>
                 {col.items.map(item =>
-                  item.internal ? (
+                  item.isExternal ? (
                     <Link
                       key={item.url}
-                      as={ReactLink}
-                      to={item.url}
+                      href={item.url}
                       fontSize={['md', 'lg']}
                       mb={1}
                       color="white"
+                      isExternal
                     >
                       {item.name}
                     </Link>
@@ -45,8 +45,6 @@ class Footer extends Component {
                       fontSize={['md', 'lg']}
                       mb={1}
                       color="white"
-                      target="_blank"
-                      rel="noopenner noreferrer"
                     >
                       {item.name}
                     </Link>

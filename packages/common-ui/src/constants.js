@@ -2,7 +2,6 @@ export const navItems = [
   {
     name: 'Demos',
     url: 'https://optimism.io/demos',
-    internal: true,
     categories: ['about'],
     headerNav: true,
   },
@@ -41,6 +40,12 @@ export const navItems = [
     url: 'https://angel.co/company/optimism-pbc/jobs',
     categories: ['about'],
     isExternal: true,
+  },
+  {
+    name: 'System Status',
+    url: 'https://optimism.io/status',
+    categories: ['about'],
+    footerOnly: true,
   },
   {
     name: 'Twitter',

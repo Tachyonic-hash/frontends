@@ -254,7 +254,7 @@ function NetworkStatus() {
 
   return (
     <Container>
-      <PageHeader mb={16}>Network Status</PageHeader>
+      <PageHeader mb={16}>System Status</PageHeader>
       <Box>
         <Stack
           spacing={smallScreen ? 8 : 24}
