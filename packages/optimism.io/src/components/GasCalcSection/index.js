@@ -16,13 +16,15 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  AccordionIcon
+  AccordionIcon,
+  SimpleGrid
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import styles from './GasCalc.module.css';
 import { ethers } from 'ethers';
 import axios from 'axios';
 import coloredEthLogo from './coloredEthLogo.svg';
+import Formula from './Formula';
 
 const options = {
   chainlink: {
@@ -202,6 +204,10 @@ const GasCalcSection = () => {
     }
   }, [handleFormSubmit, isInitialized]);
 
+  const codeString = `const l2GasFee = l1GasPrice
+  * (4 * zeroDataBytes + 16 * nonZeroDataBytes + nonCallDataL1GasOverhead)
+  + (executionPrice * gasUsed)`;
+
   return (
     <Box m="0 auto" maxW={screenLg ? 'none' : '700px'}>
       <Box mb={8}>
@@ -235,7 +241,7 @@ const GasCalcSection = () => {
             alt="Ethereum logo"
           ></Image>
           <Box
-            w={screenLg ? '40%' : '100%'}
+            w={screenLg ? '45%' : '100%'}
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
@@ -296,8 +302,8 @@ const GasCalcSection = () => {
             </Box>
           </Box>
           <Box
-            w={screenLg ? '60%' : '100%'}
-            ml={screenLg ? 16 : 0}
+            w={screenLg ? '65%' : '100%'}
+            ml={screenLg ? 12 : 0}
             mt={screenLg ? 0 : 8}
             d="flex"
             flexDir="column"
@@ -327,69 +333,53 @@ const GasCalcSection = () => {
         </Box>
         <Accordion allowToggle>
           <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                {' '}
-                <AccordionButton
-                  background="transparent"
-                  border="none"
-                  mt={2}
-                  w="auto"
-                  cursor="pointer"
-                  _hover={{ background: 'transparent' }}
-                  px={0}
-                >
-                  <Box
-                    d="flex"
-                    alignItems="center"
-                    textAlign="center"
-                    as="span"
-                    mr={2}
-                    color="#f01a37"
-                  >
-                    {isExpanded ? 'Hide' : 'Show'} calculation
-                    <AccordionIcon />
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel p={0}>
-                  <Box
-                    d="flex"
-                    justifyContent="center"
-                    as="code"
-                    bg="#f4f4f4"
-                    borderRadius="10px"
-                  >
-                    <Box p={8} lineHeight="1.7" fontSize="1rem">
-                      <Box as="span" color="pink.600">
-                        const&nbsp;
-                      </Box>
-                      <Box as="span" color="purple.600">
-                        l2GasFee&nbsp;
-                      </Box>
-                      <Box as="span" color="pink.600">
-                        =&nbsp;
-                      </Box>
-                      <Box as="span" color="purple.600">
-                        l1GasPrice
-                      </Box>
-                      <Box ml={8}>
-                        * (4 * zeroDataBytes + 16 * nonZeroDataBytes +
-                        nonCallDataL1GasOverhead)
-                      </Box>
-                      <Box ml={8}>+ (executionPrice * gasUsed)</Box>
-                    </Box>
-                  </Box>
-                </AccordionPanel>
-              </>
-            )}
+            <AccordionButton
+              background="transparent"
+              border="none"
+              mt={2}
+              w="auto"
+              cursor="pointer"
+              _hover={{ background: 'transparent' }}
+              px={0}
+            >
+              <Box
+                d="flex"
+                alignItems="center"
+                textAlign="center"
+                as="span"
+                mr={2}
+                color="#f01a37"
+              >
+                Calculation details
+                <AccordionIcon />
+              </Box>
+            </AccordionButton>
+            <AccordionPanel px={0} pt={4} lineHeight="1.7" fontSize="0.9rem">
+              <SimpleGrid
+                columns={screenLg ? 2 : 1}
+                spacing={8}
+                gridTemplateColumns="45fr 65fr"
+              >
+                <Box>
+                  <Heading fontWeight="300" size="md">
+                    Formula
+                  </Heading>
+                  <Formula />
+                </Box>
+                <Box>
+                  <Heading fontWeight="300" size="md">
+                    {txId ? options[txId].desc : 'User transaction'}
+                  </Heading>
+                  <Formula />
+                </Box>
+              </SimpleGrid>
+            </AccordionPanel>
           </AccordionItem>
         </Accordion>
       </Box>
     </Box>
   );
 };
-
-// l2GasUsed = (4 * zeroDataBytes + 16 * nonZeroDataBytes + nonCallDataL1GasOverhead)
 
 const GasCalcResults = props => (
   <div className={styles.flexContainer}>
