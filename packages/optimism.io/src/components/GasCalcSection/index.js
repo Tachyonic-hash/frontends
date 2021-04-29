@@ -11,7 +11,6 @@ import {
   Divider,
   useToast,
   useMediaQuery,
-  Tooltip,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -25,6 +24,7 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 import coloredEthLogo from './coloredEthLogo.svg';
 import Formula from './Formula';
+import GasCalcResults from './GasCalcResults';
 
 const options = {
   chainlink: {
@@ -90,6 +90,8 @@ const GasCalcSection = () => {
   const [isCalculating, setIsCalculating] = React.useState(true);
   const [l1Gas, setL1Gas] = React.useState(0);
   const [l2Gas, setL2Gas] = React.useState(0);
+  const [zeroBytes, setZeroBytes] = React.useState(0);
+  const [dataBytes, setDataBytes] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
   const [l2UsdPrice, setL2UsdPrice] = React.useState(0);
   const [showHeading, setShowHeading] = React.useState(true);
@@ -131,12 +133,14 @@ const GasCalcSection = () => {
         const provider = new ethers.providers.JsonRpcProvider(
           `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
         );
+
         const txHash = txLink.substr(txLink.indexOf('0x'));
         const txReceipt = await provider.getTransactionReceipt(txHash);
         const txData = await provider.getTransaction(txHash);
         const no0x = txData.data.substr(2);
         let zeroBytes = 0;
         let dataBytes = 0;
+        console.log(no0x);
         for (let j = 0; j < no0x.length; j += 2) {
           const curByte = no0x.substr(j, 2);
           if (curByte === 0) {
@@ -146,11 +150,9 @@ const GasCalcSection = () => {
           }
         }
         dataBytes += 32; // 32 byte state root
-        const l2Gas =
-          zeroBytes * 4 +
-          dataBytes * 16 +
-          2000 + //20k SSTORE for a batch of 10 transctions
-          2000; //20k SSTORE for a batch of 10 state roots
+        setZeroBytes(zeroBytes);
+        setDataBytes(dataBytes);
+        const l2Gas = zeroBytes * 4 + dataBytes * 16 + 2661; // batch submission computational overhead (assuming 200tx per batch)
         const gasSaved = (txReceipt.gasUsed.toNumber() / l2Gas).toFixed(1);
         const l1Fee = await feeInUSD(txData.gasPrice, txReceipt.gasUsed);
         setL2UsdPrice((l1Fee / gasSaved).toFixed(2));
@@ -204,12 +206,8 @@ const GasCalcSection = () => {
     }
   }, [handleFormSubmit, isInitialized]);
 
-  const codeString = `const l2GasFee = l1GasPrice
-  * (4 * zeroDataBytes + 16 * nonZeroDataBytes + nonCallDataL1GasOverhead)
-  + (executionPrice * gasUsed)`;
-
   return (
-    <Box m="0 auto" maxW={screenLg ? 'none' : '700px'}>
+    <Box m="0 auto" maxW={['none', '600px', null, 'none']}>
       <Box mb={8}>
         <Heading fontSize="1.4rem" fontWeight={400}>
           How much can Optimistic Ethereum reduce your gas pain?
@@ -223,12 +221,12 @@ const GasCalcSection = () => {
         boxShadow="-8px 8px 20px 0px #ededed"
         paddingTop="2rem"
         paddingBottom="2rem"
-        px={screenSm ? '2rem' : '1rem'}
+        px={['1rem', null, '2rem']}
       >
         <Box
           py={4}
           display="flex"
-          flexDirection={screenLg ? 'row' : 'column'}
+          flexDirection={['column', null, null, 'row']}
           pos="relative"
         >
           <Image
@@ -241,7 +239,7 @@ const GasCalcSection = () => {
             alt="Ethereum logo"
           ></Image>
           <Box
-            w={screenLg ? '45%' : '100%'}
+            w={['100%', null, null, '45%']}
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
@@ -302,9 +300,9 @@ const GasCalcSection = () => {
             </Box>
           </Box>
           <Box
-            w={screenLg ? '65%' : '100%'}
-            ml={screenLg ? 12 : 0}
-            mt={screenLg ? 0 : 8}
+            w={['100%', null, null, '65%']}
+            ml={[0, null, null, 12]}
+            mt={(0, null, null, 8)}
             d="flex"
             flexDir="column"
           >
@@ -331,7 +329,7 @@ const GasCalcSection = () => {
             )}
           </Box>
         </Box>
-        <Accordion allowToggle>
+        <Accordion allowToggle defaultIndex={0}>
           <AccordionItem>
             <AccordionButton
               background="transparent"
@@ -342,7 +340,7 @@ const GasCalcSection = () => {
               _hover={{ background: 'transparent' }}
               px={0}
             >
-              <Box
+              {/* <Box
                 d="flex"
                 alignItems="center"
                 textAlign="center"
@@ -352,25 +350,38 @@ const GasCalcSection = () => {
               >
                 Calculation details
                 <AccordionIcon />
-              </Box>
+              </Box> */}
             </AccordionButton>
+            <Divider />
             <AccordionPanel px={0} pt={4} lineHeight="1.7" fontSize="0.9rem">
+              <Heading fontWeight="300" size="lg" mb={2}>
+                Calculation details
+              </Heading>
+              <Text fontSize="1rem" mt={0}>
+                Hover over each variable to reveal more info
+              </Text>
               <SimpleGrid
-                columns={screenLg ? 2 : 1}
-                spacing={8}
-                gridTemplateColumns="45fr 65fr"
+                columns={[2, null, null, null, 1]}
+                spacing={12}
+                gridTemplateColumns={['1fr', null, null, '45fr 65fr']}
               >
-                <Box>
+                <Box d="flex" flexDir="column" justifyContent="stretch">
                   <Heading fontWeight="300" size="md">
                     Formula
                   </Heading>
                   <Formula />
                 </Box>
-                <Box>
+                <Box d="flex" flexDir="column" justifyContent="stretch">
                   <Heading fontWeight="300" size="md">
                     {txId ? options[txId].desc : 'User transaction'}
                   </Heading>
-                  <Formula />
+                  <Formula
+                    variables={{
+                      zeroDataBytes: zeroBytes,
+                      nonZeroDataBytes: dataBytes,
+                      layer1GasPrice: 90
+                    }}
+                  />
                 </Box>
               </SimpleGrid>
             </AccordionPanel>
@@ -380,28 +391,5 @@ const GasCalcSection = () => {
     </Box>
   );
 };
-
-const GasCalcResults = props => (
-  <div className={styles.flexContainer}>
-    <div className={styles.flexColumn}>
-      <div className={styles.flexOutputGas}>
-        <div className={styles.result}>{props.l1Gas}</div>
-        <div className={styles.description}>Gas cost on layer 1</div>
-      </div>
-      <div className={styles.flexOutputGas}>
-        <div className={styles.result}>{props.l2Gas}</div>
-        <div className={styles.description}>Gas cost on Optimism</div>
-      </div>
-    </div>
-    <div className={styles.flexOutputDelta}>
-      <div className={styles.usd}>
-        Fee on Optimism: ${props.l2UsdPrice}
-        {/* <InfoOutlineIcon color="brandSecondary" ml={2} /> */}
-      </div>
-      <div className={styles.result}>{props.gasSaved + 'x'}</div>
-      <div className={styles.description}>Savings with Optimism</div>
-    </div>
-  </div>
-);
 
 export default GasCalcSection;
