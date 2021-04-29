@@ -93,13 +93,9 @@ const GasCalcSection = () => {
   const [zeroBytes, setZeroBytes] = React.useState(0);
   const [dataBytes, setDataBytes] = React.useState(0);
   const [gasSaved, setGasSaved] = React.useState(0);
+  const [l1GasPrice, setL1GasPrice] = React.useState(0);
   const [l2UsdPrice, setL2UsdPrice] = React.useState(0);
   const [showHeading, setShowHeading] = React.useState(true);
-  const [congestionPercentage, setCongestionPercentage] = React.useState(0);
-  const [screenSm, screenLg] = useMediaQuery([
-    '(min-width: 768px)',
-    '(min-width: 1200px)'
-  ]);
   const toast = useToast();
 
   const handleInputOverride = id => {
@@ -126,24 +122,25 @@ const GasCalcSection = () => {
       }
 
       setIsCalculating(true);
-      console.log(optionLinks.includes(link));
       setShowHeading(optionLinks.includes(link));
 
       try {
         const provider = new ethers.providers.JsonRpcProvider(
           `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
         );
-
+        const gasPrice = await provider.getGasPrice();
+        setL1GasPrice(
+          parseFloat(ethers.utils.formatUnits(gasPrice.toString(), 'gwei'))
+        );
         const txHash = txLink.substr(txLink.indexOf('0x'));
         const txReceipt = await provider.getTransactionReceipt(txHash);
         const txData = await provider.getTransaction(txHash);
         const no0x = txData.data.substr(2);
         let zeroBytes = 0;
         let dataBytes = 0;
-        console.log(no0x);
         for (let j = 0; j < no0x.length; j += 2) {
           const curByte = no0x.substr(j, 2);
-          if (curByte === 0) {
+          if (curByte === '00') {
             zeroBytes++;
           } else {
             dataBytes++;
@@ -193,10 +190,6 @@ const GasCalcSection = () => {
       setEtherscanLink(etherscanLink);
     }
     setContainsLink(containsLink);
-  };
-
-  const handleCongestionChange = value => {
-    setCongestionPercentage(value);
   };
 
   React.useEffect(() => {
@@ -379,7 +372,7 @@ const GasCalcSection = () => {
                     variables={{
                       zeroDataBytes: zeroBytes,
                       nonZeroDataBytes: dataBytes,
-                      layer1GasPrice: 90
+                      layer1GasPrice: l1GasPrice
                     }}
                   />
                 </Box>

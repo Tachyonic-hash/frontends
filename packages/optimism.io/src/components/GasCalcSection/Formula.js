@@ -73,40 +73,48 @@ function Formula({ variables }) {
         <Box as="span" color="pink.600">
           =&nbsp;
         </Box>
-        <TTip label="The layer 1 gas for a byte with no data is 4.">
-          <Box d="inline">
+        <Box d="inline">
+          <TTip
+            label={
+              "The number of zero/null bytes in the transaction's call data"
+            }
+          >
             <Box as="span" color={variables ? 'blue.500' : 'purple.700'}>
               {zeroDataBytes}
             </Box>
-            <Box as="span" color="pink.600">
-              {' '}
-              *{' '}
-            </Box>
+          </TTip>
+          <Box as="span" color="pink.600">
+            {' '}
+            *{' '}
+          </Box>
+          <TTip label={'Each zero/null byte costs 4 gas'}>
             <Box as="span" color="blue.500">
               {' '}
               4
             </Box>
-          </Box>
-        </TTip>
+          </TTip>
+        </Box>
 
-        <TTip label="The layer 1 gas for a byte with data is 16.">
-          <Box d="inline">
-            <Box as="span" color="pink.600">
-              {' '}
-              +{' '}
-            </Box>
+        <Box d="inline">
+          <Box as="span" color="pink.600">
+            {' '}
+            +{' '}
+          </Box>
+          <TTip label="The number of non-zero bytes in the transaction's call data">
             <Box as="span" color={variables ? 'blue.500' : 'purple.700'}>
               {nonZeroDataBytes}{' '}
             </Box>
-            <Box as="span" color="pink.600">
-              {' '}
-              *{' '}
-            </Box>{' '}
+          </TTip>
+          <Box as="span" color="pink.600">
+            {' '}
+            *{' '}
+          </Box>{' '}
+          <TTip label={'Each non-zero byte costs 16 gas'}>
             <Box as="span" color="blue.500">
               16
             </Box>
-          </Box>
-        </TTip>
+          </TTip>
+        </Box>
         <Box as="span" color="pink.600">
           {' '}
           +{' '}
