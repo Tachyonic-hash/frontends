@@ -55,7 +55,7 @@ function NetworkCard({
       <Heading as="h2" size="xl" fontWeight="400">
         {network}
       </Heading>
-      <Box fontSize={'180px'} mb={4} lineHeight="1">
+      <Box fontSize={'180px'} mb={4} lineHeight="1.1">
         {networkCondition || <Spinner w="90px" h="90px" />}
       </Box>
       <Box>

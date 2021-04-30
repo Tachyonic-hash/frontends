@@ -258,7 +258,7 @@ function NetworkStatus() {
       <Box>
         <Stack
           spacing={smallScreen ? 8 : 24}
-          direction="row"
+          direction={['column', null, 'row']}
           justifyContent="space-between"
           alignItems="flex-start"
         >
